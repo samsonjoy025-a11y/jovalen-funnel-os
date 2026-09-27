@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 98 64" width="98" height="64" role="img" aria-labelledby="t">
+  <title id="t">Jovalen</title>
+
+  <!--
+    STACKED LOCKUP — square-ish placements: social avatars, app icons,
+    merchandise, sponsor panels, square ad units.
+
+    Mark scaled to 32 units (1.333x) and centred on the 98-unit artboard;
+    wordmark below on the same optical centre. The artboard is sized to
+    the measured wordmark advance (textLength=92, see the horizontal
+    lockup for why that number is not a guess). Convert the <text> to
+    outlines before real use — the same warning applies identically.
+  -->
+
+  <g transform="translate(33 0) scale(1.3333)">
+    <g fill="#b026d3">
+      <rect x="2"   y="1.5"  width="20" height="3" rx="0.75"/>
+      <rect x="5.5" y="7"    width="13" height="3" rx="0.75"/>
+      <rect x="9"   y="12.5" width="6"  height="3" rx="0.75"/>
+    </g>
+    <circle cx="12" cy="21" r="3" fill="#a855f7"/>
+  </g>
+
+  <text x="49" y="55.7" text-anchor="middle"
+        fill="#0f172a"
+        font-family="'Poppins','Futura','Century Gothic','Avenir Next','Segoe UI',system-ui,-apple-system,sans-serif"
+        font-size="19" font-weight="600"
+        textLength="92" lengthAdjust="spacing">jovalen</text>
+</svg>

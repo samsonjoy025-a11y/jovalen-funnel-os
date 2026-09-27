@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-labelledby="t">
+  <title id="t">Jovalen</title>
+
+  <!--
+    FAVICON — optically simplified, NOT a scaled-down logo.
+
+    Both marks scale proportionally, so bar-to-gap ratio is fixed at
+    every size and never improves with scale: 3-bar is 3:2.5 = 1.2:1,
+    this one is 5:3.75 = 1.33:1. What actually changes is absolute
+    stroke width — a bar needs ~2px to hold a solid core, putting the
+    mark's floor at 16px and this variant's at 13px.
+
+    So the 3-bar mark at 16px is usable, just low-contrast. This exists
+    because it is measurably safer, not because the other one breaks.
+
+    Simplified on a 24-grid, then placed in the 32-unit tile by scaling
+    1.25 about the mark's own optical centre (12, 11.75).
+  -->
+
+  <rect width="32" height="32" rx="7" fill="#b026d3"/>
+
+  <g fill="#ffffff" transform="translate(16 16) scale(1.25) translate(-12 -11.75)">
+    <rect x="3"    y="2"     width="18" height="4" rx="2"/>
+    <rect x="6.5"  y="9"     width="11" height="4" rx="2"/>
+    <circle cx="12" cy="18.75" r="2.75"/>
+  </g>
+</svg>

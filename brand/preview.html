@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Jovalen — Brand Preview</title>
+<link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
+<link rel="stylesheet" href="../funnel-os/packages/tokens/dist/tokens.css" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0; padding: var(--ds-space-12) var(--ds-space-8) var(--ds-space-24);
+    font-family: var(--ds-font-family-sans); font-size: var(--ds-font-size-base);
+    line-height: var(--ds-font-line-height-normal);
+    color: var(--ds-content-primary); background: var(--ds-surface-canvas);
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; display: grid; gap: var(--ds-space-10); }
+  h1 { margin: 0; font-size: var(--ds-font-size-3xl); font-weight: var(--ds-font-weight-bold);
+       letter-spacing: var(--ds-font-tracking-tight); line-height: var(--ds-font-line-height-tight); }
+  h2 { margin: 0; font-size: var(--ds-font-size-xl); font-weight: var(--ds-font-weight-semibold); }
+  h3 { margin: var(--ds-space-6) 0 var(--ds-space-3); font-size: var(--ds-font-size-xs);
+       font-weight: var(--ds-font-weight-semibold); color: var(--ds-content-tertiary);
+       text-transform: uppercase; letter-spacing: var(--ds-font-tracking-wide); }
+  .lede { margin: var(--ds-space-2) 0 0; color: var(--ds-content-secondary); max-width: 70ch; }
+  .mono { font-family: var(--ds-font-family-mono); font-size: var(--ds-font-size-xs); }
+  .muted { color: var(--ds-content-tertiary); }
+
+  section { background: var(--ds-surface-raised);
+            border: var(--ds-border-width-thin) solid var(--ds-border-subtle);
+            border-radius: var(--ds-card-radius); box-shadow: var(--ds-card-shadow);
+            padding: var(--ds-space-6); }
+
+  .row { display: flex; flex-wrap: wrap; gap: var(--ds-space-5); align-items: flex-end; }
+  .row--mid { align-items: center; }
+  .tile { padding: var(--ds-space-8); border-radius: var(--ds-radius-lg);
+          display: flex; align-items: center; justify-content: center; gap: var(--ds-space-5); flex-wrap: wrap; }
+  .tile--light { background: var(--ds-surface-canvas); border: var(--ds-border-width-thin) solid var(--ds-border-subtle); }
+  .tile--dark  { background: var(--ds-surface-inverse); }
+  .tile--brand{ background: var(--ds-status-primary-solid); }
+
+  /* exact-pixel size ladder — the point is to see where the mark dies */
+  .ladder { display: flex; flex-wrap: wrap; gap: var(--ds-space-6); align-items: flex-end; }
+  .rung { display: grid; gap: var(--ds-space-2); justify-items: center; }
+  .rung__px { font-family: var(--ds-font-family-mono); font-size: var(--ds-font-size-xs);
+              color: var(--ds-content-tertiary); }
+  .rung img { display: block; }
+
+  /* fake browser tab, to sanity-check the favicon in its real habitat */
+  .tabbar { display: flex; gap: var(--ds-space-2); align-items: flex-end;
+            background: var(--ds-color-neutral-200); padding: var(--ds-space-4) var(--ds-space-4) 0;
+            border-radius: var(--ds-radius-lg) var(--ds-radius-lg) 0 0; }
+  .tab { display: flex; align-items: center; gap: var(--ds-space-2);
+         padding: var(--ds-space-2) var(--ds-space-3);
+         background: var(--ds-surface-raised); border-radius: var(--ds-radius-md) var(--ds-radius-md) 0 0;
+         font-size: var(--ds-font-size-xs); color: var(--ds-content-secondary);
+         border: var(--ds-border-width-thin) solid var(--ds-border-subtle);
+         border-bottom: none; }
+  .tab__x { color: var(--ds-content-tertiary); }
+  .tabpage { height: 90px; background: var(--ds-surface-raised);
+             border: var(--ds-border-width-thin) solid var(--ds-border-subtle);
+             border-radius: 0 0 var(--ds-radius-lg) var(--ds-radius-lg); }
+
+  table { width: 100%; border-collapse: collapse; font-size: var(--ds-font-size-sm); }
+  th, td { text-align: left; padding: var(--ds-space-3);
+           border-bottom: var(--ds-border-width-thin) solid var(--ds-border-subtle); vertical-align: top; }
+  thead th { font-size: var(--ds-font-size-xs); color: var(--ds-content-tertiary);
+             text-transform: uppercase; letter-spacing: var(--ds-font-tracking-wide);
+             background: var(--ds-surface-subtle); }
+  td.yes { color: var(--ds-status-success-fg); font-weight: var(--ds-font-weight-semibold); }
+  td.no  { color: var(--ds-status-danger-fg); font-weight: var(--ds-font-weight-semibold); }
+
+  .chip { height: 40px; border-radius: var(--ds-radius-md);
+          border: var(--ds-border-width-thin) solid var(--ds-border-subtle); }
+  .do-dont { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--ds-space-4); }
+  .case { display: grid; gap: var(--ds-space-2); padding: var(--ds-space-3);
+          border-radius: var(--ds-radius-md); background: var(--ds-surface-sunken); }
+  .case--no { background: var(--ds-status-danger-bg); color: var(--ds-status-danger-fg); }
+  .case__lbl { font-size: var(--ds-font-size-xs); font-weight: var(--ds-font-weight-semibold); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Jovalen — brand assets</h1>
+    <p class="lede">
+      A geometric funnel: three tapering bars feeding one terminal dot. Many inputs, one result —
+      which is the product's whole promise. Everything is built on a 24-unit grid with a constant
+      7-unit taper and a 12-unit centre axis.
+    </p>
+  </header>
+
+  <!-- ===== THE MARK ===== -->
+  <section>
+    <h2>The mark</h2>
+    <div class="row" style="margin-top:var(--ds-space-5)">
+      <div class="tile tile--light"><img src="logo/jovalen-mark.svg" width="160" height="160" alt="" /></div>
+      <div class="tile tile--dark"><img src="logo/jovalen-lockup-reverse.svg" width="192" height="48" alt="" /></div>
+      <div class="tile tile--brand"><img src="favicon/favicon.svg" width="96" height="96" alt="" /></div>
+    </div>
+  </section>
+
+  <!-- ===== LEGIBILITY ===== -->
+  <section>
+    <h2>Legibility ladder</h2>
+    <p class="lede">
+      These are <em>actual</em> pixel sizes, not scaled previews. The three-bar mark starts to lose
+      its gaps somewhere around 20px — which is exactly why the favicon is a different, two-bar
+      drawing rather than a smaller copy of this one.
+    </p>
+
+    <h3>Full-detail mark</h3>
+    <div class="ladder">
+      <div class="rung"><img src="logo/jovalen-mark.svg" width="128" height="128" alt="" /><span class="rung__px">128</span></div>
+      <div class="rung"><img src="logo/jovalen-mark.svg" width="64" height="64" alt="" /><span class="rung__px">64</span></div>
+      <div class="rung"><img src="logo/jovalen-mark.svg" width="48" height="48" alt="" /><span class="rung__px">48</span></div>
+      <div class="rung"><img src="logo/jovalen-mark.svg" width="32" height="32" alt="" /><span class="rung__px">32</span></div>
+      <div class="rung"><img src="logo/jovalen-mark.svg" width="24" height="24" alt="" /><span class="rung__px">24</span></div>
+      <div class="rung"><img src="logo/jovalen-mark.svg" width="20" height="20" alt="" /><span class="rung__px">20</span></div>
+      <div class="rung"><img src="logo/jovalen-mark.svg" width="16" height="16" alt="" /><span class="rung__px">16</span></div>
+      <div class="rung"><img src="logo/jovalen-mark.svg" width="12" height="12" alt="" /><span class="rung__px">12</span></div>
+    </div>
+
+    <h3>Favicon variant — two bars, same idea</h3>
+    <div class="ladder">
+      <div class="rung"><img src="favicon/favicon.svg" width="64" height="64" alt="" /><span class="rung__px">64</span></div>
+      <div class="rung"><img src="favicon/favicon.svg" width="32" height="32" alt="" /><span class="rung__px">32</span></div>
+      <div class="rung"><img src="favicon/favicon.svg" width="16" height="16" alt="" /><span class="rung__px">16</span></div>
+      <div class="rung"><img src="favicon/favicon.svg" width="8" height="8" alt="" /><span class="rung__px">8</span></div>
+    </div>
+
+    <h3>Head to head at 16px</h3>
+    <div class="row--mid row">
+      <div class="rung"><img src="logo/jovalen-mark.svg" width="16" height="16" alt="" /><span class="rung__px">3-bar</span></div>
+      <div class="rung"><img src="favicon/favicon.svg" width="16" height="16" alt="" /><span class="rung__px">2-bar tile</span></div>
+      <span class="muted" style="font-size:var(--ds-font-size-sm);max-width:44ch">
+        Judge these two yourself. If the 3-bar holds up at 16px in your browser, the simplified
+        variant is unnecessary complexity and should be dropped.
+      </span>
+    </div>
+  </section>
+
+  <!-- ===== IN A BROWSER TAB ===== -->
+  <section>
+    <h2>In a real browser tab</h2>
+    <p class="lede">
+      The tab below is a mock-up, not a live tab. To see the genuine article, add this to any
+      project head:
+    </p>
+    <p class="mono" style="background:var(--ds-surface-sunken);padding:var(--ds-space-3);border-radius:var(--ds-radius-md);overflow-x:auto">
+      &lt;link rel="icon" type="image/svg+xml" href="brand/favicon/favicon.svg" /&gt;
+    </p>
+    <div class="tabbar" style="margin-top:var(--ds-space-5)">
+      <div class="tab"><img src="favicon/favicon.svg" width="16" height="16" alt="" /><span>Jovalen — Brand Preview</span><span class="tab__x">×</span></div>
+      <div class="tab"><span class="tab__x">×</span></div>
+    </div>
+    <div class="tabpage"></div>
+  </section>
+
+  <!-- ===== LOCKUPS ===== -->
+  <section>
+    <h2>Lockups</h2>
+    <div class="tile tile--light" style="margin-top:var(--ds-space-5)">
+      <img src="logo/jovalen-lockup-horizontal.svg" width="288" height="72" alt="" />
+    </div>
+    <div class="tile tile--dark" style="margin-top:var(--ds-space-3)">
+      <img src="logo/jovalen-lockup-reverse.svg" width="288" height="72" alt="" />
+    </div>
+    <div class="tile tile--light">
+      <img src="logo/jovalen-lockup-stacked.svg" width="150" height="129" alt="" />
+    </div>
+    <p class="lede">
+      The wordmark is currently live <span class="mono">&lt;text&gt;</span>, not outlines. It is
+      rendered with a font stack, so the letterforms depend on the viewer. Everything in this
+      folder that shows a wordmark needs the text converted to paths before it is used for real.
+      The mark-only files have no such caveat.
+    </p>
+  </section>
+
+  <!-- ===== CLEAR SPACE ===== -->
+  <section>
+    <h2>Clear space &amp; construction</h2>
+    <div class="row" style="margin-top:var(--ds-space-5)">
+      <svg width="260" height="260" viewBox="-9 -9 42 42" role="img" aria-label="Clear space diagram: dashed boundary sits one dot-diameter outside the mark on every side">
+        <rect x="-6" y="-6" width="36" height="36" fill="none"
+              stroke="var(--ds-chart-delta-negative)" stroke-width="0.4" stroke-dasharray="1.4 1.2" />
+        <g fill="#b026d3" transform="translate(0 0)">
+          <rect x="2" y="1.5" width="20" height="3" rx="0.75"/>
+          <rect x="5.5" y="7" width="13" height="3" rx="0.75"/>
+          <rect x="9" y="12.5" width="6" height="3" rx="0.75"/>
+        </g>
+        <circle cx="12" cy="21" r="3" fill="#a855f7"/>
+        <line x1="-6" y1="-3" x2="0" y2="-3" stroke="var(--ds-chart-delta-negative)" stroke-width="0.3" />
+        <line x1="-3" y1="-6" x2="-3" y2="0" stroke="var(--ds-chart-delta-negative)" stroke-width="0.3" />
+      </svg>
+      <div style="flex:1 1 320px">
+        <p class="lede" style="margin:0">
+          Clear space on all four sides equals <strong>1× the terminal dot's diameter</strong> — six
+          units on the 24-grid. It is a measure the geometry already provides, so nobody has to
+          eyeball it. Nothing enters that band: no text, no rule, no page edge, no other logo.
+        </p>
+        <h3>Specs</h3>
+        <table>
+          <tbody>
+            <tr><td>Grid</td><td class="mono">24 × 24, centre axis x=12</td></tr>
+            <tr><td>Taper</td><td class="mono">bar widths 20 / 13 / 6 — constant 7-unit step</td></tr>
+            <tr><td>Bar / gap</td><td class="mono">3 / 2.5 units, corner radius 0.75</td></tr>
+            <tr><td>Terminal dot</td><td class="mono">r=3 — same width as the final bar</td></tr>
+            <tr><td>Min size, mark</td><td>20px digital · 5mm print</td></tr>
+            <tr><td>Min size, lockup</td><td>96px digital · 28mm print</td></tr>
+            <tr><td>Below 20px</td><td>Use <span class="mono">favicon/favicon.svg</span>, not the mark</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COLOUR ===== -->
+  <section>
+    <h2>Colour</h2>
+    <p class="lede">
+      Two values, and only two. The magenta is the funnel body; the violet is the result. They are
+      two steps of the <em>same</em> ramp &mdash; <span class="mono">--ds-color-primary-600</span> and
+      <span class="mono">--ds-color-primary-500</span> &mdash; so brand and product are the same
+      colour, and the hue shift through the ramp (violet at 500, magenta at 600) is what keeps the
+      dot legible against the body at 16px.
+    </p>
+    <div class="row" style="margin-top:var(--ds-space-5)">
+      <div class="case" style="width:200px">
+        <div class="chip" style="background:#b026d3"></div>
+        <div><strong>Funnel body</strong><div class="mono muted">#b026d3 · primary-600</div></div>
+      </div>
+      <div class="case" style="width:200px">
+        <div class="chip" style="background:#a855f7"></div>
+        <div><strong>Result</strong><div class="mono muted">#a855f7 · primary-500</div></div>
+      </div>
+      <div class="case" style="width:200px">
+        <div class="chip" style="background:#0f172a"></div>
+        <div><strong>Wordmark</strong><div class="mono muted">#0f172a · neutral-900</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RULES ===== -->
+  <section>
+    <h2>Rules</h2>
+    <div class="do-dont" style="margin-top:var(--ds-space-4)">
+      <div class="case">
+        <span class="case__lbl">Do</span>
+        <img src="logo/jovalen-mark.svg" width="40" height="40" alt="" />
+        <span class="muted">Two colours, one mark</span>
+      </div>
+      <div class="case">
+        <span class="case__lbl">Do</span>
+        <div class="row--mid row" style="gap:0">
+          <span class="mono" style="color:var(--ds-content-primary)">■</span>
+        </div>
+        <span class="muted">Mono for emboss, engraving, single-colour print</span>
+      </div>
+      <div class="case case--no">
+        <span class="case__lbl">Don't</span>
+        <img src="logo/jovalen-mark.svg" width="40" height="40" alt=""
+             style="filter:hue-rotate(140deg) saturate(2)" />
+        <span>Recolour outside the palette</span>
+      </div>
+      <div class="case case--no">
+        <span class="case__lbl">Don't</span>
+        <img src="logo/jovalen-mark.svg" width="52" height="40" alt=""
+             style="transform:scaleY(0.7)" />
+        <span>Stretch, rotate, or add effects</span>
+      </div>
+      <div class="case case--no">
+        <span class="case__lbl">Don't</span>
+        <div class="tile tile--brand" style="padding:var(--ds-space-2);border-radius:var(--ds-radius-sm)">
+          <img src="logo/jovalen-lockup-horizontal.svg" width="96" height="24" alt="" />
+        </div>
+        <span>Place the coloured lockup on the brand colour</span>
+      </div>
+      <div class="case case--no">
+        <span class="case__lbl">Don't</span>
+        <div class="tile tile--light" style="padding:var(--ds-space-2);border-radius:var(--ds-radius-sm)">
+          <img src="favicon/favicon.svg" width="16" height="16" alt="" />
+        </div>
+        <span>Use the 3-bar mark at 16px</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== OPEN QUESTIONS ===== -->
+  <section>
+    <h2>Decide these before launch</h2>
+    <table>
+      <thead><tr><th>Item</th><th>Why it's open</th><th>Suggested answer</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Wordmark letterforms</td>
+          <td>Live text, not outlines. Letterforms depend on a font being installed.</td>
+          <td>Pick one face and convert to paths. Poppins is the intended geometric look; Century Gothic is the closest widely-available match.</td>
+        </tr>
+        <tr>
+          <td>Raster favicons</td>
+          <td>No image tooling in this environment, so PNGs could not be generated.</td>
+          <td class="mono">npx @favicone/favicons &mdash; or render the SVG at 16/32/48/180px in any vector editor.</td>
+        </tr>
+        <tr>
+          <td>Is the 2-bar favicon needed?</td>
+          <td>Depends on whether the 3-bar mark survives 16px in your browser — see the head-to-head above.</td>
+          <td>Keep it. It costs nothing and it is the safer asset for real-world tab strips.</td>
+        </tr>
+        <tr>
+          <td>Maskable icon</td>
+          <td>Android pads icons unpredictably and crops up to 20%.</td>
+          <td>Produce a variant with the mark inside a 40% safe-zone circle.</td>
+        </tr>
+        <tr>
+          <td>Trademark</td>
+          <td>Not checked.</td>
+          <td>Search your class before you print anything.</td>
+        </tr>
+        <tr>
+          <td>Name collision</td>
+          <td>A separate <span class="mono">Jovalen Business OS</span> app already exists in this repo, and the design system still says "Funnel OS" throughout.</td>
+          <td>Confirm whether these are one brand, then decide whether to sweep the design system and docs.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</div>
+</body>
+</html>

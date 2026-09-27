@@ -1,0 +1,22 @@
+# Normalise line endings on checkin so that a fresh clone produces byte-identical
+# files to the ones the build and the contrast gate were verified against.
+#
+# This is not cosmetic. `build.mjs --check` compares dist/tokens.css against a
+# freshly generated string with a strict !== test. If git checks the file out
+# with CRLF on a machine whose core.autocrlf is true, every line gains a byte,
+# the comparison fails, and CI reports the committed artefact as "stale" when
+# nothing has actually changed. Forcing LF everywhere removes that entire class
+# of false failure - and the generator already emits LF.
+
+* text=auto eol=lf
+
+# Binary assets: never touched.
+*.png binary
+*.ico binary
+*.woff  binary
+*.woff2 binary
+
+# Generated token contract - the strictest consumer, must stay byte-stable.
+funnel-os/packages/tokens/dist/tokens.css  text eol=lf
+funnel-os/packages/tokens/dist/tokens.json text eol=lf
+funnel-os/packages/tokens/dist/tokens.ts   text eol=lf

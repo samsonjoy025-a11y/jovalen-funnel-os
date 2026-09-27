@@ -1,0 +1,39 @@
+# ============================================================================
+# This repository covers ONE product: the Funnel Marketing OS and the Jovalen
+# brand assets. Its contents are brand/ and funnel-os/.
+#
+# The folder also contains a SEPARATE, PRE-EXISTING product that is
+# deliberately NOT versioned here: the "Jovalen Business OS" MVP (public/,
+# server/, design.html, the root package.json and README.md). It predates
+# this work, has its own runtime and its own history, and nothing in brand/
+# or funnel-os/ references it. It is left exactly as it is on disk.
+# ============================================================================
+
+/public/
+/server/
+/design.html
+/package.json
+/README.md
+
+# dependencies
+node_modules/
+.pnpm-store/
+
+# editor / OS noise
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.vscode/
+.idea/
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-error.log*
+
+# temp artefacts from the verification tooling
+tmp/
+*.tmp
+*.bak

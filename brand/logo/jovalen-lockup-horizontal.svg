@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 24" width="120" height="24" role="img" aria-labelledby="t">
+  <title id="t">Jovalen</title>
+
+  <!--
+    HORIZONTAL LOCKUP — primary logo. App headers, documents, email.
+
+    !! PRODUCTION WARNING !!
+    The wordmark is live <text>, not outlines. textLength locks the
+    advance width so the lockup cannot reflow when the font falls back,
+    but the letterforms still depend on a font being present.
+
+    textLength=92 is measured, not guessed: Century Gothic Bold renders
+    "jovalen" at 91.2 units at 19px. Setting a smaller value here forces
+    the browser to subtract the shortfall from the letter gaps, which
+    collapses the wordmark — an earlier draft used 68 and did exactly
+    that. 92 keeps tracking natural for the intended face and only ever
+    expands it for narrower fallbacks (Segoe UI 86.3, Arial 87.3).
+
+    Before this file ships in anything, convert the <text> to paths in
+    your vector editor (Illustrator: Type > Create Outlines). After that
+    it is safe to email, print, or hand to a vendor. See brand/README.md.
+  -->
+
+  <g fill="#b026d3">
+    <rect x="2"   y="1.5"  width="20" height="3" rx="0.75"/>
+    <rect x="5.5" y="7"    width="13" height="3" rx="0.75"/>
+    <rect x="9"   y="12.5" width="6"  height="3" rx="0.75"/>
+  </g>
+  <circle cx="12" cy="21" r="3" fill="#a855f7"/>
+
+  <text x="26" y="17.5"
+        fill="#0f172a"
+        font-family="'Poppins','Futura','Century Gothic','Avenir Next','Segoe UI',system-ui,-apple-system,sans-serif"
+        font-size="19" font-weight="600"
+        textLength="92" lengthAdjust="spacing">jovalen</text>
+</svg>

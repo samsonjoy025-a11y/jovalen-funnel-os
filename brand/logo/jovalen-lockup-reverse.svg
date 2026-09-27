@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 24" width="120" height="24" role="img" aria-labelledby="t">
+  <title id="t">Jovalen</title>
+
+  <!--
+    REVERSE LOCKUP — for dark or photographic backgrounds.
+    Bars and wordmark go to white; the terminal dot lifts to primary-300
+    so the two-colour story survives without going muddy.
+
+    CONTRAST: the white wordmark needs the background's relative
+    luminance <= 0.1833 (WCAG 2.2 AA 1.4.3). Roughly "darker than a
+    mid-grey" — #767676 is the canonical boundary at 4.54:1.
+    In the primary ramp that means primary-600 (#b026d3, 5.17:1) is the
+    brightest background that still passes; primary-500 (#a855f7) is
+    3.96:1 and fails. Check photography, not just flat fills.
+  -->
+
+  <g fill="#ffffff">
+    <rect x="2"   y="1.5"  width="20" height="3" rx="0.75"/>
+    <rect x="5.5" y="7"    width="13" height="3" rx="0.75"/>
+    <rect x="9"   y="12.5" width="6"  height="3" rx="0.75"/>
+  </g>
+  <circle cx="12" cy="21" r="3" fill="#d8b4fe"/>
+
+  <text x="26" y="17.5"
+        fill="#ffffff"
+        font-family="'Poppins','Futura','Century Gothic','Avenir Next','Segoe UI',system-ui,-apple-system,sans-serif"
+        font-size="19" font-weight="600"
+        textLength="92" lengthAdjust="spacing">jovalen</text>
+</svg>
