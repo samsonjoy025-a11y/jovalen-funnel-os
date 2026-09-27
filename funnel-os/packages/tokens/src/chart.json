@@ -1,0 +1,49 @@
+{
+  "$description": "Chart tokens (ADR 0018). The categorical series is colour-blind safe (Okabe-Ito derived, contrast-checked against --ds-surface-raised in both themes). Diverging is used for deltas; sequential for volume heat. Every chart using these must also render a textual equivalent.",
+  "series": {
+    "$type": "color",
+    "1": { "$value": "{color.primary.600}" },
+    "2": { "$value": "{color.info.700}" },
+    "3": { "$value": "{color.warning.700}" },
+    "4": { "$value": "{color.violet.600}" },
+    "5": { "$value": "{color.success.700}" },
+    "6": { "$value": "{color.danger.700}" },
+    "7": { "$value": "{color.neutral.600}" },
+    "8": { "$value": "{color.info.900}" }
+  },
+  "axis": {
+    "$type": "color",
+    "label": { "$value": "{content.tertiary}" },
+    "line":  { "$value": "{border.default}" },
+    "domain":{ "$value": "{border.subtle}" }
+  },
+  "grid": {
+    "$type": "color",
+    "line": { "$value": "{border.subtle}" }
+  },
+  "delta": {
+    "$type": "color",
+    "positive": { "$value": "{status.success.fg}" },
+    "negative": { "$value": "{status.danger.fg}" },
+    "flat":     { "$value": "{content.tertiary}" }
+  },
+  "sequential": {
+    "$type": "color",
+    "100": { "$value": "{color.primary.50}" },
+    "200": { "$value": "{color.primary.100}" },
+    "300": { "$value": "{color.primary.200}" },
+    "400": { "$value": "{color.primary.300}" },
+    "500": { "$value": "{color.primary.400}" },
+    "600": { "$value": "{color.primary.500}" },
+    "700": { "$value": "{color.primary.600}" },
+    "800": { "$value": "{color.primary.700}" },
+    "900": { "$value": "{color.primary.800}" }
+  },
+  "funnel": {
+    "$type": "color",
+    "stage-filled": { "$value": "{color.primary.600}" },
+    "stage-empty":  { "$value": "{color.primary.100}" },
+    "leakage":      { "$value": "{status.danger.fg}" },
+    "leakage-bg":   { "$value": "{status.danger.bg}" }
+  }
+}

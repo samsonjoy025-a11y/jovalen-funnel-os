@@ -1,0 +1,234 @@
+{
+  "$description": "Semantic tokens — the ONLY layer components may reference. Every value resolves to a {color.*} primitive reference. `light` is emitted into :root, `dark` overrides under [data-theme='dark'] (ADR 0017).",
+  "light": {
+    "surface": {
+      "$type": "color",
+      "canvas":     { "$value": "{color.neutral.50}" },
+      "raised":     { "$value": "{color.neutral.0}" },
+      "subtle":     { "$value": "{color.neutral.50}" },
+      "sunken":     { "$value": "{color.neutral.100}" },
+      "overlay":    { "$value": "{color.neutral.0}" },
+      "inverse":    { "$value": "{color.neutral.900}" },
+      "inverse-alt":{ "$value": "{color.neutral.800}" },
+      "scrim":      { "$value": "rgb(15 23 42 / 0.45)" }
+    },
+    "content": {
+      "$type": "color",
+      "primary":   { "$value": "{color.neutral.900}" },
+      "secondary": { "$value": "{color.neutral.600}" },
+      "tertiary":  { "$value": "{color.neutral.500}" },
+      "disabled":  { "$value": "{color.neutral.400}" },
+      "inverse":   { "$value": "{color.neutral.0}" },
+      "inverse-secondary": { "$value": "{color.neutral.400}" },
+      "on-solid":  { "$value": "{color.neutral.0}" },
+      "link":      { "$value": "{color.primary.600}" },
+      "link-hover":{ "$value": "{color.primary.700}" },
+      "link-visited": { "$value": "{color.violet.700}" }
+    },
+    "border": {
+      "$type": "color",
+      "subtle":  { "$value": "{color.neutral.200}" },
+      "default": { "$value": "{color.neutral.300}" },
+      "strong":  { "$value": "{color.neutral.500}" },
+      "inverse": { "$value": "{color.neutral.700}" },
+      "focus":   { "$value": "{color.primary.500}" }
+    },
+    "interactive": {
+      "$type": "color",
+      "hover":  { "$value": "{color.neutral.100}" },
+      "active": { "$value": "{color.neutral.200}" },
+      "selected": { "$value": "{color.primary.50}" },
+      "focus-ring": { "$value": "{color.primary.500}" }
+    },
+    "status": {
+      "neutral": {
+        "$type": "color",
+        "fg":   { "$value": "{color.neutral.700}" },
+        "bg":   { "$value": "{color.neutral.100}" },
+        "bg-strong": { "$value": "{color.neutral.200}" },
+        "solid":{ "$value": "{color.neutral.600}" },
+        "border": { "$value": "{color.neutral.300}" }
+      },
+      "primary": {
+        "$type": "color",
+        "fg":   { "$value": "{color.primary.700}" },
+        "bg":   { "$value": "{color.primary.50}" },
+        "bg-strong": { "$value": "{color.primary.100}" },
+        "solid":{ "$value": "{color.primary.600}" },
+        "border": { "$value": "{color.primary.200}" }
+      },
+      "success": {
+        "$type": "color",
+        "fg":   { "$value": "{color.success.700}" },
+        "bg":   { "$value": "{color.success.50}" },
+        "bg-strong": { "$value": "{color.success.100}" },
+        "solid":{ "$value": "{color.success.700}" },
+        "border": { "$value": "{color.success.200}" }
+      },
+      "warning": {
+        "$type": "color",
+        "fg":   { "$value": "{color.warning.800}" },
+        "bg":   { "$value": "{color.warning.50}" },
+        "bg-strong": { "$value": "{color.warning.100}" },
+        "solid":{ "$value": "{color.warning.700}" },
+        "border": { "$value": "{color.warning.200}" }
+      },
+      "danger": {
+        "$type": "color",
+        "fg":   { "$value": "{color.danger.700}" },
+        "bg":   { "$value": "{color.danger.50}" },
+        "bg-strong": { "$value": "{color.danger.100}" },
+        "solid":{ "$value": "{color.danger.600}" },
+        "border": { "$value": "{color.danger.200}" }
+      },
+      "info": {
+        "$type": "color",
+        "fg":   { "$value": "{color.info.700}" },
+        "bg":   { "$value": "{color.info.50}" },
+        "bg-strong": { "$value": "{color.info.100}" },
+        "solid":{ "$value": "{color.info.700}" },
+        "border": { "$value": "{color.info.200}" }
+      },
+      "ai": {
+        "$type": "color",
+        "fg":   { "$value": "{color.violet.700}" },
+        "bg":   { "$value": "{color.violet.50}" },
+        "bg-strong": { "$value": "{color.violet.100}" },
+        "solid":{ "$value": "{color.violet.600}" },
+        "border": { "$value": "{color.violet.200}" }
+      }
+    },
+    "claim": {
+      "$type": "color",
+      "fact-fg":          { "$value": "{color.info.700}" },
+      "fact-bg":          { "$value": "{color.info.50}" },
+      "analysis-fg":      { "$value": "{color.primary.700}" },
+      "analysis-bg":      { "$value": "{color.primary.50}" },
+      "hypothesis-fg":    { "$value": "{color.violet.700}" },
+      "hypothesis-bg":    { "$value": "{color.violet.50}" },
+      "recommendation-fg":{ "$value": "{color.success.700}" },
+      "recommendation-bg":{ "$value": "{color.success.50}" }
+    },
+    "density": {
+      "$type": "dimension",
+      "row-compact":     { "$value": "34px" },
+      "row-comfortable": { "$value": "44px" },
+      "cell-pad-compact":{ "$value": "6px" },
+      "cell-pad-comfortable": { "$value": "10px" },
+      "section-compact": { "$value": "16px" },
+      "section-comfortable": { "$value": "24px" }
+    }
+  },
+  "dark": {
+    "surface": {
+      "$type": "color",
+      "canvas":     { "$value": "{color.neutral.950}" },
+      "raised":     { "$value": "{color.neutral.900}" },
+      "subtle":     { "$value": "{color.neutral.800}" },
+      "sunken":     { "$value": "{color.neutral.950}" },
+      "overlay":    { "$value": "{color.neutral.800}" },
+      "inverse":    { "$value": "{color.neutral.0}" },
+      "inverse-alt":{ "$value": "{color.neutral.100}" },
+      "scrim":      { "$value": "rgb(2 6 23 / 0.7)" }
+    },
+    "content": {
+      "$type": "color",
+      "primary":   { "$value": "{color.neutral.50}" },
+      "secondary": { "$value": "{color.neutral.300}" },
+      "tertiary":  { "$value": "{color.neutral.400}" },
+      "disabled":  { "$value": "{color.neutral.600}" },
+      "inverse":   { "$value": "{color.neutral.900}" },
+      "inverse-secondary": { "$value": "{color.neutral.500}" },
+      "on-solid":  { "$value": "{color.neutral.0}" },
+      "link":      { "$value": "{color.primary.300}" },
+      "link-hover":{ "$value": "{color.primary.200}" },
+      "link-visited": { "$value": "{color.violet.300}" }
+    },
+    "border": {
+      "$type": "color",
+      "subtle":  { "$value": "{color.neutral.800}" },
+      "default": { "$value": "{color.neutral.700}" },
+      "strong":  { "$value": "{color.neutral.500}" },
+      "inverse": { "$value": "{color.neutral.700}" },
+      "focus":   { "$value": "{color.primary.400}" }
+    },
+    "interactive": {
+      "$type": "color",
+      "hover":  { "$value": "rgb(148 163 184 / 0.10)" },
+      "active": { "$value": "rgb(148 163 184 / 0.18)" },
+      "selected": { "$value": "{color.primary.950}" },
+      "focus-ring": { "$value": "{color.primary.400}" }
+    },
+    "status": {
+      "neutral": {
+        "$type": "color",
+        "fg":   { "$value": "{color.neutral.300}" },
+        "bg":   { "$value": "rgb(148 163 184 / 0.14)" },
+        "bg-strong": { "$value": "rgb(148 163 184 / 0.24)" },
+        "border": { "$value": "{color.neutral.700}" }
+      },
+      "primary": {
+        "$type": "color",
+        "fg":   { "$value": "{color.primary.300}" },
+        "bg":   { "$value": "rgb(168 85 247 / 0.16)" },
+        "bg-strong": { "$value": "rgb(168 85 247 / 0.28)" },
+        "border": { "$value": "{color.primary.700}" }
+      },
+      "success": {
+        "$type": "color",
+        "fg":   { "$value": "{color.success.300}" },
+        "bg":   { "$value": "rgb(16 185 129 / 0.16)" },
+        "bg-strong": { "$value": "rgb(16 185 129 / 0.28)" },
+        "border": { "$value": "{color.success.800}" }
+      },
+      "warning": {
+        "$type": "color",
+        "fg":   { "$value": "{color.warning.300}" },
+        "bg":   { "$value": "rgb(245 158 11 / 0.16)" },
+        "bg-strong": { "$value": "rgb(245 158 11 / 0.28)" },
+        "border": { "$value": "{color.warning.800}" }
+      },
+      "danger": {
+        "$type": "color",
+        "fg":   { "$value": "{color.danger.300}" },
+        "bg":   { "$value": "rgb(239 68 68 / 0.16)" },
+        "bg-strong": { "$value": "rgb(239 68 68 / 0.28)" },
+        "border": { "$value": "{color.danger.800}" }
+      },
+      "info": {
+        "$type": "color",
+        "fg":   { "$value": "{color.info.300}" },
+        "bg":   { "$value": "rgb(14 165 233 / 0.16)" },
+        "bg-strong": { "$value": "rgb(14 165 233 / 0.28)" },
+        "border": { "$value": "{color.info.800}" }
+      },
+      "ai": {
+        "$type": "color",
+        "fg":   { "$value": "{color.violet.300}" },
+        "bg":   { "$value": "rgb(139 92 246 / 0.18)" },
+        "bg-strong": { "$value": "rgb(139 92 246 / 0.30)" },
+        "border": { "$value": "{color.violet.800}" }
+      }
+    },
+    "claim": {
+      "$type": "color",
+      "fact-fg":          { "$value": "{color.info.300}" },
+      "fact-bg":          { "$value": "rgb(14 165 233 / 0.16)" },
+      "analysis-fg":      { "$value": "{color.primary.300}" },
+      "analysis-bg":      { "$value": "rgb(168 85 247 / 0.16)" },
+      "hypothesis-fg":    { "$value": "{color.violet.300}" },
+      "hypothesis-bg":    { "$value": "rgb(139 92 246 / 0.16)" },
+      "recommendation-fg":{ "$value": "{color.success.300}" },
+      "recommendation-bg":{ "$value": "rgb(16 185 129 / 0.16)" }
+    },
+    "density": {
+      "$type": "dimension",
+      "row-compact":     { "$value": "34px" },
+      "row-comfortable": { "$value": "44px" },
+      "cell-pad-compact":{ "$value": "6px" },
+      "cell-pad-comfortable": { "$value": "10px" },
+      "section-compact": { "$value": "16px" },
+      "section-comfortable": { "$value": "24px" }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "@funnelos/tokens",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Design tokens — single source of truth for the OS app, published landing pages, charts and Storybook (ADR 0015)",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/tokens.ts",
+      "default": "./dist/tokens.json"
+    },
+    "./tokens.css": "./dist/tokens.css",
+    "./tokens.json": "./dist/tokens.json"
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "check": "node check-tokens.mjs",
+    "contrast": "node build.mjs --contrast",
+    "prove": "node prove-gates.mjs",
+    "verify": "npm run build && npm run check && npm run prove"
+  }
+}

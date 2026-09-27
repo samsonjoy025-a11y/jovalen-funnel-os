@@ -1,0 +1,1857 @@
+<!doctype html>
+<html lang="en" data-density="comfortable">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Funnel OS — Design System</title>
+<link rel="stylesheet" href="../../tokens/dist/tokens.css" />
+<link rel="stylesheet" href="styleguide.css" />
+</head>
+<body>
+<a class="visually-hidden" href="#main">Skip to content</a>
+
+<div class="sg">
+
+  <!-- ================= sidebar ================= -->
+  <aside class="sg__side">
+    <div class="sg__brand">
+      <div class="sg__mark" aria-hidden="true">F</div>
+      <div>
+        <div class="sg__brand-name">Funnel OS</div>
+        <div class="sg__brand-sub">Design System · v0.1 · Phase 1</div>
+      </div>
+    </div>
+
+    <nav class="sg__nav" aria-label="Design system sections">
+      <div class="sg__nav-group">
+        <p class="sg__nav-label">Start</p>
+        <a href="#overview">Overview</a>
+        <a href="#governance">Governance</a>
+      </div>
+      <div class="sg__nav-group">
+        <p class="sg__nav-label">Foundations</p>
+        <a href="#colour">Colour</a>
+        <a href="#typography">Typography</a>
+        <a href="#space">Space &amp; radius</a>
+        <a href="#elevation">Elevation &amp; motion</a>
+        <a href="#density">Density</a>
+      </div>
+      <div class="sg__nav-group">
+        <p class="sg__nav-label">Primitives</p>
+        <a href="#buttons">Buttons</a>
+        <a href="#forms">Forms</a>
+        <a href="#badges">Badges &amp; states</a>
+        <a href="#feedback">Feedback</a>
+        <a href="#navigation">Tabs, stepper, kbd</a>
+      </div>
+      <div class="sg__nav-group">
+        <p class="sg__nav-label">Composites</p>
+        <a href="#metrics">MetricCard</a>
+        <a href="#datatable">DataTable</a>
+        <a href="#charts">ChartFrame</a>
+        <a href="#async">Async states</a>
+        <a href="#funnel">Funnel</a>
+      </div>
+      <div class="sg__nav-group">
+        <p class="sg__nav-label">Product patterns</p>
+        <a href="#claims">Claims &amp; evidence</a>
+        <a href="#insights">Insights</a>
+        <a href="#recommendations">Recommendations</a>
+        <a href="#actions">Actions &amp; approvals</a>
+        <a href="#integrations">Integrations</a>
+        <a href="#experiments">Experiments</a>
+        <a href="#shell">App shell &amp; nav</a>
+        <a href="#landing">Landing blocks</a>
+      </div>
+      <div class="sg__nav-group">
+        <p class="sg__nav-label">Quality</p>
+        <a href="#accessibility">Accessibility</a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- ================= main ================= -->
+  <div class="sg__main">
+    <div class="sg__topbar">
+      <div class="segmented" role="group" aria-label="Density">
+        <button type="button" data-density-set="comfortable" aria-pressed="true">Comfortable</button>
+        <button type="button" data-density-set="compact" aria-pressed="false">Compact</button>
+      </div>
+      <button class="btn btn--secondary btn--sm" type="button" data-theme-toggle>
+        <span aria-hidden="true">◐</span> Dark
+      </button>
+    </div>
+
+    <main class="sg__content" id="main">
+
+      <!-- ============ overview ============ -->
+      <section class="sg-section" id="overview">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Phase 1 · Design System</span>
+          <h1 class="sg-h1">Build your funnel. Connect your marketing. Find what's limiting growth. Keep improving.</h1>
+          <p class="sg-lede">
+            Every screen in Phases 4–13 of the implementation plan is assembled from what follows.
+            If a product screen needs something that is not on this page, the design system is
+            amended first — in its own reviewed PR — and the feature waits. That is the rule,
+            and it is what stops this becoming forty bespoke tables.
+          </p>
+        </div>
+
+        <div class="demo demo--flush">
+          <div class="callout">
+            <p class="callout__title">Three layers, one source</p>
+            <p>
+              <span class="mono">packages/tokens/src/*.json</span> (W3C DTCG) is the single source.
+              The build emits CSS custom properties, a resolved JSON object, and a typed TS module.
+              Components may reference <strong>semantic</strong> tokens only. Primitive tokens are
+              never referenced by a component; a lint rule fails the build if one is.
+            </p>
+          </div>
+        </div>
+
+        <div class="demo demo--flush">
+          <div class="callout">
+            <p class="callout__title">Every value is checked, not reviewed</p>
+            <p>
+              The build validates every declared foreground/background pair against WCAG 2.2 AA in
+              <em>both</em> themes and exits non-zero on a new failure. 32 declared pairs, 64 checks.
+              Contrast is a build gate, not a design review comment.
+            </p>
+          </div>
+        </div>
+
+        <div class="demo demo--flush">
+          <div class="callout">
+            <p class="callout__title">The PRD is encoded here, not just referenced</p>
+            <p>
+              §87's five content states are one primitive. §60's fact/analysis/hypothesis/recommendation
+              distinction is one component. §104's planned-versus-measured guarantee is one badge.
+              §86's textual chart summaries are built into the chart frame. These are product
+              requirements that happen to have a visual form, so they live in the design system.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ governance ============ -->
+      <section class="sg-section" id="governance">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Foundations</span>
+          <h2 class="sg-h1">Governance</h2>
+          <p class="sg-lede">How this stays a system instead of a suggestion.</p>
+        </div>
+
+        <div class="demo demo--flush">
+          <div class="demo__preview demo__preview--grid">
+            <div class="card"><div class="card__body stack">
+              <h3 class="card__title">A7 — token discipline</h3>
+              <p class="card__sub">No component may define a colour, spacing value, radius, or duration outside the token set. Enforced by styling lint plus visual regression.</p>
+            </div></div>
+            <div class="card"><div class="card__body stack">
+              <h3 class="card__title">Contrast gate</h3>
+              <p class="card__sub">Every readable pair is declared in the build and checked in both themes at build time. A new failing pair fails the build.</p>
+            </div></div>
+            <div class="card"><div class="card__body stack">
+              <h3 class="card__title">Rule 1 — design-first</h3>
+              <p class="card__sub">A feature phase that needs a new pattern or chart type amends the design system first, in its own PR, and waits for it.</p>
+            </div></div>
+            <div class="card"><div class="card__body stack">
+              <h3 class="card__title">Lifecycle (ADR 0022)</h3>
+              <p class="card__sub">Semver on the package. Any change to a component's rendered output requires visual-regression review. Deprecations ship with a codemod, never a silent break.</p>
+            </div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ colour ============ -->
+      <section class="sg-section" id="colour">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Foundations</span>
+          <h2 class="sg-h1">Colour</h2>
+          <p class="sg-lede">
+            Primitive ramps are never referenced by a component. Semantic tokens alias them, and the
+            alias is what flips in dark mode. Toggle the theme in the top bar to see both resolve
+            from one definition.
+          </p>
+        </div>
+
+        <h3 class="sg-h2">Primitive ramps</h3>
+        <div class="demo">
+          <div class="demo__preview demo__preview--col">
+            <div class="ramp">
+              <div class="ramp__row">
+                <span class="ramp__name">neutral</span>
+                <span class="ramp__chip ramp__chip--0">0</span><span class="ramp__chip ramp__chip--50">50</span>
+                <span class="ramp__chip ramp__chip--100">100</span><span class="ramp__chip ramp__chip--200">200</span>
+                <span class="ramp__chip ramp__chip--300">300</span><span class="ramp__chip ramp__chip--400">400</span>
+                <span class="ramp__chip ramp__chip--500">500</span><span class="ramp__chip ramp__chip--600">600</span>
+                <span class="ramp__chip ramp__chip--700">700</span><span class="ramp__chip ramp__chip--800">800</span>
+                <span class="ramp__chip ramp__chip--900">900</span><span class="ramp__chip ramp__chip--950">950</span>
+              </div>
+              <div class="ramp__row">
+                <span class="ramp__name">primary</span>
+                <span class="ramp__chip" style="background:var(--ds-color-primary-50);color:var(--ds-color-primary-900)">50</span>
+                <span class="ramp__chip" style="background:var(--ds-color-primary-100);color:var(--ds-color-primary-900)">100</span>
+                <span class="ramp__chip" style="background:var(--ds-color-primary-200);color:var(--ds-color-primary-900)">200</span>
+                <span class="ramp__chip" style="background:var(--ds-color-primary-300);color:var(--ds-color-primary-900)">300</span>
+                <span class="ramp__chip" style="background:var(--ds-color-primary-400);color:var(--ds-color-primary-900)">400</span>
+                <span class="ramp__chip" style="background:var(--ds-color-primary-500);color:var(--ds-content-inverse)">500</span>
+                <span class="ramp__chip" style="background:var(--ds-color-primary-600);color:var(--ds-content-inverse)">600</span>
+                <span class="ramp__chip" style="background:var(--ds-color-primary-700);color:var(--ds-content-inverse)">700</span>
+                <span class="ramp__chip" style="background:var(--ds-color-primary-800);color:var(--ds-content-inverse)">800</span>
+                <span class="ramp__chip" style="background:var(--ds-color-primary-900);color:var(--ds-content-inverse)">900</span>
+                <span class="ramp__chip" style="background:var(--ds-color-primary-950);color:var(--ds-content-inverse)">950</span>
+              </div>
+              <div class="ramp__row">
+                <span class="ramp__name">success</span>
+                <span class="ramp__chip" style="background:var(--ds-color-success-50);color:var(--ds-color-success-900)">50</span>
+                <span class="ramp__chip" style="background:var(--ds-color-success-100);color:var(--ds-color-success-900)">100</span>
+                <span class="ramp__chip" style="background:var(--ds-color-success-200);color:var(--ds-color-success-900)">200</span>
+                <span class="ramp__chip" style="background:var(--ds-color-success-300);color:var(--ds-color-success-900)">300</span>
+                <span class="ramp__chip" style="background:var(--ds-color-success-400);color:var(--ds-color-success-900)">400</span>
+                <span class="ramp__chip" style="background:var(--ds-color-success-500);color:var(--ds-color-success-900)">500</span>
+                <span class="ramp__chip" style="background:var(--ds-color-success-600);color:var(--ds-content-inverse)">600</span>
+                <span class="ramp__chip" style="background:var(--ds-color-success-700);color:var(--ds-content-inverse)">700</span>
+                <span class="ramp__chip" style="background:var(--ds-color-success-800);color:var(--ds-content-inverse)">800</span>
+                <span class="ramp__chip" style="background:var(--ds-color-success-900);color:var(--ds-content-inverse)">900</span>
+                <span class="ramp__chip" style="background:var(--ds-color-success-950);color:var(--ds-content-inverse)">950</span>
+              </div>
+              <div class="ramp__row">
+                <span class="ramp__name">warning</span>
+                <span class="ramp__chip" style="background:var(--ds-color-warning-50);color:var(--ds-color-warning-900)">50</span>
+                <span class="ramp__chip" style="background:var(--ds-color-warning-100);color:var(--ds-color-warning-900)">100</span>
+                <span class="ramp__chip" style="background:var(--ds-color-warning-200);color:var(--ds-color-warning-900)">200</span>
+                <span class="ramp__chip" style="background:var(--ds-color-warning-300);color:var(--ds-color-warning-900)">300</span>
+                <span class="ramp__chip" style="background:var(--ds-color-warning-400);color:var(--ds-color-warning-900)">400</span>
+                <span class="ramp__chip" style="background:var(--ds-color-warning-500);color:var(--ds-color-warning-900)">500</span>
+                <span class="ramp__chip" style="background:var(--ds-color-warning-600);color:var(--ds-content-inverse)">600</span>
+                <span class="ramp__chip" style="background:var(--ds-color-warning-700);color:var(--ds-content-inverse)">700</span>
+                <span class="ramp__chip" style="background:var(--ds-color-warning-800);color:var(--ds-content-inverse)">800</span>
+                <span class="ramp__chip" style="background:var(--ds-color-warning-900);color:var(--ds-content-inverse)">900</span>
+                <span class="ramp__chip" style="background:var(--ds-color-warning-950);color:var(--ds-content-inverse)">950</span>
+              </div>
+              <div class="ramp__row">
+                <span class="ramp__name">danger</span>
+                <span class="ramp__chip" style="background:var(--ds-color-danger-50);color:var(--ds-color-danger-900)">50</span>
+                <span class="ramp__chip" style="background:var(--ds-color-danger-100);color:var(--ds-color-danger-900)">100</span>
+                <span class="ramp__chip" style="background:var(--ds-color-danger-200);color:var(--ds-color-danger-900)">200</span>
+                <span class="ramp__chip" style="background:var(--ds-color-danger-300);color:var(--ds-color-danger-900)">300</span>
+                <span class="ramp__chip" style="background:var(--ds-color-danger-400);color:var(--ds-color-danger-900)">400</span>
+                <span class="ramp__chip" style="background:var(--ds-color-danger-500);color:var(--ds-content-inverse)">500</span>
+                <span class="ramp__chip" style="background:var(--ds-color-danger-600);color:var(--ds-content-inverse)">600</span>
+                <span class="ramp__chip" style="background:var(--ds-color-danger-700);color:var(--ds-content-inverse)">700</span>
+                <span class="ramp__chip" style="background:var(--ds-color-danger-800);color:var(--ds-content-inverse)">800</span>
+                <span class="ramp__chip" style="background:var(--ds-color-danger-900);color:var(--ds-content-inverse)">900</span>
+                <span class="ramp__chip" style="background:var(--ds-color-danger-950);color:var(--ds-content-inverse)">950</span>
+              </div>
+              <div class="ramp__row">
+                <span class="ramp__name">info</span>
+                <span class="ramp__chip" style="background:var(--ds-color-info-50);color:var(--ds-color-info-900)">50</span>
+                <span class="ramp__chip" style="background:var(--ds-color-info-100);color:var(--ds-color-info-900)">100</span>
+                <span class="ramp__chip" style="background:var(--ds-color-info-200);color:var(--ds-color-info-900)">200</span>
+                <span class="ramp__chip" style="background:var(--ds-color-info-300);color:var(--ds-color-info-900)">300</span>
+                <span class="ramp__chip" style="background:var(--ds-color-info-400);color:var(--ds-color-info-900)">400</span>
+                <span class="ramp__chip" style="background:var(--ds-color-info-500);color:var(--ds-content-inverse)">500</span>
+                <span class="ramp__chip" style="background:var(--ds-color-info-600);color:var(--ds-content-inverse)">600</span>
+                <span class="ramp__chip" style="background:var(--ds-color-info-700);color:var(--ds-content-inverse)">700</span>
+                <span class="ramp__chip" style="background:var(--ds-color-info-800);color:var(--ds-content-inverse)">800</span>
+                <span class="ramp__chip" style="background:var(--ds-color-info-900);color:var(--ds-content-inverse)">900</span>
+                <span class="ramp__chip" style="background:var(--ds-color-info-950);color:var(--ds-content-inverse)">950</span>
+              </div>
+              <div class="ramp__row">
+                <span class="ramp__name">violet <span class="muted">(AI)</span></span>
+                <span class="ramp__chip" style="background:var(--ds-color-violet-50);color:var(--ds-color-violet-900)">50</span>
+                <span class="ramp__chip" style="background:var(--ds-color-violet-100);color:var(--ds-color-violet-900)">100</span>
+                <span class="ramp__chip" style="background:var(--ds-color-violet-200);color:var(--ds-color-violet-900)">200</span>
+                <span class="ramp__chip" style="background:var(--ds-color-violet-300);color:var(--ds-color-violet-900)">300</span>
+                <span class="ramp__chip" style="background:var(--ds-color-violet-400);color:var(--ds-color-violet-900)">400</span>
+                <span class="ramp__chip" style="background:var(--ds-color-violet-500);color:var(--ds-content-inverse)">500</span>
+                <span class="ramp__chip" style="background:var(--ds-color-violet-600);color:var(--ds-content-inverse)">600</span>
+                <span class="ramp__chip" style="background:var(--ds-color-violet-700);color:var(--ds-content-inverse)">700</span>
+                <span class="ramp__chip" style="background:var(--ds-color-violet-800);color:var(--ds-content-inverse)">800</span>
+                <span class="ramp__chip" style="background:var(--ds-color-violet-900);color:var(--ds-content-inverse)">900</span>
+                <span class="ramp__chip" style="background:var(--ds-color-violet-950);color:var(--ds-content-inverse)">950</span>
+              </div>
+            </div>
+          </div>
+          <div class="demo__spec">
+            <p class="demo__spec-title">Tokens</p>
+            <code class="tok"><span class="tok--swatch" style="background:var(--ds-color-primary-600)"></span>--ds-color-primary-600</code>
+            <code class="tok"><span class="tok--swatch" style="background:var(--ds-color-ai-fallback,#7c3aed)"></span>--ds-color-violet-600</code>
+            <p class="demo__spec-title" style="margin-top:16px">Rule</p>
+            <p class="tok">Components reference <code>--ds-status-*</code>, never <code>--ds-color-*</code>.</p>
+          </div>
+        </div>
+
+        <h3 class="sg-h2">Semantic status</h3>
+        <div class="demo">
+          <div class="demo__preview demo__preview--grid">
+            <div class="palette">
+              <div class="palette__item">
+                <div class="palette__chip" style="background:var(--ds-status-primary-bg);border-color:var(--ds-status-primary-border)"></div>
+                <span class="palette__label">primary</span>
+                <span class="badge badge--primary"><span class="badge__dot"></span>Badge</span>
+              </div>
+              <div class="palette__item">
+                <div class="palette__chip" style="background:var(--ds-status-success-bg);border-color:var(--ds-status-success-border)"></div>
+                <span class="palette__label">success</span>
+                <span class="badge badge--success"><span class="badge__dot"></span>Badge</span>
+              </div>
+              <div class="palette__item">
+                <div class="palette__chip" style="background:var(--ds-status-warning-bg);border-color:var(--ds-status-warning-border)"></div>
+                <span class="palette__label">warning</span>
+                <span class="badge badge--warning"><span class="badge__dot"></span>Badge</span>
+              </div>
+              <div class="palette__item">
+                <div class="palette__chip" style="background:var(--ds-status-danger-bg);border-color:var(--ds-status-danger-border)"></div>
+                <span class="palette__label">danger</span>
+                <span class="badge badge--danger"><span class="badge__dot"></span>Badge</span>
+              </div>
+              <div class="palette__item">
+                <div class="palette__chip" style="background:var(--ds-status-info-bg);border-color:var(--ds-status-info-border)"></div>
+                <span class="palette__label">info</span>
+                <span class="badge badge--info"><span class="badge__dot"></span>Badge</span>
+              </div>
+              <div class="palette__item">
+                <div class="palette__chip" style="background:var(--ds-status-ai-bg);border-color:var(--ds-status-ai-border)"></div>
+                <span class="palette__label">ai</span>
+                <span class="badge badge--ai"><span class="badge__dot"></span>Badge</span>
+              </div>
+            </div>
+          </div>
+          <div class="demo__spec">
+            <p class="demo__spec-title">Tokens</p>
+            <code class="tok">--ds-status-{tone}-fg</code>
+            <code class="tok">--ds-status-{tone}-bg</code>
+            <code class="tok">--ds-status-{tone}-solid</code>
+            <code class="tok">--ds-status-{tone}-border</code>
+            <p class="demo__spec-title" style="margin-top:16px">Contrast</p>
+            <p class="tok">Every fg/bg pair is 4.5:1+ in both themes. <code>solid</code> exists for button fills and is chosen so white text on it also passes 4.5:1.</p>
+          </div>
+        </div>
+
+        <h3 class="sg-h2">Chart series — colour-blind safe</h3>
+        <div class="demo">
+          <div class="demo__preview">
+            <div class="palette" style="grid-template-columns:repeat(auto-fit,minmax(96px,1fr))">
+              <div class="palette__item"><div class="palette__chip" style="background:var(--ds-chart-series-1)"></div><span class="palette__label">series-1</span></div>
+              <div class="palette__item"><div class="palette__chip" style="background:var(--ds-chart-series-2)"></div><span class="palette__label">series-2</span></div>
+              <div class="palette__item"><div class="palette__chip" style="background:var(--ds-chart-series-3)"></div><span class="palette__label">series-3</span></div>
+              <div class="palette__item"><div class="palette__chip" style="background:var(--ds-chart-series-4)"></div><span class="palette__label">series-4</span></div>
+              <div class="palette__item"><div class="palette__chip" style="background:var(--ds-chart-series-5)"></div><span class="palette__label">series-5</span></div>
+              <div class="palette__item"><div class="palette__chip" style="background:var(--ds-chart-series-6)"></div><span class="palette__label">series-6</span></div>
+              <div class="palette__item"><div class="palette__chip" style="background:var(--ds-chart-series-7)"></div><span class="palette__label">series-7</span></div>
+              <div class="palette__item"><div class="palette__chip" style="background:var(--ds-chart-series-8)"></div><span class="palette__label">series-8</span></div>
+            </div>
+          </div>
+          <div class="demo__spec">
+            <p class="demo__spec-title">Rule (ADR 0018)</p>
+            <p class="tok">Hue is never the only carrier of meaning. Every chart pairs the series colour with a label, a shape, or a table row. Okabe-Ito derived, contrast-checked against <code>--ds-surface-raised</code> in both themes.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ typography ============ -->
+      <section class="sg-section" id="typography">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Foundations</span>
+          <h2 class="sg-h1">Typography</h2>
+          <p class="sg-lede">A compact scale, because this is a data-dense product. Display sizes exist for the marketing site and published landing pages, not for the OS.</p>
+        </div>
+        <div class="demo">
+          <div class="demo__preview demo__preview--col">
+            <div class="type-row"><span class="type-row__meta">4xl · 36 · bold</span><span style="font-size:var(--ds-font-size-4xl);font-weight:var(--ds-font-weight-bold);letter-spacing:var(--ds-font-tracking-tight);line-height:var(--ds-font-line-height-tight)">Marketing Health</span></div>
+            <div class="type-row"><span class="type-row__meta">3xl · 28 · bold</span><span style="font-size:var(--ds-font-size-3xl);font-weight:var(--ds-font-weight-bold);letter-spacing:var(--ds-font-tracking-tight);line-height:var(--ds-font-line-height-tight)">Qualified leads</span></div>
+            <div class="type-row"><span class="type-row__meta">2xl · 22 · bold</span><span style="font-size:var(--ds-font-size-2xl);font-weight:var(--ds-font-weight-bold);letter-spacing:var(--ds-font-tracking-tight)">Funnel blueprint</span></div>
+            <div class="type-row"><span class="type-row__meta">xl · 18 · semibold</span><span style="font-size:var(--ds-font-size-xl);font-weight:var(--ds-font-weight-semibold)">Page title</span></div>
+            <div class="type-row"><span class="type-row__meta">lg · 16 · regular</span><span style="font-size:var(--ds-font-size-lg)">Section lead — build and optimise your entire funnel</span></div>
+            <div class="type-row"><span class="type-row__meta">base · 14 · regular</span><span>Body text. The default reading size for all application copy.</span></div>
+            <div class="type-row"><span class="type-row__meta">sm · 13 · regular</span><span style="font-size:var(--ds-font-size-sm)">Table cells, helper text, dense UI.</span></div>
+            <div class="type-row"><span class="type-row__meta">xs · 12 · medium</span><span style="font-size:var(--ds-font-size-xs);font-weight:var(--ds-font-weight-medium)">Uppercase labels, badges, metadata.</span></div>
+            <div class="type-row"><span class="type-row__meta">mono · 13</span><span class="mono">lead_scored_at = 2026-09-27T12:00:00Z</span></div>
+          </div>
+          <div class="demo__spec">
+            <p class="demo__spec-title">Tokens</p>
+            <code class="tok">--ds-font-size-{xs…5xl}</code>
+            <code class="tok">--ds-font-weight-{regular…bold}</code>
+            <code class="tok">--ds-font-line-height-{tight…relaxed}</code>
+            <code class="tok">--ds-font-tracking-{tight,normal,wide}</code>
+            <code class="tok">--ds-font-family-{sans,mono}</code>
+            <p class="demo__spec-title" style="margin-top:16px">Numerals</p>
+            <p class="tok">Metric and table numerals use <code>font-variant-numeric: tabular-nums</code> so columns align as values change.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ space ============ -->
+      <section class="sg-section" id="space">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Foundations</span>
+          <h2 class="sg-h1">Space &amp; radius</h2>
+          <p class="sg-lede">A 2px base so half-steps exist for dense tables. Radius is a scale, not a free choice.</p>
+        </div>
+        <div class="demo demo--flush">
+          <div class="demo__preview demo__preview--grid">
+            <div>
+              <p class="demo__spec-title">Spacing scale</p>
+              <div class="stack">
+                <div class="space-row"><span class="mono">space-2</span><span class="muted">4px</span><span class="spacebar" style="width:4px"></span></div>
+                <div class="space-row"><span class="mono">space-3</span><span class="muted">8px</span><span class="spacebar" style="width:8px"></span></div>
+                <div class="space-row"><span class="mono">space-4</span><span class="muted">12px</span><span class="spacebar" style="width:12px"></span></div>
+                <div class="space-row"><span class="mono">space-5</span><span class="muted">16px</span><span class="spacebar" style="width:16px"></span></div>
+                <div class="space-row"><span class="mono">space-6</span><span class="muted">20px</span><span class="spacebar" style="width:20px"></span></div>
+                <div class="space-row"><span class="mono">space-8</span><span class="muted">24px</span><span class="spacebar" style="width:24px"></span></div>
+                <div class="space-row"><span class="mono">space-10</span><span class="muted">32px</span><span class="spacebar" style="width:32px"></span></div>
+                <div class="space-row"><span class="mono">space-12</span><span class="muted">40px</span><span class="spacebar" style="width:40px"></span></div>
+              </div>
+            </div>
+            <div>
+              <p class="demo__spec-title">Radius</p>
+              <div class="stack">
+                <div class="row"><span class="swatch__chip" style="width:56px;height:40px;border-radius:var(--ds-radius-sm);background:var(--ds-color-primary-100)"></span><span class="mono">sm · 4</span></div>
+                <div class="row"><span class="swatch__chip" style="width:56px;height:40px;border-radius:var(--ds-radius-md);background:var(--ds-color-primary-100)"></span><span class="mono">md · 6</span></div>
+                <div class="row"><span class="swatch__chip" style="width:56px;height:40px;border-radius:var(--ds-radius-lg);background:var(--ds-color-primary-100)"></span><span class="mono">lg · 10 (card)</span></div>
+                <div class="row"><span class="swatch__chip" style="width:56px;height:40px;border-radius:var(--ds-radius-xl);background:var(--ds-color-primary-100)"></span><span class="mono">xl · 14</span></div>
+                <div class="row"><span class="swatch__chip" style="width:56px;height:40px;border-radius:var(--ds-radius-2xl);background:var(--ds-color-primary-100)"></span><span class="mono">2xl · 20</span></div>
+                <div class="row"><span class="swatch__chip" style="width:56px;height:40px;border-radius:var(--ds-radius-full);background:var(--ds-color-primary-100)"></span><span class="mono">full (badge)</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ elevation & motion ============ -->
+      <section class="sg-section" id="elevation">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Foundations</span>
+          <h2 class="sg-h1">Elevation &amp; motion</h2>
+          <p class="sg-lede">Four shadow levels and three durations. Everything collapses under <code>prefers-reduced-motion</code>.</p>
+        </div>
+        <div class="demo">
+          <div class="demo__preview demo__preview--grid">
+            <div class="card" style="box-shadow:var(--ds-shadow-0)"><div class="card__body"><strong>0</strong><div class="card__sub">flush</div></div></div>
+            <div class="card" style="box-shadow:var(--ds-shadow-1)"><div class="card__body"><strong>1</strong><div class="card__sub">card default</div></div></div>
+            <div class="card" style="box-shadow:var(--ds-shadow-2)"><div class="card__body"><strong>2</strong><div class="card__sub">popover</div></div></div>
+            <div class="card" style="box-shadow:var(--ds-shadow-3)"><div class="card__body"><strong>3</strong><div class="card__sub">drawer</div></div></div>
+            <div class="card" style="box-shadow:var(--ds-shadow-4)"><div class="card__body"><strong>4</strong><div class="card__sub">dialog</div></div></div>
+          </div>
+          <div class="demo__spec">
+            <p class="demo__spec-title">Tokens</p>
+            <code class="tok">--ds-shadow-0…4</code>
+            <code class="tok">--ds-motion-duration-{fast 120, normal 200, slow 320}</code>
+            <code class="tok">--ds-motion-easing-{standard,entrance,exit}</code>
+            <code class="tok">--ds-z-{base,dropdown,sticky,overlay,modal,toast}</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ density ============ -->
+      <section class="sg-section" id="density">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Foundations</span>
+          <h2 class="sg-h1">Density</h2>
+          <p class="sg-lede">
+            One token set, two density scales (ADR 0017). The OS runs compact so a pipeline of
+            twenty leads fits on screen; the marketing site and published pages run editorial.
+            Density changes padding tokens — never a component variant.
+          </p>
+        </div>
+        <p class="sg-note">Use the toggle in the top bar and watch the table row height change. No component code differs.</p>
+        <div class="demo">
+          <div class="demo__preview demo__preview--col">
+            <div class="table-wrap">
+              <table class="table">
+                <thead><tr><th>Stage</th><th>Volume</th><th class="table__num">Conversion</th></tr></thead>
+                <tbody>
+                  <tr><td>Visitors</td><td>13,200</td><td class="table__num">—</td></tr>
+                  <tr><td>Leads</td><td>412</td><td class="table__num">3.12%</td></tr>
+                  <tr><td>Qualified leads</td><td>96</td><td class="table__num">23.30%</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="demo__spec">
+            <p class="demo__spec-title">Tokens</p>
+            <code class="tok">--ds-density-row-{compact,comfortable}</code>
+            <code class="tok">--ds-density-cell-pad-{compact,comfortable}</code>
+            <code class="tok">--ds-density-section-{compact,comfortable}</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ buttons ============ -->
+      <section class="sg-section" id="buttons">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Primitives</span>
+          <h2 class="sg-h1">Buttons</h2>
+          <p class="sg-lede">Six variants, three sizes, four states. Every one has a visible focus ring drawn with a token, not a browser default.</p>
+        </div>
+        <div class="demo">
+          <div class="demo__preview">
+            <button class="btn btn--primary" type="button">Primary</button>
+            <button class="btn btn--secondary" type="button">Secondary</button>
+            <button class="btn btn--ghost" type="button">Ghost</button>
+            <button class="btn btn--danger" type="button">Danger</button>
+            <button class="btn btn--ai" type="button">Ask AI Analyst</button>
+            <button class="btn btn--primary" type="button" disabled>Disabled</button>
+            <button class="btn btn--primary" type="button"><span class="btn__spinner" aria-hidden="true"></span>Publishing…</button>
+          </div>
+          <div class="demo__spec">
+            <p class="demo__spec-title">Tokens</p>
+            <code class="tok">--ds-button-radius</code>
+            <code class="tok">--ds-button-padding-x-{sm,md,lg}</code>
+            <code class="tok">--ds-size-control-{sm,md,lg}</code>
+            <code class="tok">--ds-focus-width / --ds-focus-offset</code>
+          </div>
+        </div>
+        <div class="demo">
+          <div class="demo__preview">
+            <button class="btn btn--secondary btn--sm" type="button">Small</button>
+            <button class="btn btn--secondary" type="button">Medium</button>
+            <button class="btn btn--secondary btn--lg" type="button">Large</button>
+            <span class="spacer"></span>
+            <button class="btn btn--ghost btn--sm" type="button">Edit</button>
+            <button class="btn btn--secondary btn--sm" type="button">Save</button>
+            <button class="btn btn--secondary btn--sm" type="button">Preview</button>
+            <button class="btn btn--primary btn--sm" type="button">Publish</button>
+          </div>
+          <div class="demo__spec">
+            <p class="demo__spec-title">§26</p>
+            <p class="tok">The four primary page actions are a fixed button group so their order and weight never drift between screens.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ forms ============ -->
+      <section class="sg-section" id="forms">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Primitives</span>
+          <h2 class="sg-h1">Forms</h2>
+          <p class="sg-lede">The field wrapper owns the label, the help text, and the error — and wires them together with <code>aria-describedby</code>. Screens do not re-implement that.</p>
+        </div>
+        <div class="demo">
+          <div class="demo__preview demo__preview--grid">
+            <div class="field">
+              <label class="field__label" for="f1">Business name <span class="field__req" aria-hidden="true">*</span></label>
+              <input class="input" id="f1" type="text" value="Northwind Studio" />
+              <p class="field__help">Shown on published pages and in reports.</p>
+            </div>
+            <div class="field">
+              <label class="field__label" for="f2">Website</label>
+              <input class="input" id="f2" type="url" placeholder="https://" />
+              <p class="field__help">We'll analyse it to detect what you already have.</p>
+            </div>
+            <div class="field">
+              <label class="field__label" for="f3">Growth goal</label>
+              <select class="select" id="f3">
+                <option>Generate leads</option><option>Increase sales</option>
+                <option>Increase website conversion</option><option>Reduce CAC</option>
+                <option>Build marketing system</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="field__label" for="f4">Monthly target</label>
+              <input class="input" id="f4" type="text" value="100" aria-invalid="true" aria-describedby="f4err" />
+              <p class="field__error" id="f4err"><span aria-hidden="true">⚠</span><span>Enter a number. We'll use this as a planning assumption, not a measured result.</span></p>
+            </div>
+            <div class="field">
+              <label class="field__label" for="f5">Notes</label>
+              <textarea class="textarea" id="f5" placeholder="Anything we should know about your offer?"></textarea>
+            </div>
+            <div class="field">
+              <span class="field__label" id="f6label">Current setup</span>
+              <div class="stack" role="group" aria-labelledby="f6label">
+                <label class="check"><input type="checkbox" checked /><span class="check__text">Website</span></label>
+                <label class="check"><input type="checkbox" /><span class="check__text">Lead forms</span></label>
+                <label class="check"><input type="checkbox" /><span class="check__text">CRM</span></label>
+                <label class="check"><input type="checkbox" /><span class="check__text">Google Ads</span></label>
+              </div>
+            </div>
+            <div class="field">
+              <span class="field__label">Preferences</span>
+              <div class="stack">
+                <label class="switch"><input type="checkbox" checked /><span class="switch__track" aria-hidden="true"></span><span class="check__text">Notify me when a recommendation needs approval</span></label>
+                <label class="switch"><input type="checkbox" /><span class="switch__track" aria-hidden="true"></span><span class="check__text">Weekly performance digest</span></label>
+              </div>
+            </div>
+          </div>
+          <div class="demo__spec">
+            <p class="demo__spec-title">Tokens</p>
+            <code class="tok">--ds-field-radius</code>
+            <code class="tok">--ds-field-border / -border-focus</code>
+            <code class="tok">--ds-field-label-gap</code>
+            <p class="demo__spec-title" style="margin-top:16px">A11y</p>
+            <p class="tok">Error text is linked with <code>aria-describedby</code>, the input carries <code>aria-invalid</code>, and the error begins with a glyph plus text — never colour alone.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ badges & states ============ -->
+      <section class="sg-section" id="badges">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Primitives</span>
+          <h2 class="sg-h1">Badges &amp; state machines</h2>
+          <p class="sg-lede">
+            The PRD defines three separate state machines — build components (§57), actions (§66),
+            and integrations (§70). They share one component, because a "Published" badge should
+            look the same wherever it appears.
+          </p>
+        </div>
+        <div class="demo">
+          <div class="demo__preview demo__preview--col">
+            <div class="row">
+              <span class="badge badge--neutral">Neutral</span>
+              <span class="badge badge--primary">Primary</span>
+              <span class="badge badge--success">Success</span>
+              <span class="badge badge--warning">Warning</span>
+              <span class="badge badge--danger">Danger</span>
+              <span class="badge badge--info">Info</span>
+              <span class="badge badge--ai">AI</span>
+              <span class="tag">Tag</span>
+              <span class="lvl lvl--l2">L2 recommend</span>
+            </div>
+            <hr class="rule" />
+            <div class="row">
+              <span class="state state--idle"><span class="state__glyph" aria-hidden="true">–</span>Not started</span>
+              <span class="state state--busy"><span class="state__glyph" aria-hidden="true">•</span>Draft</span>
+              <span class="state state--ok"><span class="state__glyph" aria-hidden="true">✓</span>Configured</span>
+              <span class="state state--warn"><span class="state__glyph" aria-hidden="true">!</span>Needs review</span>
+              <span class="state state--ok"><span class="state__glyph" aria-hidden="true">↑</span>Published</span>
+              <span class="state state--idle"><span class="state__glyph" aria-hidden="true">‖</span>Paused</span>
+              <span class="state state--err"><span class="state__glyph" aria-hidden="true">×</span>Error</span>
+            </div>
+            <hr class="rule" />
+            <div class="row">
+              <span class="pmv pmv--plan">plan 100 leads/mo</span>
+              <span class="pmv pmv--actual">actual 74</span>
+              <span class="spacer"></span>
+              <span class="risk risk--low">Low risk</span>
+              <span class="risk risk--medium">Needs approval</span>
+              <span class="risk risk--high">High risk</span>
+              <span class="quality quality--low">Low severity</span>
+              <span class="quality quality--medium">Medium</span>
+              <span class="quality quality--high">High</span>
+            </div>
+            <hr class="rule" />
+            <div class="row">
+              <span class="fresh fresh--live"><span class="fresh__dot"></span>Live · 4 min ago</span>
+              <span class="fresh fresh--ok"><span class="fresh__dot"></span>Synced 2 h ago</span>
+              <span class="fresh fresh--stale"><span class="fresh__dot"></span>Stale · 3 d — confidence reduced</span>
+              <span class="fresh fresh--error"><span class="fresh__dot"></span>Sync failed</span>
+            </div>
+          </div>
+          <div class="demo__spec">
+            <p class="demo__spec-title">Encodes</p>
+            <p class="tok"><strong>§57</strong> Not started · Draft · Configured · Needs review · Published · Paused · Error</p>
+            <p class="tok"><strong>§66</strong> Draft · Pending approval · Approved · Executing · Completed · Failed · Cancelled</p>
+            <p class="tok"><strong>§70</strong> Available · Connecting · Connected · Syncing · Synced · Needs reauth · Error · Disconnected</p>
+            <p class="tok"><strong>§83</strong> Autonomy L0–L3 as <code>.lvl</code></p>
+            <p class="tok"><strong>§82</strong> Risk as <code>.risk</code></p>
+            <p class="tok"><strong>§104</strong> <code>.pmv--plan</code> is dashed-bordered on purpose — a planning assumption should look different from a measurement at a glance.</p>
+            <p class="tok"><strong>§75</strong> Freshness is adjacent to the number it qualifies, never a footnote.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ feedback ============ -->
+      <section class="sg-section" id="feedback">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Primitives</span>
+          <h2 class="sg-h1">Feedback</h2>
+          <p class="sg-lede">Alerts carry a title and a recovery path, not just a colour change.</p>
+        </div>
+        <div class="demo">
+          <div class="demo__preview demo__preview--col">
+            <div class="alert alert--info"><span class="alert__icon" aria-hidden="true">ⓘ</span><div class="alert__body"><p class="alert__title">Sync in progress</p><p class="alert__text">Google Search Console is backfilling 90 days. This usually takes a few minutes.</p></div></div>
+            <div class="alert alert--success"><span class="alert__icon" aria-hidden="true">✓</span><div class="alert__body"><p class="alert__title">Page published</p><p class="alert__text">northwind-studio.com/demo is live and tracking events.</p></div></div>
+            <div class="alert alert--warning"><span class="alert__icon" aria-hidden="true">!</span><div class="alert__body"><p class="alert__title">Data is stale</p><p class="alert__text">Meta Ads last synced 3 days ago. Insights from this source are shown with reduced confidence.</p></div></div>
+            <div class="alert alert--danger"><span class="alert__icon" aria-hidden="true">×</span><div class="alert__body"><p class="alert__title">Integration needs reauthorisation</p><p class="alert__text">Your HubSpot token expired. Reconnect to resume syncing contacts and deals.</p></div><button class="btn btn--secondary btn--sm" type="button">Reconnect</button></div>
+            <div class="alert alert--ai"><span class="alert__icon" aria-hidden="true">✦</span><div class="alert__body"><p class="alert__title">Not enough data yet</p><p class="alert__text">I can't answer that reliably. Connect another source, or keep collecting conversion events for 14 days.</p></div></div>
+          </div>
+          <div class="demo__spec">
+            <p class="demo__spec-title">Rule</p>
+            <p class="tok">A destructive or blocked state always ships a next action. §92 says failures surface a recovery path, not a dead end.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ tabs / stepper ============ -->
+      <section class="sg-section" id="navigation">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Primitives</span>
+          <h2 class="sg-h1">Tabs, stepper, kbd</h2>
+        </div>
+        <div class="demo">
+          <div class="demo__preview demo__preview--col">
+            <div class="tabs" role="tablist">
+              <button class="tab" role="tab" aria-selected="true">Funnel</button>
+              <button class="tab" role="tab" aria-selected="false">Campaigns</button>
+              <button class="tab" role="tab" aria-selected="false">Leads</button>
+              <button class="tab" role="tab" aria-selected="false">Revenue</button>
+            </div>
+            <div class="stepper" aria-label="Funnel build progress">
+              <span class="stepper__item stepper__item--done"><span class="stepper__num" aria-hidden="true">✓</span><span class="stepper__label">Blueprint</span></span>
+              <span class="stepper__sep" aria-hidden="true"></span>
+              <span class="stepper__item stepper__item--done"><span class="stepper__num" aria-hidden="true">✓</span><span class="stepper__label">Landing page</span></span>
+              <span class="stepper__sep" aria-hidden="true"></span>
+              <span class="stepper__item stepper__item--current"><span class="stepper__num" aria-hidden="true">3</span><span class="stepper__label">Lead form</span></span>
+              <span class="stepper__sep" aria-hidden="true"></span>
+              <span class="stepper__item"><span class="stepper__num" aria-hidden="true">4</span><span class="stepper__label">Qualification</span></span>
+              <span class="stepper__sep" aria-hidden="true"></span>
+              <span class="stepper__item"><span class="stepper__num" aria-hidden="true">5</span><span class="stepper__label">Launch</span></span>
+            </div>
+            <p class="sg-note" style="margin:0">The stepper is <strong>progressive by design</strong> (§102): a business can publish steps 1–3 and come back for the rest. Nothing is blocked by an incomplete funnel.</p>
+            <div class="row" style="margin-top:12px">
+              <span class="kbd">⌘</span><span class="kbd">K</span><span class="muted">command palette</span>
+              <span class="spacer"></span>
+              <span class="kbd">G</span><span class="kbd">then</span><span class="kbd">F</span><span class="muted">go to funnel</span>
+            </div>
+          </div>
+          <div class="demo__spec">
+            <p class="demo__spec-title">A11y</p>
+            <p class="tok">Tabs use <code>role="tablist"</code> + <code>aria-selected</code> with roving focus. The stepper's text label carries the state; the tick and number are decorative.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ metric card ============ -->
+      <section class="sg-section" id="metrics">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Composites</span>
+          <h2 class="sg-h1">MetricCard</h2>
+          <p class="sg-lede">
+            The most-repeated object in the product. It answers four questions at once: what is
+            the number, over what period, is it going up or down, and how much do we trust it.
+            The freshness badge is not optional — §75 makes stale data change confidence, so the
+            number and its trust indicator are one component.
+          </p>
+        </div>
+        <div class="demo">
+          <div class="demo__preview demo__preview--grid">
+            <div class="metric">
+              <div class="metric__head">
+                <div style="flex:1">
+                  <p class="metric__label">Qualified leads</p>
+                  <div class="metric__value">96</div>
+                </div>
+                <span class="fresh fresh--live"><span class="fresh__dot"></span>Live</span>
+              </div>
+              <div class="metric__foot">
+                <span class="delta delta--up"><span class="delta__arrow" aria-hidden="true">▲</span> 8.2% vs last 30d</span>
+                <span class="spacer"></span>
+                <span class="pmv pmv--plan">plan 100</span>
+              </div>
+              <svg width="100%" height="34" viewBox="0 0 200 34" role="img" aria-label="Qualified leads trending up over the last 12 weeks">
+                <polyline fill="none" stroke="var(--ds-chart-series-1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  points="0,28 18,26 36,27 54,22 72,23 90,18 108,19 126,14 144,15 162,10 180,8 200,5" />
+              </svg>
+            </div>
+
+            <div class="metric">
+              <div class="metric__head">
+                <div style="flex:1">
+                  <p class="metric__label">Customers</p>
+                  <div class="metric__value">14</div>
+                </div>
+                <span class="fresh fresh--stale"><span class="fresh__dot"></span>3 d</span>
+              </div>
+              <div class="metric__foot">
+                <span class="delta delta--down"><span class="delta__arrow" aria-hidden="true">▼</span> 12.0% vs last 30d</span>
+                <span class="spacer"></span>
+                <span class="quality quality--medium">Stale source</span>
+              </div>
+              <svg width="100%" height="34" viewBox="0 0 200 34" role="img" aria-label="Customers trending down over the last 12 weeks">
+                <polyline fill="none" stroke="var(--ds-chart-series-6)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  points="0,8 18,10 36,9 54,14 72,13 90,18 108,17 126,22 144,21 162,25 180,26 200,29" />
+              </svg>
+            </div>
+
+            <div class="metric">
+              <div class="metric__head">
+                <div style="flex:1">
+                  <p class="metric__label">Revenue</p>
+                  <div class="metric__value">$48,200</div>
+                </div>
+                <span class="badge badge--neutral">Not tracked</span>
+              </div>
+              <div class="metric__foot">
+                <span class="delta delta--flat"><span class="delta__arrow" aria-hidden="true">—</span> No source connected</span>
+              </div>
+              <div class="alert alert--warning" style="padding:8px 10px">
+                <span class="alert__icon" aria-hidden="true">!</span>
+                <div class="alert__body"><p class="alert__text">Connect your CRM to measure revenue. Cost from ad platforms is revenue-<em>adjacent</em> and is never reported as revenue.</p></div>
+              </div>
+            </div>
+          </div>
+          <div class="demo__spec">
+            <p class="demo__spec-title">Encodes</p>
+            <p class="tok"><strong>§50</strong> traffic, leads, qualified, opportunities, customers, revenue where available</p>
+            <p class="tok"><strong>§51</strong> direction of travel on every metric</p>
+            <p class="tok"><strong>§75</strong> freshness badge, always adjacent</p>
+            <p class="tok"><strong>§104</strong> <code>.pmv--plan</code> marks a planning assumption</p>
+            <p class="demo__spec-title" style="margin-top:16px">A11y</p>
+            <p class="tok">Direction is an arrow glyph <em>and</em> a sign <em>and</em> a word ("vs last 30d"). The sparkline has an <code>aria-label</code> describing the trend in words.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ data table ============ -->
+      <section class="sg-section" id="datatable">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Composites</span>
+          <h2 class="sg-h1">DataTable</h2>
+          <p class="sg-lede">
+            Server-driven, keyboard-navigable, permission-aware. The same component serves the lead
+            list (§69), the customers list (§68), the audit log (§84), and every sync-log view.
+          </p>
+        </div>
+        <div class="demo demo--flush">
+          <div class="stack">
+            <div class="bulkbar">
+              <strong>3 selected</strong>
+              <span class="spacer"></span>
+              <button class="btn btn--secondary btn--sm" type="button">Assign owner</button>
+              <button class="btn btn--secondary btn--sm" type="button">Change stage</button>
+              <button class="btn btn--ghost btn--sm" type="button">Clear</button>
+            </div>
+            <div class="table-wrap">
+              <table class="table">
+                <caption class="visually-hidden">Leads, sorted by score descending</caption>
+                <thead>
+                  <tr>
+                    <th scope="col" style="width:34px"><input type="checkbox" aria-label="Select all leads" checked /></th>
+                    <th scope="col" class="table__sortable" aria-sort="descending" tabindex="0">Lead</th>
+                    <th scope="col">Source</th>
+                    <th scope="col">Stage</th>
+                    <th scope="col" class="table__num">Score</th>
+                    <th scope="col">Owner</th>
+                    <th scope="col">Freshness</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr aria-selected="true">
+                    <td><input type="checkbox" aria-label="Select Ada Okafor" checked /></td>
+                    <td><div class="cell-main"><span class="avatar" aria-hidden="true">AO</span><span class="cell-stack"><strong>Ada Okafor</strong><span>ada@meridian.io</span></span></div></td>
+                    <td><span class="tag">Google Ads</span></td>
+                    <td><span class="badge badge--primary">Qualified</span></td>
+                    <td class="table__num"><strong>78</strong></td>
+                    <td>J. Mensah</td>
+                    <td><span class="fresh fresh--live"><span class="fresh__dot"></span>2 m</span></td>
+                  </tr>
+                  <tr aria-selected="true">
+                    <td><input type="checkbox" aria-label="Select Bruno Silva" checked /></td>
+                    <td><div class="cell-main"><span class="avatar" aria-hidden="true">BS</span><span class="cell-stack"><strong>Bruno Silva</strong><span>bruno@kiteworks.co</span></span></div></td>
+                    <td><span class="tag">Referral</span></td>
+                    <td><span class="badge badge--success">Customer</span></td>
+                    <td class="table__num"><strong>64</strong></td>
+                    <td>A. Reyes</td>
+                    <td><span class="fresh fresh--live"><span class="fresh__dot"></span>6 m</span></td>
+                  </tr>
+                  <tr aria-selected="true">
+                    <td><input type="checkbox" aria-label="Select Chen Wei" checked /></td>
+                    <td><div class="cell-main"><span class="avatar" aria-hidden="true">CW</span><span class="cell-stack"><strong>Chen Wei</strong><span>chen@northgate.dev</span></span></div></td>
+                    <td><span class="tag">Organic</span></td>
+                    <td><span class="badge badge--warning">Contacted</span></td>
+                    <td class="table__num"><strong>41</strong></td>
+                    <td>Unassigned</td>
+                    <td><span class="fresh fresh--stale"><span class="fresh__dot"></span>4 d</span></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" aria-label="Select Dana Petrov" /></td>
+                    <td><div class="cell-main"><span class="avatar" aria-hidden="true">DP</span><span class="cell-stack"><strong>Dana Petrov</strong><span>dana@harbourline.eu</span></span></div></td>
+                    <td><span class="tag">Meta Ads</span></td>
+                    <td><span class="badge badge--neutral">New</span></td>
+                    <td class="table__num"><strong>12</strong></td>
+                    <td>Unassigned</td>
+                    <td><span class="fresh fresh--error"><span class="fresh__dot"></span>No tracking</span></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" aria-label="Select Eli Nakamura" /></td>
+                    <td><div class="cell-main"><span class="avatar" aria-hidden="true">EN</span><span class="cell-stack"><strong>Eli Nakamura</strong><span>eli@studioform.jp</span></span></div></td>
+                    <td><span class="tag">Demo page</span></td>
+                    <td><span class="badge badge--info">Opportunity</span></td>
+                    <td class="table__num"><strong>55</strong></td>
+                    <td>J. Mensah</td>
+                    <td><span class="fresh fresh--live"><span class="fresh__dot"></span>1 h</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="pager">
+              <span>Showing 5 of 412</span><span class="spacer"></span>
+              <button class="btn btn--secondary btn--sm" type="button" disabled>Previous</button>
+              <button class="btn btn--secondary btn--sm" type="button">Next</button>
+            </div>
+          </div>
+        </div>
+        <div class="callout" style="margin-top:16px">
+          <p class="callout__title">Encodes</p>
+          <p>
+            §69 lead management — list, detail, qualification, score, source, status, owner, activity,
+            funnel stage, notes, conversion. Per-field permission masking means a Viewer sees the row
+            but revenue and notes render as masked, and the mask is enforced server-side, not here.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ charts ============ -->
+      <section class="sg-section" id="charts">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Composites</span>
+          <h2 class="sg-h1">ChartFrame</h2>
+          <p class="sg-lede">
+            §86 requires a textual chart summary. That is not a feature bolted onto a chart — it is
+            why the frame exists. Every chart renders a table equivalent that is always reachable,
+            not hidden behind a hover.
+          </p>
+        </div>
+        <div class="demo">
+          <div class="demo__preview demo__preview--col">
+            <div class="chart">
+              <div class="chart__head">
+                <div style="flex:1">
+                  <h3 class="chart__title">Conversion by device</h3>
+                  <p class="chart__sub">Last 30 days · all sources</p>
+                </div>
+                <div class="segmented" role="group" aria-label="Chart view">
+                  <button type="button" aria-pressed="true">Chart</button>
+                  <button type="button" aria-pressed="false">Table</button>
+                </div>
+              </div>
+              <div class="chart__legend">
+                <span class="legend-item"><span class="legend-item__swatch" style="background:var(--ds-chart-series-1)"></span>Mobile</span>
+                <span class="legend-item"><span class="legend-item__swatch" style="background:var(--ds-chart-series-2)"></span>Desktop</span>
+                <span class="legend-item"><span class="legend-item__swatch" style="background:var(--ds-chart-series-3)"></span>Tablet</span>
+              </div>
+              <div class="chart__plot">
+                <svg viewBox="0 0 520 190" width="100%" height="190" role="img"
+                     aria-label="Grouped bar chart of conversion rate by device over six weeks. Mobile conversion falls from 3.9 percent to 2.1 percent while desktop and tablet stay roughly flat.">
+                  <line class="grid-line" x1="34" y1="20"  x2="510" y2="20" />
+                  <line class="grid-line" x1="34" y1="55"  x2="510" y2="55" />
+                  <line class="grid-line" x1="34" y1="90"  x2="510" y2="90" />
+                  <line class="grid-line" x1="34" y1="125" x2="510" y2="125" />
+                  <line class="axis-line" x1="34" y1="160" x2="510" y2="160" />
+                  <text class="axis-label" x="28" y="24"  text-anchor="end">5%</text>
+                  <text class="axis-label" x="28" y="59"  text-anchor="end">4%</text>
+                  <text class="axis-label" x="28" y="94"  text-anchor="end">3%</text>
+                  <text class="axis-label" x="28" y="129" text-anchor="end">2%</text>
+                  <text class="axis-label" x="28" y="164" text-anchor="end">1%</text>
+
+                  <g>
+                    <rect x="52"  y="30"  width="22" height="130" rx="3" fill="var(--ds-chart-series-1)" />
+                    <rect x="78"  y="26"  width="22" height="134" rx="3" fill="var(--ds-chart-series-2)" />
+                    <rect x="104" y="38"  width="22" height="122" rx="3" fill="var(--ds-chart-series-3)" />
+                    <text class="axis-label" x="89" y="178" text-anchor="middle">W1</text>
+                  </g>
+                  <g>
+                    <rect x="140" y="44"  width="22" height="116" rx="3" fill="var(--ds-chart-series-1)" />
+                    <rect x="166" y="28"  width="22" height="132" rx="3" fill="var(--ds-chart-series-2)" />
+                    <rect x="192" y="40"  width="22" height="120" rx="3" fill="var(--ds-chart-series-3)" />
+                    <text class="axis-label" x="177" y="178" text-anchor="middle">W2</text>
+                  </g>
+                  <g>
+                    <rect x="228" y="56"  width="22" height="104" rx="3" fill="var(--ds-chart-series-1)" />
+                    <rect x="254" y="30"  width="22" height="130" rx="3" fill="var(--ds-chart-series-2)" />
+                    <rect x="280" y="36"  width="22" height="124" rx="3" fill="var(--ds-chart-series-3)" />
+                    <text class="axis-label" x="265" y="178" text-anchor="middle">W3</text>
+                  </g>
+                  <g>
+                    <rect x="316" y="70"  width="22" height="90" rx="3" fill="var(--ds-chart-series-1)" />
+                    <rect x="342" y="32"  width="22" height="128" rx="3" fill="var(--ds-chart-series-2)" />
+                    <rect x="368" y="42"  width="22" height="118" rx="3" fill="var(--ds-chart-series-3)" />
+                    <text class="axis-label" x="353" y="178" text-anchor="middle">W4</text>
+                  </g>
+                  <g>
+                    <rect x="404" y="84"  width="22" height="76" rx="3" fill="var(--ds-chart-series-1)" />
+                    <rect x="430" y="34"  width="22" height="126" rx="3" fill="var(--ds-chart-series-2)" />
+                    <rect x="456" y="44"  width="22" height="116" rx="3" fill="var(--ds-chart-series-3)" />
+                    <text class="axis-label" x="441" y="178" text-anchor="middle">W5</text>
+                  </g>
+                  <g>
+                    <rect x="476" y="94"  width="10" height="66" rx="3" fill="var(--ds-chart-series-1)" />
+                    <rect x="490" y="36"  width="10" height="124" rx="3" fill="var(--ds-chart-series-2)" />
+                    <text class="axis-label" x="492" y="178" text-anchor="middle">W6</text>
+                  </g>
+                </svg>
+              </div>
+              <details>
+                <summary class="muted" style="font-size:var(--ds-font-size-xs);cursor:pointer">Text summary &amp; data table</summary>
+                <p class="chart__sub" style="margin:8px 0">
+                  Mobile conversion has fallen for four consecutive weeks, from 3.9% to 2.1%, a 46% decline.
+                  Desktop (4.1% → 4.0%) and tablet (2.7% → 2.6%) are flat. Mobile is now the weakest
+                  device by a wide margin despite representing 63% of sessions.
+                </p>
+                <table class="chart__table">
+                  <thead><tr><th scope="col">Week</th><th scope="col">Mobile</th><th scope="col">Desktop</th><th scope="col">Tablet</th></tr></thead>
+                  <tbody>
+                    <tr><td>W1</td><td>3.9%</td><td>4.2%</td><td>2.7%</td></tr>
+                    <tr><td>W2</td><td>3.4%</td><td>4.1%</td><td>2.6%</td></tr>
+                    <tr><td>W3</td><td>3.1%</td><td>4.1%</td><td>2.6%</td></tr>
+                    <tr><td>W4</td><td>2.7%</td><td>4.0%</td><td>2.5%</td></tr>
+                    <tr><td>W5</td><td>2.4%</td><td>4.0%</td><td>2.5%</td></tr>
+                    <tr><td>W6</td><td>2.1%</td><td>4.0%</td><td>2.6%</td></tr>
+                  </tbody>
+                </table>
+              </details>
+            </div>
+          </div>
+          <div class="demo__spec">
+            <p class="demo__spec-title">Tokens</p>
+            <code class="tok">--ds-chart-series-1…8</code>
+            <code class="tok">--ds-chart-axis-label / -line</code>
+            <code class="tok">--ds-chart-grid-line</code>
+            <code class="tok">--ds-chart-delta-{positive,negative,flat}</code>
+            <p class="demo__spec-title" style="margin-top:16px">Guarantees</p>
+            <p class="tok">1. Text summary is always present, not on hover.</p>
+            <p class="tok">2. Table equivalent is one interaction away.</p>
+            <p class="tok">3. The SVG carries a descriptive <code>aria-label</code>.</p>
+            <p class="tok">4. Grid and axis lines are tokens, so they adapt to the theme.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ async states ============ -->
+      <section class="sg-section" id="async">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Composites</span>
+          <h2 class="sg-h1">Content states (§87)</h2>
+          <p class="sg-lede">
+            §87 requires five states on every major feature. <code>AsyncBoundary</code> is how that
+            becomes one implementation instead of two hundred hand-rolled spinners.
+          </p>
+        </div>
+        <div class="demo demo--flush">
+          <div class="demo__preview demo__preview--grid">
+            <div class="statebox">
+              <div class="spinner" role="status"><span class="visually-hidden">Loading</span></div>
+              <h3 class="statebox__title">Loading</h3>
+              <p class="statebox__text">Skeleton for content whose shape is known, spinner for everything else.</p>
+            </div>
+            <div class="statebox">
+              <div class="statebox__icon" aria-hidden="true">◌</div>
+              <h3 class="statebox__title">Your funnel doesn't have a landing page yet</h3>
+              <p class="statebox__text">Create a conversion-focused page connected to your lead capture and tracking.</p>
+              <button class="btn btn--primary" type="button">Build landing page</button>
+            </div>
+            <div class="statebox statebox--error">
+              <div class="statebox__icon" aria-hidden="true">⚠</div>
+              <h3 class="statebox__title">We couldn't load your funnel</h3>
+              <p class="statebox__text">The analytics service didn't respond. Your data is safe. Try again, or continue without it.</p>
+              <div class="row">
+                <button class="btn btn--primary btn--sm" type="button">Try again</button>
+                <button class="btn btn--ghost btn--sm" type="button">Continue without analytics</button>
+              </div>
+            </div>
+            <div class="statebox">
+              <div class="statebox__icon" aria-hidden="true">✓</div>
+              <h3 class="statebox__title">Page published</h3>
+              <p class="statebox__text">northwind-studio.com/demo is live. Tracking is on and the first events are arriving.</p>
+              <button class="btn btn--secondary btn--sm" type="button">View funnel</button>
+            </div>
+          </div>
+        </div>
+        <div class="demo">
+          <div class="demo__preview demo__preview--col">
+            <div class="alert alert--warning">
+              <span class="alert__icon" aria-hidden="true">◐</span>
+              <div class="alert__body">
+                <p class="alert__title">Partial data — 4 of 6 sources</p>
+                <p class="alert__text">Meta Ads and HubSpot haven't finished their first sync. Metrics below include only synced sources, and totals are marked as partial until the remaining two complete.</p>
+              </div>
+              <span class="spacer"></span>
+              <span class="quality quality--medium">Incomplete</span>
+            </div>
+            <div class="stack" aria-hidden="true">
+              <div class="skeleton skeleton--title" style="width:38%"></div>
+              <div class="skeleton skeleton--text" style="width:100%"></div>
+              <div class="skeleton skeleton--text" style="width:88%"></div>
+              <div class="skeleton skeleton--text" style="width:64%"></div>
+            </div>
+          </div>
+          <div class="demo__spec">
+            <p class="demo__spec-title">§87 · §88 · §89</p>
+            <p class="tok">Empty-state copy is content design and lives in the system, not per page. §88 gives the build case verbatim; §89 gives the optimisation case, where the honest answer is "not enough data yet" rather than a fake zero.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ funnel ============ -->
+      <section class="sg-section" id="funnel">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Composites</span>
+          <h2 class="sg-h1">Funnel</h2>
+          <p class="sg-lede">
+            The core object of the product (§23, §54, §55). Stages are configurable per business, so
+            this renders whatever the model says — it is not a hardcoded seven-step chart. The
+            leakage callout is the component that answers "what should I do next".
+          </p>
+        </div>
+        <div class="demo">
+          <div class="demo__preview demo__preview--col">
+            <div class="card">
+              <div class="card__head">
+                <div style="flex:1">
+                  <h3 class="card__title">Acquisition funnel</h3>
+                  <p class="card__sub">Last 30 days · all sources · build + connected data</p>
+                </div>
+                <span class="fresh fresh--live"><span class="fresh__dot"></span>Live</span>
+              </div>
+              <div class="card__body stack">
+                <div class="funnel">
+                  <div class="funnel__stage">
+                    <span class="funnel__name">Traffic</span>
+                    <div class="funnel__track"><div class="funnel__fill" style="width:100%"></div></div>
+                    <span class="funnel__nums"><b>41,800</b><span>sessions</span></span>
+                  </div>
+                  <div class="funnel__stage">
+                    <span class="funnel__name">Visitors</span>
+                    <div class="funnel__track"><div class="funnel__fill" style="width:100%"></div></div>
+                    <span class="funnel__nums"><b>13,200</b><span>31.6% of sessions</span></span>
+                  </div>
+                  <div class="funnel__stage">
+                    <span class="funnel__name">Leads</span>
+                    <div class="funnel__track"><div class="funnel__fill" style="width:62%"></div></div>
+                    <span class="funnel__nums"><b>412</b><span>3.12%</span></span>
+                  </div>
+                  <div class="funnel__stage">
+                    <span class="funnel__name">Qualified leads</span>
+                    <div class="funnel__track"><div class="funnel__fill funnel__fill--leak" style="width:34%"></div></div>
+                    <span class="funnel__nums"><b>96</b><span>23.30%</span></span>
+                  </div>
+                  <div class="funnel__stage">
+                    <span class="funnel__name">Opportunities</span>
+                    <div class="funnel__track"><div class="funnel__fill" style="width:27%"></div></div>
+                    <span class="funnel__nums"><b>31</b><span>32.29%</span></span>
+                  </div>
+                  <div class="funnel__stage">
+                    <span class="funnel__name">Customers</span>
+                    <div class="funnel__track"><div class="funnel__fill" style="width:25%"></div></div>
+                    <span class="funnel__nums"><b>14</b><span>45.16%</span></span>
+                  </div>
+                  <div class="funnel__stage">
+                    <span class="funnel__name">Revenue</span>
+                    <div class="funnel__track"><div class="funnel__fill" style="width:22%"></div></div>
+                    <span class="funnel__nums"><b>$48.2k</b><span>avg $3,443</span></span>
+                  </div>
+                </div>
+                <div class="leaknote">
+                  <span aria-hidden="true">▼</span>
+                  <span>Biggest leak: Leads → Qualified leads. 316 leads (77%) drop before qualification.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="demo__spec">
+            <p class="demo__spec-title">Tokens</p>
+            <code class="tok">--ds-chart-funnel-stage-filled</code>
+            <code class="tok">--ds-chart-funnel-stage-empty</code>
+            <code class="tok">--ds-chart-funnel-leakage</code>
+            <p class="demo__spec-title" style="margin-top:16px">Encodes</p>
+            <p class="tok"><strong>§54</strong> configurable stages (SaaS / Ecommerce / Services / custom)</p>
+            <p class="tok"><strong>§55</strong> stage drill-down: volume, conversion, trend, source, campaign, landing page, device, geography, audience, quality, revenue</p>
+            <p class="tok"><strong>§101</strong> one highest-priority gap, not a checklist</p>
+            <p class="tok">Numerals are tabular so stages line up as data refreshes.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ claims & evidence ============ -->
+      <section class="sg-section" id="claims">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Product patterns</span>
+          <h2 class="sg-h1">Claims &amp; evidence</h2>
+          <p class="sg-lede">
+            §60 says the AI must distinguish fact, analysis, hypothesis, and recommendation.
+            §61 says it must never fabricate a metric. Both are design requirements before they are
+            model requirements — if the UI has nowhere to put the distinction, the model has no way
+            to express it.
+          </p>
+        </div>
+        <div class="demo">
+          <div class="demo__preview demo__preview--col">
+            <div class="card">
+              <div class="card__body stack">
+                <div class="claim">
+                  <div class="claim__row">
+                    <span class="claim__tag claim__tag--fact">Fact</span>
+                    <span class="claim__text">Leads fell 12% over the last 7 days, from 44 to 39 per day.</span>
+                  </div>
+                  <div class="claim__row">
+                    <span class="claim__tag claim__tag--fact">Fact</span>
+                    <span class="claim__text">Mobile conversion fell from 3.9% to 2.1% across four consecutive weeks.</span>
+                  </div>
+                  <div class="claim__row">
+                    <span class="claim__tag claim__tag--analysis">Analysis</span>
+                    <span class="claim__text">The decline concentrates on mobile sessions from paid search, which fall hardest after the landing page loads.</span>
+                  </div>
+                  <div class="claim__row">
+                    <span class="claim__tag claim__tag--hypothesis">Hypothesis</span>
+                    <span class="claim__text">The mobile page may be failing to render the form above the fold on slower connections.</span>
+                  </div>
+                  <div class="claim__row">
+                    <span class="claim__tag claim__tag--recommendation">Action</span>
+                    <span class="claim__text">Run an experiment moving the lead form above the fold on mobile, with qualified-lead rate as the primary metric.</span>
+                  </div>
+                </div>
+
+                <div class="evidence">
+                  <p class="demo__spec-title" style="margin:0">Evidence</p>
+                  <div class="evidence__row"><span class="evidence__k">Metric</span><span class="evidence__v">lead_created.count</span></div>
+                  <div class="evidence__row"><span class="evidence__k">Value</span><span class="evidence__v">39 / day (prev 44)</span></div>
+                  <div class="evidence__row"><span class="evidence__k">Window</span><span class="evidence__v">7 d vs prior 7 d</span></div>
+                  <div class="evidence__row"><span class="evidence__k">Source</span><span class="evidence__v">first-party + HubSpot</span></div>
+                  <div class="evidence__row"><span class="evidence__k">Freshness</span><span class="evidence__v">4 min · live</span></div>
+                  <div class="evidence__row"><span class="evidence__k">Confidence</span><span class="evidence__v">0.82 (capped by source freshness)</span></div>
+                </div>
+
+                <div class="confirm">
+                  <span aria-hidden="true">⚠</span>
+                  <div class="confirm__text">
+                    <strong>Confirm before publishing</strong>
+                    The generated page included a customer quote. No testimonials are connected to
+                    this business, so this cannot be verified. Replace it with a real quote or remove it.
+                  </div>
+                  <span class="spacer"></span>
+                  <div class="row">
+                    <button class="btn btn--secondary btn--sm" type="button">Replace</button>
+                    <button class="btn btn--ghost btn--sm" type="button">Remove</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="demo__spec">
+            <p class="demo__spec-title">Encodes</p>
+            <p class="tok"><strong>§60</strong> ANSWER → EVIDENCE → INTERPRETATION → RECOMMENDATION → ACTION, and the claim-type tag on every sentence</p>
+            <p class="tok"><strong>§61</strong> an insight without evidence cannot be created — schema-enforced upstream; this is where it surfaces</p>
+            <p class="tok"><strong>§63</strong> <code>.confirm</code> blocks publish until unconfirmed AI content is resolved. The AI never invents a testimonial, statistic, award, certification, or guarantee — it emits a placeholder instead.</p>
+            <p class="tok"><strong>§75</strong> confidence shown next to the freshness that produced it</p>
+            <p class="demo__spec-title" style="margin-top:16px">Refusal is a first-class render</p>
+            <p class="tok">"I don't have enough data to answer that reliably" is a designed state, not an error string. See the alert in <a href="#feedback">Feedback</a>.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ insights ============ -->
+      <section class="sg-section" id="insights">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Product patterns</span>
+          <h2 class="sg-h1">Insights</h2>
+          <p class="sg-lede">Eight types (§58), one card. Every insight shows its evidence inline and offers a route to an action, because §10 says an insight that leads nowhere is a report.</p>
+        </div>
+        <div class="demo">
+          <div class="demo__preview demo__preview--col">
+            <div class="card">
+              <div class="card__body icard">
+                <div class="icard__top">
+                  <span class="icard__type icard__type--leakage" aria-hidden="true">▼</span>
+                  <div style="flex:1">
+                    <div class="row" style="gap:8px">
+                      <span class="badge badge--danger">Funnel leakage</span>
+                      <span class="quality quality--high">High impact</span>
+                    </div>
+                    <h3 class="icard__title" style="margin-top:8px">Mobile conversion has fallen 46% in four weeks</h3>
+                  </div>
+                </div>
+                <div class="evidence">
+                  <div class="evidence__row"><span class="evidence__k">Metric</span><span class="evidence__v">visit→lead conversion, mobile</span></div>
+                  <div class="evidence__row"><span class="evidence__k">Value</span><span class="evidence__v">3.9% → 2.1%</span></div>
+                  <div class="evidence__row"><span class="evidence__k">Compare</span><span class="evidence__v">4 weeks, same days, year over year flat</span></div>
+                  <div class="evidence__row"><span class="evidence__k">Segment</span><span class="evidence__v">Mobile + paid search = 41% of lost conversions</span></div>
+                  <div class="evidence__row"><span class="evidence__k">Freshness</span><span class="evidence__v">4 min · live</span></div>
+                </div>
+                <div class="icard__meta">
+                  <span>Confidence 0.82</span><span>·</span><span>Detected 2 days ago</span><span>·</span><span>Affects stage: Visitors → Leads</span>
+                </div>
+                <div class="icard__actions">
+                  <button class="btn btn--primary btn--sm" type="button">Create experiment</button>
+                  <button class="btn btn--secondary btn--sm" type="button">Investigate mobile page</button>
+                  <button class="btn btn--ghost btn--sm" type="button">Why am I seeing this?</button>
+                  <span class="spacer"></span>
+                  <button class="btn btn--ghost btn--sm" type="button">Dismiss</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <span class="badge badge--danger">Anomaly</span>
+              <span class="badge badge--warning">Warning</span>
+              <span class="badge badge--success">Opportunity</span>
+              <span class="badge badge--info">Data quality</span>
+              <span class="badge badge--primary">Campaign change</span>
+              <span class="badge badge--neutral">Conversion change</span>
+              <span class="badge badge--ai">Tracking issue</span>
+            </div>
+          </div>
+          <div class="demo__spec">
+            <p class="demo__spec-title">§58 types</p>
+            <p class="tok">anomaly · opportunity · warning · funnel leakage · campaign change · conversion change · data quality · tracking issue</p>
+            <p class="demo__spec-title" style="margin-top:16px">Rules</p>
+            <p class="tok">Evidence block is not optional. "Why am I seeing this?" opens the full detector output, including which metric, window, and comparison were used.</p>
+            <p class="tok">Severity never relies on colour alone — there is always a text label.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ recommendations ============ -->
+      <section class="sg-section" id="recommendations">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Product patterns</span>
+          <h2 class="sg-h1">Recommendations</h2>
+          <p class="sg-lede">
+            §64 lists ten required fields. They are not a nice-to-have: a database constraint rejects
+            a recommendation missing any of them. The card therefore has no collapsed state — there
+            is nowhere for a bare "do this" to hide.
+          </p>
+        </div>
+        <div class="demo">
+          <div class="demo__preview demo__preview--col">
+            <div class="card">
+              <div class="card__head">
+                <span class="icard__type icard__type--opportunity" aria-hidden="true">↑</span>
+                <div style="flex:1">
+                  <div class="row" style="gap:8px">
+                    <span class="badge badge--success">Optimization opportunity</span>
+                    <span class="lvl lvl--l3">L3 prepares action</span>
+                  </div>
+                  <h3 class="card__title" style="margin-top:6px">Move the lead form above the fold on mobile landing pages</h3>
+                </div>
+                <div style="text-align:right">
+                  <div style="font-size:var(--ds-font-size-2xl);font-weight:var(--ds-font-weight-bold)">92</div>
+                  <div class="card__sub">priority</div>
+                </div>
+              </div>
+              <div class="card__body rcard">
+                <dl class="rcard__grid">
+                  <div class="rcard__stat"><dt>Problem</dt><dd>Mobile form below fold</dd></div>
+                  <div class="rcard__stat"><dt>Impact</dt><dd>High · 41% of lost conv.</dd></div>
+                  <div class="rcard__stat"><dt>Confidence</dt><dd>0.82</dd></div>
+                  <div class="rcard__stat"><dt>Effort</dt><dd>Low · ~2 h</dd></div>
+                  <div class="rcard__stat"><dt>Objective</dt><dd>100 qualified leads/mo</dd></div>
+                  <div class="rcard__stat"><dt>Stage</dt><dd>Visitors → Leads</dd></div>
+                </dl>
+
+                <div>
+                  <p class="demo__spec-title">Evidence</p>
+                  <div class="evidence">
+                    <div class="evidence__row"><span class="evidence__k">Metric</span><span class="evidence__v">mobile form_view → form_submitted</span></div>
+                    <div class="evidence__row"><span class="evidence__k">Value</span><span class="evidence__v">31.0% vs 58.4% desktop</span></div>
+                    <div class="evidence__row"><span class="evidence__k">Related</span><span class="evidence__v">leads, conversion rate, CAC</span></div>
+                    <div class="evidence__row"><span class="evidence__k">Source</span><span class="evidence__v">insight: mobile-conversion-decline</span></div>
+                  </div>
+                </div>
+
+                <div>
+                  <p class="demo__spec-title">Priority formula</p>
+                  <div class="row" style="gap:12px">
+                    <span class="mono">impact × confidence ÷ effort</span>
+                    <div class="meter" style="flex:1;max-width:220px"><div class="meter__bar meter__bar--success" style="width:92%"></div></div>
+                    <span class="mono">92 / 100</span>
+                  </div>
+                </div>
+              </div>
+              <div class="card__foot">
+                <button class="btn btn--primary btn--sm" type="button">Accept &amp; create action</button>
+                <button class="btn btn--secondary btn--sm" type="button">Explain</button>
+                <button class="btn btn--ghost btn--sm" type="button">Not relevant</button>
+                <span class="spacer"></span>
+                <span class="card__sub">Sourced from 2 insights · last updated 2 h ago</span>
+              </div>
+            </div>
+          </div>
+          <div class="demo__spec">
+            <p class="demo__spec-title">§64 · all ten required</p>
+            <p class="tok">problem ✓ · evidence ✓ · impact ✓ · confidence ✓ · effort ✓ · objective ✓ · recommended action ✓ · affected funnel stage ✓ · related metrics ✓ · source ✓</p>
+            <p class="demo__spec-title" style="margin-top:16px">§106 origins</p>
+            <p class="tok">missing infrastructure · performance problem · data problem · optimization opportunity · growth opportunity</p>
+            <p class="demo__spec-title" style="margin-top:16px">Honesty</p>
+            <p class="tok">Priority is computed, not authored, and the formula is shown. A user who disagrees with the ranking can see exactly how it was produced.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ actions ============ -->
+      <section class="sg-section" id="actions">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Product patterns</span>
+          <h2 class="sg-h1">Actions &amp; approvals</h2>
+          <p class="sg-lede">
+            The end of the chain (§65, §66, §82). Anything with external or customer-visible impact
+            requires approval, and the approval UI shows the evidence that motivated it — an
+            approval request without its reasoning is just a modal asking for a yes.
+          </p>
+        </div>
+        <div class="demo">
+          <div class="demo__preview demo__preview--col">
+            <div class="card">
+              <div class="card__head">
+                <div style="flex:1">
+                  <div class="row" style="gap:8px">
+                    <span class="badge badge--warning">Pending approval</span>
+                    <span class="risk risk--high">High risk · customer-visible</span>
+                    <span class="lvl lvl--l3">L3</span>
+                  </div>
+                  <h3 class="card__title" style="margin-top:6px">Modify the mobile hero on 3 published landing pages</h3>
+                </div>
+              </div>
+              <div class="card__body acard">
+                <div class="acard__flow">
+                  <span class="badge badge--neutral">Draft</span><span aria-hidden="true">→</span>
+                  <span class="badge badge--warning">Pending approval</span><span aria-hidden="true">→</span>
+                  <span class="badge badge--neutral">Approved</span><span aria-hidden="true">→</span>
+                  <span class="badge badge--neutral">Executing</span><span aria-hidden="true">→</span>
+                  <span class="badge badge--neutral">Completed</span>
+                  <span class="spacer"></span>
+                  <span class="state state--idle"><span class="state__glyph" aria-hidden="true">‖</span>Failed</span>
+                  <span class="state state--idle"><span class="state__glyph" aria-hidden="true">×</span>Cancelled</span>
+                </div>
+                <div class="evidence">
+                  <div class="evidence__row"><span class="evidence__k">Requested by</span><span class="evidence__v">rec_8fa21 · optimization opportunity</span></div>
+                  <div class="evidence__row"><span class="evidence__k">Why</span><span class="evidence__v">Mobile conversion 3.9% → 2.1% over 4 weeks</span></div>
+                  <div class="evidence__row"><span class="evidence__k">Affects</span><span class="evidence__v">/demo · /pricing · /enterprise</span></div>
+                  <div class="evidence__row"><span class="evidence__k">Reversible</span><span class="evidence__v">Yes · page version history</span></div>
+                </div>
+                <p class="sg-note" style="margin:0">
+                  <strong>Note:</strong> the <code>update-campaign</code> action never writes to an ad
+                  platform. It produces a reviewable change plan for a human to apply in the ad
+                  manager. §109 says we don't replace Google Ads Manager, and an irreversible external
+                  write is not something an AI should be trusted with at L3.
+                </p>
+              </div>
+              <div class="card__foot">
+                <button class="btn btn--primary btn--sm" type="button">Approve</button>
+                <button class="btn btn--secondary btn--sm" type="button">Reject with reason</button>
+                <button class="btn btn--ghost btn--sm" type="button">Preview changes</button>
+              </div>
+            </div>
+
+            <div class="alert alert--danger">
+              <span class="alert__icon" aria-hidden="true">×</span>
+              <div class="alert__body">
+                <p class="alert__title">Action failed — publishing to /enterprise</p>
+                <p class="alert__text">The page service returned 503 after two retries. Nothing was published. Retry, or roll back to version 12.</p>
+              </div>
+              <span class="spacer"></span>
+              <button class="btn btn--secondary btn--sm" type="button">Retry</button>
+              <button class="btn btn--ghost btn--sm" type="button">Roll back</button>
+            </div>
+          </div>
+          <div class="demo__spec">
+            <p class="demo__spec-title">§66 states</p>
+            <p class="tok">Draft · Pending approval · Approved · Executing · Completed · Failed · Cancelled</p>
+            <p class="demo__spec-title" style="margin-top:16px">§65 action types</p>
+            <p class="tok">create page · modify page · create experiment · create workflow · update campaign · fix tracking · connect CRM · review lead routing · create follow-up</p>
+            <p class="demo__spec-title" style="margin-top:16px">§92</p>
+            <p class="tok">A failed action never silently disappears. It names the failure, offers a recovery path, and is recorded in the audit log.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ integrations ============ -->
+      <section class="sg-section" id="integrations">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Product patterns</span>
+          <h2 class="sg-h1">Integrations &amp; sync</h2>
+          <p class="sg-lede">
+            §49 and §70. The important detail is the <strong>Sample data</strong> badge: a connector
+            replaying recorded fixtures must never be mistakable for a live connection. §117 forbids
+            faking external API connections, so the UI states plainly when it is showing fixture data.
+          </p>
+        </div>
+        <div class="demo">
+          <div class="demo__preview demo__preview--col">
+            <div class="demo__preview demo__preview--grid" style="display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))">
+              <div class="card"><div class="card__body stack">
+                <div class="iconn">
+                  <span class="iconn__logo" aria-hidden="true">G</span>
+                  <div style="flex:1">
+                    <strong>Google Analytics 4</strong>
+                    <div class="card__sub">northwind.iam.gserviceaccount.com</div>
+                  </div>
+                  <span class="state state--ok"><span class="state__glyph" aria-hidden="true">✓</span>Synced</span>
+                </div>
+                <div class="sync">
+                  <div class="progress"><div class="progress__bar progress__bar--success" style="width:100%"></div></div>
+                  <div class="sync__stats">
+                    <span>Last sync <b>4 min ago</b></span>
+                    <span>Records <b>18,204</b></span>
+                    <span>Errors <b>0</b></span>
+                  </div>
+                </div>
+              </div></div>
+
+              <div class="card"><div class="card__body stack">
+                <div class="iconn">
+                  <span class="iconn__logo" aria-hidden="true">SC</span>
+                  <div style="flex:1">
+                    <strong>Search Console</strong>
+                    <div class="card__sub">northwind-studio.com</div>
+                  </div>
+                  <span class="badge badge--warning">Reporting lag 2 d</span>
+                </div>
+                <div class="sync">
+                  <div class="progress"><div class="progress__bar progress__bar--warning" style="width:64%"></div></div>
+                  <div class="sync__stats">
+                    <span>Syncing <b>64%</b></span>
+                    <span>Records <b>4,911</b></span>
+                    <span>Errors <b>0</b></span>
+                  </div>
+                </div>
+              </div></div>
+
+              <div class="card"><div class="card__body stack">
+                <div class="iconn">
+                  <span class="iconn__logo" aria-hidden="true">HS</span>
+                  <div style="flex:1">
+                    <strong>HubSpot CRM</strong>
+                    <div class="card__sub">Sandbox workspace</div>
+                  </div>
+                  <span class="badge badge--ai">Sample data</span>
+                </div>
+                <div class="sync">
+                  <div class="progress"><div class="progress__bar" style="width:100%"></div></div>
+                  <div class="sync__stats">
+                    <span>Replayed <b>812 contacts</b></span>
+                    <span>Not a live connection</span>
+                  </div>
+                </div>
+              </div></div>
+
+              <div class="card"><div class="card__body stack">
+                <div class="iconn">
+                  <span class="iconn__logo" aria-hidden="true">M</span>
+                  <div style="flex:1">
+                    <strong>Meta Ads</strong>
+                    <div class="card__sub">Expired access token</div>
+                  </div>
+                  <span class="state state--err"><span class="state__glyph" aria-hidden="true">!</span>Needs reauth</span>
+                </div>
+                <p class="card__sub" style="margin:0">Metrics from this source are excluded from totals and marked stale until reconnected.</p>
+                <button class="btn btn--secondary btn--sm" type="button">Reconnect</button>
+              </div></div>
+            </div>
+          </div>
+          <div class="demo__spec">
+            <p class="demo__spec-title">§70 states</p>
+            <p class="tok">available · connecting · connected · syncing · synced · needs reauthorization · error · disconnected</p>
+            <p class="demo__spec-title" style="margin-top:16px">§49 sync fields</p>
+            <p class="tok">source · status · progress · last sync · records processed · errors</p>
+            <p class="demo__spec-title" style="margin-top:16px">§117</p>
+            <p class="tok">Fixture-backed connections carry a visible <strong>Sample data</strong> badge. Sandboxing is a feature; disguising it is not.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ experiments ============ -->
+      <section class="sg-section" id="experiments">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Product patterns</span>
+          <h2 class="sg-h1">Experiments</h2>
+          <p class="sg-lede">
+            §67 puts business outcomes above vanity metrics. The result card leads with the primary
+            business metric, and "inconclusive" is a designed outcome with its own explanation — not
+            an error and not a loss.
+          </p>
+        </div>
+        <div class="demo">
+          <div class="demo__preview demo__preview--col">
+            <div class="card">
+              <div class="card__head">
+                <div style="flex:1">
+                  <div class="row" style="gap:8px">
+                    <span class="badge badge--success">Completed</span>
+                    <span class="badge badge--neutral">Winner: Variant B</span>
+                  </div>
+                  <h3 class="card__title" style="margin-top:6px">Mobile hero: form above the fold</h3>
+                  <p class="card__sub">Hypothesis — if the lead form appears above the fold on mobile, then qualified-lead rate will increase, because mobile form completion is currently 31% versus 58% on desktop.</p>
+                </div>
+              </div>
+              <div class="card__body stack">
+                <div class="rcard__grid">
+                  <div class="rcard__stat"><dt>Primary metric</dt><dd>Qualified leads / 1k sessions</dd></div>
+                  <div class="rcard__stat"><dt>Baseline (A)</dt><dd>18.2</dd></div>
+                  <div class="rcard__stat"><dt>Variant (B)</dt><dd>24.7</dd></div>
+                  <div class="rcard__stat"><dt>Lift</dt><dd style="color:var(--ds-chart-delta-positive)">+35.7%</dd></div>
+                  <div class="rcard__stat"><dt>Confidence</dt><dd>96.4%</dd></div>
+                  <div class="rcard__stat"><dt>Runtime</dt><dd>18 days</dd></div>
+                </div>
+                <div>
+                  <p class="demo__spec-title">Secondary metrics</p>
+                  <div class="stack">
+                    <div><div class="row"><span class="mono">Revenue per session</span><span class="spacer"></span><span class="delta delta--up">▲ 12.1%</span></div><div class="meter" style="margin-top:4px"><div class="meter__bar meter__bar--success" style="width:62%"></div></div></div>
+                    <div><div class="row"><span class="mono">Page load time</span><span class="spacer"></span><span class="delta delta--flat">— 0.0%</span></div><div class="meter" style="margin-top:4px"><div class="meter__bar" style="width:50%"></div></div></div>
+                    <div><div class="row"><span class="mono">Unsubscribes</span><span class="spacer"></span><span class="delta delta--down">▲ 3.1%</span></div><div class="meter" style="margin-top:4px"><div class="meter__bar meter__bar--warning" style="width:58%"></div></div></div>
+                  </div>
+                </div>
+                <div class="alert alert--success">
+                  <span class="alert__icon" aria-hidden="true">✓</span>
+                  <div class="alert__body">
+                    <p class="alert__title">Shipping B to 100%</p>
+                    <p class="alert__text">The primary business metric improved with 96.4% confidence and revenue per session moved with it, so this is a business win, not a click-through win.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="statebox">
+              <div class="statebox__icon" aria-hidden="true">≈</div>
+              <h3 class="statebox__title">Inconclusive</h3>
+              <p class="statebox__text">This test reached 71% of the sample size needed for an 80% chance of detecting a 10% lift. It is not evidence that the variants are the same, and it is not evidence that they differ. Run longer, or accept the current layout.</p>
+              <div class="row">
+                <button class="btn btn--secondary btn--sm" type="button">Continue running</button>
+                <button class="btn btn--ghost btn--sm" type="button">Stop and keep A</button>
+              </div>
+            </div>
+          </div>
+          <div class="demo__spec">
+            <p class="demo__spec-title">§67 model</p>
+            <p class="tok">hypothesis · control · variant · audience · primary metric · secondary metrics · baseline · dates · result · learning</p>
+            <p class="demo__spec-title" style="margin-top:16px">Rules</p>
+            <p class="tok">The verdict is about the <em>primary</em> metric. A CTR win with flat revenue is reported as a vanity-metric win, not a success.</p>
+            <p class="tok">Sample-ratio-mismatch guard halts a test whose allocation is broken.</p>
+            <p class="tok">The learning is retrievable later and demonstrably adjusts future recommendation confidence — this is the §113 moat, started in the MVP.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ app shell ============ -->
+      <section class="sg-section" id="shell">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Product patterns</span>
+          <h2 class="sg-h1">App shell &amp; navigation</h2>
+          <p class="sg-lede">
+            The twelve §52 destinations. Two rules are encoded here rather than left to each screen:
+            <strong>Build</strong> is labelled "Improve funnel" and only appears when build capabilities
+            are relevant, and the workspace switcher sits at the top because multi-tenancy (§80) means
+            the user's context is never implicit.
+          </p>
+        </div>
+        <div class="demo demo--flush">
+          <div class="shell">
+            <nav class="shell__rail" aria-label="Marketing OS">
+              <div class="shell__ws">
+                <span class="avatar avatar--lg" aria-hidden="true">NS</span>
+                <div>
+                  <div class="shell__ws-name">Northwind Studio</div>
+                  <div class="shell__ws-plan">Growth plan</div>
+                </div>
+              </div>
+              <div class="navrail">
+                <a class="navrail__item" href="#shell"><span class="navrail__icon" aria-hidden="true">◧</span>Overview</a>
+                <a class="navrail__item navrail__item--active" href="#shell" aria-current="page"><span class="navrail__icon" aria-hidden="true">▽</span>Funnel</a>
+                <a class="navrail__item" href="#shell"><span class="navrail__icon" aria-hidden="true">✦</span>Improve funnel</a>
+                <a class="navrail__item" href="#shell"><span class="navrail__icon" aria-hidden="true">◎</span>Insights <span class="navrail__count">3</span></a>
+                <a class="navrail__item" href="#shell"><span class="navrail__icon" aria-hidden="true">✧</span>AI Analyst</a>
+                <a class="navrail__item" href="#shell"><span class="navrail__icon" aria-hidden="true">➤</span>Recommendations</a>
+                <a class="navrail__item" href="#shell"><span class="navrail__icon" aria-hidden="true">⚙</span>Actions <span class="navrail__count">2</span></a>
+                <a class="navrail__item" href="#shell"><span class="navrail__icon" aria-hidden="true">⚗</span>Experiments</a>
+                <a class="navrail__item" href="#shell"><span class="navrail__icon" aria-hidden="true">◍</span>Customers</a>
+                <a class="navrail__item" href="#shell"><span class="navrail__icon" aria-hidden="true">⇄</span>Integrations</a>
+                <a class="navrail__item" href="#shell"><span class="navrail__icon" aria-hidden="true">◔</span>Notifications <span class="navrail__count">5</span></a>
+                <a class="navrail__item" href="#shell"><span class="navrail__icon" aria-hidden="true">⚒</span>Settings</a>
+              </div>
+            </nav>
+            <div class="shell__main">
+              <div class="shell__top">
+                <div class="segmented" role="group" aria-label="Date range">
+                  <button type="button" aria-pressed="false">7 d</button>
+                  <button type="button" aria-pressed="true">30 d</button>
+                  <button type="button" aria-pressed="false">90 d</button>
+                  <button type="button" aria-pressed="false">Custom</button>
+                </div>
+                <span class="spacer"></span>
+                <button class="btn btn--ai btn--sm" type="button">Ask AI Analyst</button>
+                <button class="btn btn--secondary btn--sm" type="button">Export</button>
+              </div>
+              <div class="shell__content">
+                <div class="modebanner">
+                  <span aria-hidden="true">✦</span>
+                  <div>
+                    <strong>Hybrid mode.</strong> You have traffic and a website, but no reliable lead
+                    qualification or follow-up. We're showing the biggest gap first — not a checklist.
+                  </div>
+                  <span class="spacer"></span>
+                  <button class="btn btn--primary btn--sm" type="button">Build lead capture</button>
+                </div>
+                <div class="pagehead">
+                  <div style="flex:1">
+                    <h1 class="pagehead__title">Funnel</h1>
+                    <p class="pagehead__sub">Where prospects are being lost between first visit and revenue.</p>
+                  </div>
+                  <div class="row">
+                    <span class="badge badge--warning">2 sources syncing</span>
+                    <span class="fresh fresh--ok"><span class="fresh__dot"></span>Updated 4 min ago</span>
+                  </div>
+                </div>
+                <div class="demo__preview demo__preview--grid" style="display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
+                  <div class="metric">
+                    <p class="metric__label">Visitors</p>
+                    <div class="metric__value">13,200</div>
+                    <div class="metric__foot"><span class="delta delta--up"><span class="delta__arrow" aria-hidden="true">▲</span> 4.1%</span><span class="spacer"></span><span class="fresh fresh--live"><span class="fresh__dot"></span>Live</span></div>
+                  </div>
+                  <div class="metric">
+                    <p class="metric__label">Leads</p>
+                    <div class="metric__value">412</div>
+                    <div class="metric__foot"><span class="delta delta--down"><span class="delta__arrow" aria-hidden="true">▼</span> 12.0%</span><span class="spacer"></span><span class="fresh fresh--live"><span class="fresh__dot"></span>Live</span></div>
+                  </div>
+                  <div class="metric">
+                    <p class="metric__label">Qualified leads</p>
+                    <div class="metric__value">96</div>
+                    <div class="metric__foot"><span class="delta delta--up"><span class="delta__arrow" aria-hidden="true">▲</span> 8.2%</span><span class="spacer"></span><span class="pmv pmv--plan">plan 100</span></div>
+                  </div>
+                  <div class="metric">
+                    <p class="metric__label">Customers</p>
+                    <div class="metric__value">14</div>
+                    <div class="metric__foot"><span class="delta delta--flat"><span class="delta__arrow" aria-hidden="true">—</span> 0.0%</span><span class="spacer"></span><span class="fresh fresh--stale"><span class="fresh__dot"></span>3 d</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="callout" style="margin-top:16px">
+          <p class="callout__title">§52 is a design decision, not a menu</p>
+          <p>
+            The rail is fixed at twelve destinations. A business owner should not have to learn
+            product terminology to find their funnel, so build mode is presented as
+            "Improve funnel". Counts on Insights, Actions, and Notifications are the only
+            exception to flat navigation, and each one is an actionable number.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ landing blocks ============ -->
+      <section class="sg-section" id="landing">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Product patterns</span>
+          <h2 class="sg-h1">Landing page blocks</h2>
+          <p class="sg-lede">
+            The same design system, a different density (ADR 0017), a different token subset, and a
+            different bundle budget. The page builder in Phase 7 renders exactly these blocks from
+            the schema frozen in Phase 0 — it does not invent its own layout engine.
+          </p>
+        </div>
+        <div class="demo">
+          <div class="demo__preview demo__preview--col">
+            <div class="lp">
+              <div class="lp__sec">
+                <p class="lp__eyebrow">Demo request</p>
+                <h2 class="lp__h">See your whole funnel in one place</h2>
+                <p class="lp__p">Connect what you already use, build what's missing, and find out what's actually limiting your growth.</p>
+                <div class="row" style="margin-top:16px">
+                  <button class="btn btn--primary btn--lg" type="button">Request a demo</button>
+                  <button class="btn btn--secondary btn--lg" type="button">See how it works</button>
+                </div>
+              </div>
+              <div class="lp__sec">
+                <h3 class="lp__h" style="font-size:var(--ds-font-size-xl)">What you get</h3>
+                <ul class="lp__benefits" style="margin-top:12px">
+                  <li><span class="lp__check" aria-hidden="true">✓</span><span>A funnel view that combines your own pages and the tools you already connected</span></li>
+                  <li><span class="lp__check" aria-hidden="true">✓</span><span>Lead capture, qualification and follow-up built in, or connected to your CRM</span></li>
+                  <li><span class="lp__check" aria-hidden="true">✓</span><span>An explanation for every number, with the source and how fresh it is</span></li>
+                  <li><span class="lp__check" aria-hidden="true">✓</span><span>Recommended actions that need your approval before anything changes</span></li>
+                </ul>
+              </div>
+              <div class="lp__foot">
+                <span>© 2026 Northwind Studio</span>
+                <span class="spacer"></span>
+                <span>Privacy</span><span>Terms</span><span>Contact</span>
+              </div>
+            </div>
+
+            <div class="device">
+              <div>
+                <div class="device__frame device__frame--mobile">
+                  <div class="device__bar"></div>
+                  <div style="padding:8px">
+                    <div class="skeleton skeleton--title" style="width:80%"></div>
+                    <div class="skeleton skeleton--text" style="width:100%;margin-top:6px"></div>
+                    <div class="skeleton skeleton--text" style="width:70%;margin-top:4px"></div>
+                    <div class="btn btn--primary btn--sm" style="margin-top:8px;width:100%">Request a demo</div>
+                  </div>
+                </div>
+                <div class="device__label">mobile</div>
+              </div>
+              <div>
+                <div class="device__frame device__frame--tablet">
+                  <div class="device__bar"></div>
+                  <div style="padding:8px">
+                    <div class="skeleton skeleton--title" style="width:60%"></div>
+                    <div class="skeleton skeleton--text" style="width:100%;margin-top:6px"></div>
+                    <div class="btn btn--primary btn--sm" style="margin-top:8px">Request a demo</div>
+                  </div>
+                </div>
+                <div class="device__label">tablet</div>
+              </div>
+              <div style="flex:1;min-width:180px">
+                <p class="demo__spec-title">§26 preview</p>
+                <p class="tok">Desktop, tablet and mobile previews share one renderer. Drafts are <code>noindex</code> and token-gated; published pages are cacheable.</p>
+                <p class="demo__spec-title" style="margin-top:12px">§24 blocks</p>
+                <p class="tok">title · headline · subheadline · CTA · benefits · features · social proof · FAQ · lead form · footer · SEO metadata</p>
+              </div>
+            </div>
+          </div>
+          <div class="demo__spec">
+            <p class="demo__spec-title">Safety</p>
+            <p class="tok">The published-page runtime may only use the declared token subset. A tenant-authored page cannot escape the brand, contrast, or type envelope — the block schema is validated, not freeform HTML.</p>
+            <p class="demo__spec-title" style="margin-top:16px">§25 · §63</p>
+            <p class="tok">AI fills the blocks from business context and may not invent testimonials, statistics, certifications, awards, guarantees, or claims. Anything unconfirmed renders as a <code>ConfirmRequired</code> placeholder that blocks publish.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ accessibility ============ -->
+      <section class="sg-section" id="accessibility">
+        <div class="sg-section__head">
+          <span class="sg-section__kicker">Quality</span>
+          <h2 class="sg-h1">Accessibility</h2>
+          <p class="sg-lede">
+            §86 targets WCAG 2.2 AA. None of this is a Phase 13 audit item, because none of it can be
+            retrofitted onto forty hand-built tables.
+          </p>
+        </div>
+        <div class="demo demo--flush">
+          <div class="demo__preview demo__preview--grid">
+            <div class="card"><div class="card__body stack">
+              <h3 class="card__title">Contrast is a build gate</h3>
+              <p class="card__sub">32 declared pairs × 2 themes, checked at build time. A new failing pair fails the build rather than a review.</p>
+            </div></div>
+            <div class="card"><div class="card__body stack">
+              <h3 class="card__title">Focus is a token</h3>
+              <p class="card__sub">Every interactive element gets the same focus-visible ring, drawn from <code>--ds-focus-*</code>. Removing it is visible in review.</p>
+            </div></div>
+            <div class="card"><div class="card__body stack">
+              <h3 class="card__title">Colour is never the only signal</h3>
+              <p class="card__sub">Deltas carry an arrow and a sign. States carry a glyph and a word. Severity carries a text label. Series colours pair with legend labels and a table.</p>
+            </div></div>
+            <div class="card"><div class="card__body stack">
+              <h3 class="card__title">Targets are at least 24px</h3>
+              <p class="card__sub">Small badges are excluded because they are not interactive. Every control and table row meets the minimum.</p>
+            </div></div>
+            <div class="card"><div class="card__body stack">
+              <h3 class="card__title">Charts have text equivalents</h3>
+              <p class="card__sub">A written summary and a data table, always reachable. The SVG has a descriptive <code>aria-label</code> in words, not numbers alone.</p>
+            </div></div>
+            <div class="card"><div class="card__body stack">
+              <h3 class="card__title">Reduced motion honoured</h3>
+              <p class="card__sub">All animation collapses under <code>prefers-reduced-motion</code>. Nothing conveys information through motion alone.</p>
+            </div></div>
+            <div class="card"><div class="card__body stack">
+              <h3 class="card__title">Errors are announced</h3>
+              <p class="card__sub">Field errors are linked with <code>aria-describedby</code> and the input carries <code>aria-invalid</code>. Live regions for sync and publish status.</p>
+            </div></div>
+            <div class="card"><div class="card__body stack">
+              <h3 class="card__title">Published pages too</h3>
+              <p class="card__sub">The landing runtime is held to the same standard. A customer's page that fails AA is a defect in this product.</p>
+            </div></div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<script src="styleguide.js"></script>
+</body>
+</html>

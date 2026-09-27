@@ -1,0 +1,35 @@
+{
+  "$description": "Component tokens — the third and last layer. A component token may only reference a semantic token. This is what keeps Phase 4-13 screens assembly-only: when a screen needs a colour, it reaches for one of these, never for a primitive.",
+  "button": {
+    "radius":   { "$value": "{radius.md}" },
+    "font-weight": { "$value": "{font.weight.semibold}" },
+    "padding-x": { "$type": "dimension", "sm": { "$value": "{space.3}" }, "md": { "$value": "{space.4}" }, "lg": { "$value": "{space.5}" } }
+  },
+  "card": {
+    "radius":  { "$value": "{radius.lg}" },
+    "padding": { "$value": "{space.5}" },
+    "border":  { "$value": "{border.width.thin}" },
+    "shadow":  { "$value": "{shadow.1}" }
+  },
+  "field": {
+    "radius": { "$value": "{radius.md}" },
+    "border": { "$value": "{border.width.default}" },
+    "border-focus": { "$value": "{border.width.thick}" },
+    "label-gap": { "$value": "{space.2}" }
+  },
+  "table": {
+    "header-bg": { "$value": "{surface.subtle}" },
+    "row-hover": { "$value": "{interactive.hover}" },
+    "border":    { "$value": "{border.subtle}" }
+  },
+  "badge": {
+    "radius": { "$value": "{radius.full}" },
+    "padding-x": { "$value": "{space.2}" },
+    "height": { "$value": "20px" }
+  },
+  "focus": {
+    "width":  { "$value": "{border.width.thick}" },
+    "offset": { "$value": "2px" },
+    "radius": { "$value": "{radius.md}" }
+  }
+}
