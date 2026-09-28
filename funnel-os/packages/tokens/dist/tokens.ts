@@ -317,6 +317,10 @@ export const tokens = {
   "focus.width": "2px",
   "focus.offset": "2px",
   "focus.radius": "6px",
+  "layout.nav-rail-width": "15rem",
+  "layout.content-max": "84rem",
+  "layout.measure": "62ch",
+  "layout.drawer-width": "30rem",
   "series.1": "#b026d3",
   "series.2": "#0369a1",
   "series.3": "#b45309",
@@ -367,6 +371,10 @@ export const tokens = {
   "dark.focus.width": "2px",
   "dark.focus.offset": "2px",
   "dark.focus.radius": "6px",
+  "dark.layout.nav-rail-width": "15rem",
+  "dark.layout.content-max": "84rem",
+  "dark.layout.measure": "62ch",
+  "dark.layout.drawer-width": "30rem",
   "dark.series.1": "#b026d3",
   "dark.series.2": "#0369a1",
   "dark.series.3": "#b45309",
@@ -716,6 +724,10 @@ export type CssVarName =
   | '--ds-focus-width'
   | '--ds-focus-offset'
   | '--ds-focus-radius'
+  | '--ds-layout-nav-rail-width'
+  | '--ds-layout-content-max'
+  | '--ds-layout-measure'
+  | '--ds-layout-drawer-width'
   | '--ds-series-1'
   | '--ds-series-2'
   | '--ds-series-3'
@@ -766,6 +778,10 @@ export type CssVarName =
   | '--ds-dark-focus-width'
   | '--ds-dark-focus-offset'
   | '--ds-dark-focus-radius'
+  | '--ds-dark-layout-nav-rail-width'
+  | '--ds-dark-layout-content-max'
+  | '--ds-dark-layout-measure'
+  | '--ds-dark-layout-drawer-width'
   | '--ds-dark-series-1'
   | '--ds-dark-series-2'
   | '--ds-dark-series-3'

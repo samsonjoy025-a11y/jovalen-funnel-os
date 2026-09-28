@@ -61,6 +61,7 @@ export {
   type Tone,
 } from './primitives/Display.js';
 export { Card } from './primitives/Display.js';
+export { Drawer, type DrawerProps } from './primitives/Drawer.js';
 export {
   Breadcrumbs,
   Dialog,

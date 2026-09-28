@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Slot } from '@radix-ui/react-slot';
 import { cx } from '../cx.js';
 import { color, component, font, minTargetStyle, space, size } from '../tokens.js';
 
@@ -30,6 +31,23 @@ export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonE
   size?: ButtonSize;
   /** Renders an <a href>. Changes the element, not the styling. */
   href?: string;
+  /**
+   * Render the single child instead of a <button>, merging these props onto it.
+   *
+   * For a router `<Link>`. `href` cannot cover that case: react-router's Link
+   * navigates on click and needs a `to`, not an `href`, and passing `href`
+   * alongside it produces an anchor that both navigates and hard-navigates.
+   *
+   * `asChild` rather than an `as: ElementType` prop. An `as` prop has to
+   * accept the union of the button attributes and whatever the target element
+   * needs — `to` for Link, `onSelect` for a menu item — which is `any` by the
+   * time TypeScript is done, so every call site loses checking on the props it
+   * does know. `asChild` keeps `ButtonProps` honest and lets the child's own
+   * types check its own props:
+   *
+   *     <Button asChild variant="solid"><Link to="/analytics">See analytics</Link></Button>
+   */
+  asChild?: boolean;
   /** Announced while the action is in flight and prevents a second submit. */
   loading?: boolean;
   /** Icon-only buttons MUST supply this. An icon button with no name is an
@@ -71,6 +89,7 @@ export const Button = React.forwardRef<HTMLElement, ButtonProps>(
       variant = 'solid',
       size: buttonSize = 'md',
       href,
+      asChild = false,
       loading = false,
       iconOnlyLabel,
       fullWidth = false,
@@ -149,6 +168,37 @@ export const Button = React.forwardRef<HTMLElement, ButtonProps>(
     // duplicate the variant, size and state logic that has to stay identical
     // for a link to look like a button.
     const polymorphic = rest as React.AllHTMLAttributes<HTMLElement>;
+
+    if (asChild) {
+      /*
+       * `Slot` merges onto the one child element. The child owns the tag, so
+       * the role follows from whatever the caller wrote: a `Link` stays a link
+       * and announces as one, which is what "this navigates" has to sound like.
+       *
+       * `children` must be exactly one element. A fragment or a bare string
+       * would make Slot merge onto the wrapper rather than the intended target,
+       * which throws rather than rendering something subtly wrong — a good
+       * trade, because the alternative is a button class silently landing on a
+       * <span>.
+       */
+      if (!React.isValidElement(children)) {
+        throw new Error(
+          `Button asChild needs exactly one element child, not ${children === undefined ? 'nothing' : typeof children}. ` +
+            'Use the plain Button for actions, or wrap the element: <Button asChild><Link to="/x">…</Link></Button>.',
+        );
+      }
+      return (
+        <Slot
+          {...rest}
+          {...a11y}
+          className={cx('ui-button', rest.className)}
+          ref={ref}
+          style={base}
+        >
+          {children}
+        </Slot>
+      );
+    }
 
     if (href !== undefined) {
       return (

@@ -44,3 +44,20 @@ tmp/
 # to be in the tree to be checkable. A blanket dist/ would have silently
 # stopped that gate from ever running on a clean clone.
 funnel-os/packages/ui/dist-playground/
+
+# The two application build outputs, for the same reason: they are produced by
+# `pnpm run build` and are not inputs to anything. apps/os/dist carries a 2.3 MB
+# sourcemap and a content-hashed bundle whose name changes on every build, so
+# committing it puts a large binary-ish churn in the history of every commit
+# that touches app code, for no benefit. A clean clone rebuilds it in ~8s and
+# `os:verify` rebuilds it anyway, so nothing that checks the build depends on
+# it being in the tree.
+#
+# Listed per-package, alongside the dist-playground rule above, rather than as a
+# blanket `dist/`. The reason the tokens output is committed is the reason a
+# blanket rule is wrong: it is a published contract that CI compares against a
+# fresh generator run, and ignoring it would stop that gate from ever running.
+# One rule that is true for 3 of the 4 dist directories is worse than four that
+# are each true.
+funnel-os/apps/os/dist/
+funnel-os/apps/api/dist/

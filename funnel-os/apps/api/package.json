@@ -1,0 +1,23 @@
+{
+  "name": "@funnelos/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "The Funnel OS API. One process, one port, service boundaries preserved as modules rather than containers — see src/services/README.md for why and what changes when this is split.",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "tsx src/server.ts",
+    "test": "tsx --test src/server.test.ts",
+    "typecheck": "tsc -p tsconfig.json",
+    "verify": "pnpm run typecheck && pnpm run test"
+  },
+  "dependencies": {
+    "@funnelos/contracts": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.4",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

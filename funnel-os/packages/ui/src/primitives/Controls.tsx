@@ -12,9 +12,20 @@ import { color, component, font, minTargetStyle, motion, space, size } from '../
 
 export interface CheckboxProps
   extends Omit<React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>, 'children'> {
-  /** The visible label. A checkbox with no label is not operable by name. */
-  label: React.ReactNode;
-  /** Rendered instead of the box. The control still needs `label`. */
+  /**
+   * The visible label. Optional, because a checkbox inside a table cell or a
+   * toolbar legitimately has no room for one and names itself with
+   * `aria-label` instead.
+   *
+   * It is the *pair* that is required, not this prop, and TypeScript cannot
+   * express "one of these two or neither is an error" without a discriminated
+   * union that would break the `extends` above. So the rule is written down
+   * instead: pass `label` or `aria-label`. A checkbox with neither is an
+   * unlabelled checkbox, which fails WCAG 4.1.2 and reads as "checkbox" to
+   * everyone using a screen reader.
+   */
+  label?: React.ReactNode;
+  /** Rendered instead of the box. The control still needs a name. */
   children?: React.ReactNode;
   description?: React.ReactNode;
 }
@@ -79,19 +90,29 @@ export const Checkbox = React.forwardRef<
           </CheckboxPrimitive.Indicator>
         </CheckboxPrimitive.Root>
 
-        <label
-          htmlFor={id}
-          style={{
-            font: `${font.weight.regular} ${font.size.sm}/${font.lineHeight.snug} ${font.family.sans}`,
-            color: disabled ? color.content.tertiary : color.content.primary,
-            cursor: disabled ? 'not-allowed' : 'pointer',
-            minHeight: size.targetMin,
-            display: 'inline-flex',
-            alignItems: 'center',
-          }}
-        >
-          {label}
-        </label>
+        {/*
+          Rendered only when there is something to put in it. An empty <label>
+          is not a harmless no-op: it is a label pointing at the control with no
+          text, and some screen readers announce the label's emptiness by
+          skipping the name entirely and falling back to the role — which is
+          the same outcome as no label, but now with a click target that
+          toggles the box attached to nothing.
+        */}
+        {label !== undefined && label !== null ? (
+          <label
+            htmlFor={id}
+            style={{
+              font: `${font.weight.regular} ${font.size.sm}/${font.lineHeight.snug} ${font.family.sans}`,
+              color: disabled ? color.content.tertiary : color.content.primary,
+              cursor: disabled ? 'not-allowed' : 'pointer',
+              minHeight: size.targetMin,
+              display: 'inline-flex',
+              alignItems: 'center',
+            }}
+          >
+            {label}
+          </label>
+        ) : null}
       </div>
 
       {description ? (
@@ -341,8 +362,17 @@ export const RadioGroup = React.forwardRef<
  * -------------------------------------------------------------------------- */
 
 export interface ProgressProps {
-  /** 0-100. Clamped, because a raw percentage from an API can exceed it. */
+  /** In the same units as `max`. Clamped to `[0, max]`. */
   value: number;
+  /**
+   * The upper bound of the scale. Defaults to 100.
+   *
+   * Not a percentage-only component. `value={3} max={5}` is a real use — it is
+   * how the onboarding stepper and the goal bars report "3 of 5" without each
+   * caller multiplying by 100 first. Three callers that each did that division
+   * is three chances to disagree about what 60% of 5 is.
+   */
+  max?: number;
   label: string;
   showValue?: boolean;
   tone?: 'brand' | 'success' | 'warning' | 'danger';
@@ -362,11 +392,18 @@ export interface ProgressProps {
  */
 export function Progress({
   value,
+  max = 100,
   label,
   showValue = false,
   tone = 'brand',
 }: ProgressProps): React.ReactElement {
-  const clamped = Math.max(0, Math.min(100, value));
+  // A max of 0 or below would make the percentage a division by zero, and
+  // `Math.min`/`max` against a negative bound produces a range that reads
+  // backwards. Treating a nonsensical max as "nothing to show" is better than
+  // rendering a full bar and a NaN in the accessible name.
+  const bounded = Number.isFinite(max) && max > 0 ? max : 1;
+  const clamped = Math.max(0, Math.min(bounded, value));
+  const pct = (clamped / bounded) * 100;
   const fill = {
     brand: color.brand.solid,
     success: color.status.success.fg,
@@ -385,7 +422,7 @@ export function Progress({
         }}
       >
         <span>{label}</span>
-        {showValue ? <span aria-hidden="true">{Math.round(clamped)}%</span> : null}
+        {showValue ? <span aria-hidden="true">{Math.round(pct)}%</span> : null}
       </div>
 
       <ProgressPrimitive.Root
@@ -402,11 +439,17 @@ export function Progress({
       >
         <ProgressPrimitive.Indicator
           style={{
+            // Full-width track, slid out of view by the complement of the
+            // percentage. Sizing the indicator to `pct`% instead would animate
+            // `width`, which is a layout property on every frame; sliding a
+            // fixed-width bar is compositor-only. That is why this is a
+            // transform and not a width, and why the bar has to be full width
+            // even when the value is small.
             width: '100%',
             height: '100%',
             background: fill,
             transition: `translate ${motion.duration.normal} ${motion.easing.standard}`,
-            translate: `${-100 + clamped}% 0`,
+            translate: `${100 - pct}% 0`,
           }}
         />
       </ProgressPrimitive.Root>
@@ -430,7 +473,11 @@ export function Progress({
           borderWidth: 0,
         }}
       >
-        {label}: {Math.round(clamped)}%
+        {/* The proportion, and — when the scale is not 100 — the raw counts.
+            "60%" alone on a 3-of-5 bar is the number a sighted reader gets
+            from the geometry, but a screen reader has no geometry, so both
+            facts are stated. */}
+        {label}: {Math.round(pct)}%{bounded === 100 ? '' : ` (${clamped} of ${bounded})`}
       </span>
     </div>
   );

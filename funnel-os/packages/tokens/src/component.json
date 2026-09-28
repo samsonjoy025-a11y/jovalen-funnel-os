@@ -31,5 +31,12 @@
     "width":  { "$value": "{border.width.thick}" },
     "offset": { "$value": "2px" },
     "radius": { "$value": "{radius.md}" }
+  },
+  "layout": {
+    "$description": "Shell dimensions. Added when the OS app needed a nav-rail width, a content max-width and a measure, and found itself reaching for a literal. A width that three screens share is a token, not a per-file constant. Dimensions, not colours, so the contrast gate does not apply.",
+    "nav-rail-width": { "$type": "dimension", "$value": "15rem" },
+    "content-max":    { "$type": "dimension", "$value": "84rem" },
+    "measure":        { "$type": "dimension", "$value": "62ch" },
+    "drawer-width":   { "$type": "dimension", "$value": "30rem" }
   }
 }

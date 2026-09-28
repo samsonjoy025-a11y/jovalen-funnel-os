@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Funnel OS — Northwind Outdoor Co.</title>
+    <meta name="description" content="The Marketing OS. Sample data, clearly marked." />
+
+    <!--
+      Without this, every page load asks for /favicon.ico, gets a 404, and
+      writes a red line to a console that is there for reporting real faults.
+      A missing tab mark is the visible part; the console noise is the part
+      that trains people to ignore the console.
+    -->
+    <link rel="icon" type="image/svg+xml" href="/brand.svg" />
+
+    <!--
+      The theme is set before React mounts. If this ran in an effect, the first
+      paint would be the default theme and the correct one would arrive a frame
+      later, which is a white flash on a dark-mode load. Two lines of inline
+      script is the whole cost of not having one.
+    -->
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('funnel-os:theme');
+          // "system" is a real choice, not a lack of one. Falling back to it
+          // when nothing is stored means a first-time visitor in dark mode gets
+          // dark, and someone who later picks "system" gets the same behaviour.
+          document.documentElement.setAttribute('data-theme', saved === 'light' || saved === 'dark' ? saved : 'light');
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      This application requires JavaScript. The underlying data is available at
+      <code>/api/v1</code> without it.
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

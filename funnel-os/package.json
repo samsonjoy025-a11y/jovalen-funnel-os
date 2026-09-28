@@ -15,7 +15,13 @@
     "tokens:verify": "pnpm --filter @funnelos/tokens verify",
     "ui:verify": "pnpm --filter @funnelos/ui verify",
     "ui:prove": "pnpm --filter @funnelos/ui prove",
-    "verify": "pnpm run tokens:verify && pnpm run ui:verify"
+    "contracts:verify": "pnpm --filter @funnelos/contracts verify",
+    "api:verify": "pnpm --filter @funnelos/api verify",
+    "api-client:verify": "pnpm --filter @funnelos/api-client verify",
+    "os:verify": "pnpm --filter @funnelos/os verify",
+    "dev:api": "pnpm --filter @funnelos/api dev",
+    "dev:os": "pnpm --filter @funnelos/os dev",
+    "verify": "pnpm run tokens:verify && pnpm run ui:verify && pnpm run contracts:verify && pnpm run api-client:verify && pnpm run api:verify && pnpm run os:verify"
   },
   "devDependencies": {
     "typescript": "^5.7.2"

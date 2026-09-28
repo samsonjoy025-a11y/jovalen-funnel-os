@@ -102,6 +102,116 @@
   }
 }
 
+/* Drawer entrances.
+ *
+ * These are transform-only. A drawer that animated `right` or `width` would
+ * force a layout on every frame, and on a low-powered machine that is the
+ * difference between a panel that appears and a panel that stutters.
+ *
+ * The `-webkit-` prefixed transforms are deliberate: Safari still ships them as
+ * the only reliable form for compositor-driven slide, and a drawer that fades
+ * in from nothing on Safari is a visible bug on the platform a designer is
+ * most likely to be checking. */
+@keyframes funnelos-slide-from-inline-end {
+  from {
+    opacity: 0;
+    translate: 100% 0;
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+}
+
+@keyframes funnelos-slide-from-inline-start {
+  from {
+    opacity: 0;
+    translate: -100% 0;
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+}
+
+@keyframes funnelos-slide-from-block-end {
+  from {
+    opacity: 0;
+    translate: 0 100%;
+    -webkit-transform: translateY(100%);
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+/* Drawer panel and close button.
+ *
+ * The entrance animation lives here and not in an inline `style` prop, even
+ * though the rest of the panel's geometry does. A stylesheet cannot override an
+ * inline declaration, so an inline `animationName` would make
+ * `prefers-reduced-motion` un-honourable: the reduced-motion rule below would
+ * be parsed, correct, and have no effect. Writing the keyframe reference in CSS
+ * is what gives the user's motion preference the last word. */
+.ui-drawer {
+  animation-duration: var(--ds-motion-duration-fast);
+  animation-timing-function: var(--ds-motion-easing-entrance);
+}
+
+.ui-drawer-scrim {
+  animation: funnelos-fade-in var(--ds-motion-duration-fast) var(--ds-motion-easing-entrance);
+}
+
+.ui-drawer--end {
+  animation-name: funnelos-slide-from-inline-end;
+}
+
+.ui-drawer--start {
+  animation-name: funnelos-slide-from-inline-start;
+}
+
+.ui-drawer--bottom {
+  animation-name: funnelos-slide-from-block-end;
+}
+
+/* The close button's interaction states. An inline `style` prop cannot express
+ * `:hover` or `:focus-visible` — React drops pseudo-class selectors from the
+ * style object and warns about it, so these rules have to live in a
+ * stylesheet. This is the reason the package is split into "semantics in the
+ * component" and "interaction states in the CSS"; it is not a style
+ * preference. */
+.ui-drawer-close:hover {
+  background: var(--ds-surface-subtle);
+  color: var(--ds-content-primary);
+}
+
+.ui-drawer-close:focus-visible {
+  outline: 2px solid var(--ds-color-primary-600);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* A zeroed duration token does not stop an animation, it only makes it
+   * instant, and "instant" still means a frame is drawn and the panel still
+   * jumps. Cancelled is the correct treatment for a full-height slide. */
+  .ui-drawer,
+  .ui-drawer-scrim {
+    animation: none;
+  }
+}
+
 /* -------------------------------------------------------------------------- *
  * ui-sr — screen-reader-only text.
  *

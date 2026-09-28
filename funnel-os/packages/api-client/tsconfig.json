@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    // Browser code: no Node globals and no test-runner globals. Both entries
+    // are inherited from the base and neither is installed in this package.
+    "types": [],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"]
+  },
+  "include": ["src"]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "@funnelos/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared domain types, the event envelope, and the AI-context schema. One copy, imported by both the API and the OS app, so the two cannot drift.",
+  "license": "UNLICENSED",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json", "verify": "pnpm run typecheck"
+  },
+  "dependencies": {
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}

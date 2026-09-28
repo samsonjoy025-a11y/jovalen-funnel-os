@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    // "." not "src", because `vite.config.ts` is in the program for editor
+    // support and `rootDir` has to contain every file tsc is asked to check.
+    // Nothing is emitted, so a wide rootDir costs nothing.
+    "rootDir": ".",
+    // No `node`: this app is browser code. Vite config is included in the
+    // program for editor support, and the `vite/client` types cover
+    // `import.meta.env`, which is the only ambient thing actually used.
+    "types": ["vite/client"],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"]
+  },
+  "include": ["src", "vite.config.ts"]
+}

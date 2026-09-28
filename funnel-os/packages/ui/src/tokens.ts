@@ -277,6 +277,16 @@ export const layout = {
     modal: 'var(--ds-z-modal)',
     toast: 'var(--ds-z-toast)',
   },
+  /**
+   * Shell dimensions. These arrived with the OS app, which needed a nav-rail
+   * width, a content max-width, a measure and a drawer width, and was about to
+   * write four literals. They live here because three screens wanted the same
+   * three values, and a value shared by three screens is a token.
+   */
+  navRailWidth: 'var(--ds-layout-nav-rail-width)',
+  contentMax: 'var(--ds-layout-content-max)',
+  measure: 'var(--ds-layout-measure)',
+  drawerWidth: 'var(--ds-layout-drawer-width)',
 } as const;
 
 /* -- composed styles ----------------------------------------------------- *

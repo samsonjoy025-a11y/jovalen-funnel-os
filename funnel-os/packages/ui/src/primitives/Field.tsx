@@ -29,7 +29,16 @@ import { color, component, font, interactive, layout, space, size } from '../tok
  * why an assertive live region here double-announces on every keystroke.
  */
 export interface FieldProps {
-  /** The control. Receives id, aria-describedby, aria-invalid and ref. */
+  /**
+   * The one control this field labels. Receives `id`, `aria-describedby`,
+   * `aria-invalid` and `aria-required` and MUST spread them onto the control.
+   *
+   * A render prop rather than a slot because these are the only things that
+   * make the label, help and error text reachable: a `<label htmlFor>` alone
+   * gives the control a name, but the help and the error have to arrive via
+   * `aria-describedby` or they are visible to nobody using a screen reader. A
+   * slot would let a caller render the control without them, silently.
+   */
   children: (props: {
     id: string;
     'aria-describedby': string | undefined;

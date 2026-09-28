@@ -255,6 +255,10 @@
   --ds-focus-width: var(--ds-border-width-thick);
   --ds-focus-offset: 2px;
   --ds-focus-radius: var(--ds-radius-md);
+  --ds-layout-nav-rail-width: 15rem;
+  --ds-layout-content-max: 84rem;
+  --ds-layout-measure: 62ch;
+  --ds-layout-drawer-width: 30rem;
 
   /* ---- chart · theme-agnostic, refs resolve per active theme ------- */
   --ds-series-1: var(--ds-color-primary-600);

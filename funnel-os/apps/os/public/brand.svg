@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Funnel OS">
+  <!--
+    The favicon, drawn rather than typeset.
+
+    Two reasons this is hand-plotted paths and not a <text> element:
+
+      1. A <text> glyph is whatever font the browser happens to have. The tab
+         mark is the one piece of the brand a user sees before the app has
+         loaded, on a machine that has never run the webfont stack, and a
+         fallback at 16px is a smear rather than a mark. The same reasoning
+         already applies to the wordmark, which is why the letterforms there
+         are outlines too.
+      2. An SVG favicon is rasterised at whatever size the platform asks for -
+         16, 32, 64, and pinned-to-taskbar sizes on Windows. Outlines scale to
+         each; a font at an unexpected size does not.
+
+    Geometry, so the mark matches .os-brand__mark rather than merely resembling
+    it. The tile is --ds-space-8 (24px) with --ds-radius-md (6px) corners, so
+    on a 32-unit viewBox the radius is 6 / 24 * 32 = 8. The letters are 13px
+    bold scaled by 32 / 24, giving a cap height of about 12.5 units sitting on
+    a baseline at 22.3, which is what a centred line of 13px type looks like in
+    a 24px box.
+
+    The colours are the two the mark already uses - --ds-color-primary-600 and
+    --ds-content-on-solid - and the 5.17:1 between them is above the 4.5:1 AA
+    threshold for normal text, checked with the same formula the token
+    pipeline uses for its 66 declared pairs rather than estimated by eye.
+  -->
+  <rect width="32" height="32" rx="8" fill="#b026d3" />
+
+  <!-- F: one closed outline. The stem, the top arm, the mid arm. -->
+  <path d="M4 9.8 H14.5 V12.3 H6.3 V14.8 H11.8 V17.3 H6.3 V22.3 H4 Z" fill="#ffffff" />
+
+  <!--
+    O: a white disc with a tile-coloured disc inside it.
+
+    Two circles rather than one path with fill-rule="evenodd". The evenodd
+    version is the more "correct" way to express a ring, and it is also one
+    more thing that can render as a solid blob if the two subpaths wind the
+    same way and a browser's tolerance differs. Drawing the hole in the tile
+    colour gets the same result, and cannot fail that way. It is only correct
+    because the tile behind it is flat, which it is.
+  -->
+  <circle cx="21.25" cy="16.05" r="6.25" fill="#ffffff" />
+  <circle cx="21.25" cy="16.05" r="4" fill="#b026d3" />
+</svg>

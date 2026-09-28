@@ -1,0 +1,25 @@
+{
+  "name": "@funnelos/api-client",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Typed HTTP client for the Funnel OS API, plus the small query hooks the OS app uses. One place that knows how to talk to the server, so no screen invents its own fetch shape.",
+  "license": "UNLICENSED",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json", "verify": "pnpm run typecheck"
+  },
+  "dependencies": {
+    "@funnelos/contracts": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.2",
+    "react": "^19.3.0",
+    "typescript": "^5.7.2"
+  }
+}

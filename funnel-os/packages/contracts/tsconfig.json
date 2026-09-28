@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    // `[]` rather than inherited. The base sets `vitest/globals`, and this
+    // package has no test runner and no Node globals; leaving the entry in
+    // makes `tsc` fail on a type library that is not installed here.
+    "types": []
+  },
+  "include": ["src"]
+}
