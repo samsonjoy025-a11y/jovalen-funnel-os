@@ -49,6 +49,29 @@ obviously absent. The primitives are the right thing to build first anyway:
 they encode no PRD requirements, they are the layer everything else sits on,
 and they are fully verifiable today.
 
+## Seeing it
+
+There is no application yet — no router, no server, no data. What exists is
+the design system, and a component gallery so it can be looked at and operated
+in a real browser:
+
+```
+pnpm --filter @funnelos/ui dev     # http://127.0.0.1:5173
+```
+
+The page renders all 26 primitives with **both themes side by side**. That is
+deliberate: judging a dark theme means seeing it next to the light one, and
+with a toggle you end up comparing against memory.
+
+What jsdom cannot tell you and this page can — whether a focus ring is visible
+against its own background, whether a hover state fires at all, whether the
+dark theme is legible, whether anything reflows when text is long.
+
+`pnpm --filter @funnelos/ui build:playground` is part of `verify`. It is a real
+gate, not a convenience: `vite build` resolves every import in `main.tsx`, so a
+primitive with a broken module graph fails the build instead of rendering a
+blank page.
+
 ## The three rules
 
 **1. No values, only references.** Every colour, radius, shadow and duration in
@@ -93,9 +116,13 @@ pnpm --filter @funnelos/ui verify    # typecheck + test + prove
 ## The gates are adversarial, not decorative
 
 A gate that has never been shown to fail is an assumption, not a gate.
-`prove-gates.mjs` mutates the source 11 different ways and asserts vitest
-rejects each one, then asserts all 14 source files were restored byte-for-byte
-and the suite is green again.
+`prove-gates.mjs` mutates the source 13 different ways and asserts vitest
+rejects each one, then asserts all 17 files across `src/` and `playground/`
+were restored byte-for-byte and the suite is green again.
+
+The `playground/` tree is in the backup set because trial L mutates it. A tree
+that is mutated but not backed up is mutated permanently, and a self-test that
+leaves a broken stylesheet behind is worse than no self-test.
 
 | | Mutation | Guarded property |
 |---|---|---|
@@ -110,6 +137,8 @@ and the suite is green again.
 | I | `Pagination` drops the page number from its accessible name | announced as bare "3" |
 | J | `Pagination` stops setting `aria-current` | position not exposed |
 | K | `Breadcrumbs` stops setting `aria-current` | current page not exposed |
+| L | a stylesheet references a token the build does not emit | A7, extended to CSS |
+| M | an explicit light theme can no longer beat an OS dark preference | the theme bug below |
 
 Each trial must fail for the **named** reason. A trial that trips an unrelated
 error proves nothing, and that has happened twice here:
@@ -143,6 +172,23 @@ Not a hypothetical list — each of these was a defect during the build:
   the render where `open` flips captures the dialog's own first control, because
   React runs child effects before parent effects.
 - **13 of the token names I "knew" did not exist.** See rule 1.
+- **The theme was expressed two ways.** `tokens.css` keys the theme to
+  `[data-theme='dark']`; `styles.css` keyed the button hover filter to
+  `@media (prefers-color-scheme: dark)`. Two independent answers to "is it
+  dark", which disagree whenever a user picks a theme that differs from their
+  OS — brightening a light button by 1.25, and darkening a dark one by 0.94,
+  which is invisible. Both are now keyed to the attribute, with the media query
+  kept only as the fallback for when no attribute is set.
+- **The A7 gate did not cover CSS.** It scanned `src/primitives/*.tsx` and
+  stopped. `styles.css` — which holds every hover and focus state in the system
+  — and the playground chrome were both outside it, and both are dense with
+  `var(--ds-*)`. The first draft of `playground.css` contained
+  `--ds-font-size-md`, which does not exist; the extended gate caught it on the
+  first run.
+- **A CSS-variable scan found a token name I'd already been told didn't exist.**
+  `--ds-font-size-md` is on the original list of 13 names the build never
+  emitted. I wrote it a second time, in new code, after writing a gate
+  specifically for that failure. A gate only protects you if it runs.
 - **`Pagination` announced ", go to page 3".** The comma was meant to join the
   visible digit, but the digit is `aria-hidden`, so the comma was announced as a
   leading comma in the button's name.
@@ -164,14 +210,28 @@ unlabelling the wrong radio.
 ## Load order
 
 ```ts
-import '@funnelos/tokens/styles.css';   // defines the --ds-* variables
+import '@funnelos/tokens/tokens.css';   // defines the --ds-* variables
 import '@funnelos/ui/styles.css';       // interaction states
 ```
 
+The tokens subpath is `tokens.css`, not `styles.css` — the other package in
+this workspace exports `styles.css`, so the natural guess is wrong.
+
 ## Still to do for §1.2
 
-- [ ] The 13 remaining primitives.
-- [ ] Storybook (`§1.7`) — there is no visual surface yet.
+- [ ] The 13 remaining primitives. The gallery is a stopgap for visual review,
+      not a replacement for Storybook.
+- [ ] Storybook (`§1.7`). The playground covers "can I see it"; Storybook
+      covers "what are all its states, side by side, including error and
+      loading" — which the gallery does not.
+- [ ] axe-core in CI. Every property asserted here was hand-written; axe finds
+      the ones nobody thought of. The gallery is also the natural place to run
+      it, since it renders every primitive in one page.
+- [ ] A keyboard walkthrough of each primitive. The tests assert individual
+      properties; they do not assert that Tab order is *sensible* across a page.
+- [ ] `forced-colors` / Windows High Contrast is stubbed in `styles.css` and
+      has never been run in a real High Contrast session. This is the one thing
+      the gallery cannot substitute for.
 - [ ] `axe-core` in CI. Every property asserted here was hand-written; axe finds
       the ones nobody thought of.
 - [ ] A keyboard walkthrough of each primitive. The tests assert individual

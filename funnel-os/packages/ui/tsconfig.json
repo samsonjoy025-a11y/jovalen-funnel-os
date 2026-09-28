@@ -2,8 +2,14 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src",
+    // "." not "src". The playground imports `@funnelos/ui/styles.css`, which is
+    // a self-reference resolved through this package's own `exports` map, and
+    // TypeScript refuses to resolve an export map entry without a rootDir to
+    // anchor it. The real consumer import order is worth keeping here rather
+    // than working around with a relative path, because a relative path would
+    // not catch the case where the subpath in the docs is wrong.
+    "rootDir": ".",
     "types": ["vitest/globals", "node"]
   },
-  "include": ["src"]
+  "include": ["src", "playground", "vite.config.ts", "vitest.config.ts"]
 }

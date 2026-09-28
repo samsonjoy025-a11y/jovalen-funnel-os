@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { allowedCustomProperties } from '../tokens.js';
 
@@ -88,3 +88,112 @@ describe('no hard-coded colour literals in the component source', () => {
     expect(named, `named colours: ${named.join(', ')}`).toEqual([]);
   });
 });
+
+/* -------------------------------------------------------------------------- *
+ * The same gate, for CSS.
+ *
+ * styles.css and the playground chrome were both outside the component scan
+ * above, and both are dense with var(--ds-*) references — styles.css holds
+ * every hover and focus state in the system, and the playground is the most
+ * looked-at surface in the package. A typo in either is exactly the silent
+ * failure this file exists to catch: the browser resolves the property to the
+ * empty string and the declaration simply does not apply.
+ * -------------------------------------------------------------------------- */
+
+const PACKAGE_ROOT = join(HERE, '..', '..');
+
+const walk = (dir: string): string[] =>
+  readdirSync(dir, { withFileTypes: true, recursive: true })
+    .filter((d) => d.isFile() && d.name.endsWith('.css'))
+    .map((d) => join(d.parentPath, d.name));
+
+describe('stylesheet token references', () => {
+  const cssFiles = [...walk(join(PACKAGE_ROOT, 'src')), ...walk(join(PACKAGE_ROOT, 'playground'))];
+
+  it('finds the stylesheets at all — a wrong directory would make this vacuous', () => {
+    expect(cssFiles.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it('every --ds-* property referenced in CSS is declared by the build', () => {
+    const undeclared: string[] = [];
+    for (const file of cssFiles) {
+      const css = readFileSync(file, 'utf8');
+      for (const m of css.matchAll(/var\(\s*(--ds-[a-z0-9-]+)/g)) {
+        if (!declared.has(m[1]!)) {
+          undeclared.push(`${relative(PACKAGE_ROOT, file)}: ${m[1]}`);
+        }
+      }
+    }
+    expect(
+      undeclared,
+      `these resolve to nothing at runtime and fail silently:\n  ${undeclared.join('\n  ')}`,
+    ).toEqual([]);
+  });
+
+  it('the stylesheets reference a meaningful number of properties', () => {
+    // Without this, a CSS file that stopped referencing tokens at all would
+    // pass the gate above by having nothing to check.
+    const refs = new Set<string>();
+    for (const file of cssFiles) {
+      for (const m of readFileSync(file, 'utf8').matchAll(/var\(\s*(--ds-[a-z0-9-]+)/g)) {
+        refs.add(m[1]!);
+      }
+    }
+    expect(refs.size).toBeGreaterThan(30);
+  });
+
+  it('no hard-coded colours in CSS either', () => {
+    const css = cssFiles.map((f) => readFileSync(f, 'utf8')).join('\n');
+    const hexes = [...css.matchAll(/#[0-9a-fA-F]{3,8}\b/g)].map((m) => m[0]);
+    expect(hexes, `hard-coded colours: ${hexes.join(', ')}`).toEqual([]);
+
+    const fns = [...css.matchAll(/\b(?:rgb|rgba|hsl|hsla)\(/g)].map((m) => m[0]);
+    expect(fns, `hard-coded colour functions: ${fns.join(', ')}`).toEqual([]);
+  });
+});
+
+/* -------------------------------------------------------------------------- *
+ * Theme mechanisms must not drift apart.
+ *
+ * tokens.css expresses the theme as `[data-theme='dark']`. styles.css had a
+ * block keyed to `@media (prefers-color-scheme: dark)` instead, so an app that
+ * let a user pick a theme had two independent answers to "is it dark": the one
+ * the user chose and the one the OS reported. Crossed, the button hover filter
+ * pointed the wrong way — brightened in a light theme, and darkened into
+ * invisibility in a dark one.
+ *
+ * A media query can be asserted on without a browser, and this one can be
+ * checked structurally, which is cheaper than a screenshot and does not rot.
+ * -------------------------------------------------------------------------- */
+
+describe('the theme is expressed one way only', () => {
+  const uiStyles = readFileSync(join(PACKAGE_ROOT, 'src', 'styles.css'), 'utf8');
+
+  it('styles.css keys its dark overrides to [data-theme], not to the media query alone', () => {
+    expect(uiStyles).toMatch(/\[data-theme='dark'\]/);
+  });
+
+  it('an explicit light theme is able to beat an OS dark preference', () => {
+    // The rule that actually fixes the bug. Without it, a user whose OS is in
+    // dark mode but who has chosen the light theme still gets the dark hover
+    // filter, because the media query has nothing to override it.
+    expect(uiStyles).toMatch(/\[data-theme='light'\]\s+\.ui-button:hover/);
+  });
+
+  it('the OS-preference fallback does not use :root, so a subtree theme survives it', () => {
+    // The playground renders both themes side by side on one page, so a theme
+    // is scoped to a subtree. A `:root` qualifier inside the media query would
+    // let the OS preference win over a panel that explicitly asked for the
+    // other theme, which is the same class of bug as the original one.
+    //
+    // styles.css does use :root elsewhere (for the reduced-motion override), so
+    // this checks the media block specifically rather than the whole file.
+    const blocks = [...uiStyles.matchAll(/@media\s*\(prefers-color-scheme:\s*dark\)\s*\{[\s\S]*?\n\}/g)];
+    expect(blocks.length).toBeGreaterThan(0);
+    for (const block of blocks) {
+      expect(block[0], `a :root selector inside a prefers-color-scheme block: ${block[0]}`)
+        .not.toContain(':root');
+    }
+  });
+});
+

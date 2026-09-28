@@ -177,9 +177,43 @@
   filter: brightness(0.94);
 }
 
-/* `brightness` is a filter, so it does not darken a dark-mode button usefully.
- * The surface token is the honest mechanism; filter is the fallback for fills
- * that have no surface token of their own. */
+/* `brightness` is a filter, so darkening a dark-mode button with it barely
+ * moves the surface: 0.94 over a near-black fill is imperceptible, while
+ * lightening the same fill is very visible. The direction therefore has to
+ * flip with the theme.
+ *
+ * The theme is expressed in tokens.css as `[data-theme='dark']`, and this
+ * block was originally keyed to `@media (prefers-color-scheme: dark)`. Those
+ * are two independent mechanisms, and an application that lets a user pick a
+ * theme crosses them constantly:
+ *
+ *   - OS in light, user picks dark  -> attribute dark, media light. The
+ *     button gets the LIGHT hover filter: a dark fill is darkened, which is
+ *     invisible, so the hover state does nothing.
+ *   - OS in dark, user picks light  -> attribute light, media dark. A light
+ *     button is lightened by 1.25, which is a jarring, wrong-looking flash.
+ *
+ * So: attribute first, media query as the fallback for when no attribute is
+ * set anywhere, and an explicit light override last so a deliberate choice
+ * beats the OS preference in both directions.
+ *
+ * Source order and specificity, since this is load-bearing:
+ *   - the media rules are the SAME specificity as the base rules and come
+ *     later, so they win over the base;
+ *   - `[data-theme=…]` selectors are one class more specific than either, so
+ *     an explicit theme beats the media query regardless of order;
+ *   - `:root` is deliberately NOT used. On a page that scopes themes to a
+ *     subtree — the playground renders both themes side by side — a `:root`
+ *     qualifier would let the OS preference leak into a panel that explicitly
+ *     asked for the other theme. */
+[data-theme='dark'] .ui-button:hover:not([aria-disabled='true']):not(:disabled) {
+  filter: brightness(1.25);
+}
+
+[data-theme='dark'] .ui-button:active:not([aria-disabled='true']):not(:disabled) {
+  filter: brightness(1.1);
+}
+
 @media (prefers-color-scheme: dark) {
   .ui-button:hover:not([aria-disabled='true']):not(:disabled) {
     filter: brightness(1.25);
@@ -187,6 +221,14 @@
   .ui-button:active:not([aria-disabled='true']):not(:disabled) {
     filter: brightness(1.1);
   }
+}
+
+[data-theme='light'] .ui-button:hover:not([aria-disabled='true']):not(:disabled) {
+  filter: brightness(1.08);
+}
+
+[data-theme='light'] .ui-button:active:not([aria-disabled='true']):not(:disabled) {
+  filter: brightness(0.94);
 }
 
 .ui-button[aria-disabled='true'],

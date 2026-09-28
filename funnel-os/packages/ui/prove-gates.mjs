@@ -28,8 +28,21 @@ import { fileURLToPath } from 'node:url';
 import { tmpdir } from 'node:os';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const SRC = join(HERE, 'src');
-const BAK = join(tmpdir(), 'funnelos-ui-gate-proof', 'src');
+// Every tree the trials are allowed to touch, and every tree that therefore has
+// to be backed up and restored. The playground joined this list when trial L
+// started mutating playground.css: reset() copies from the backup, so a tree
+// that is mutated but not backed up is mutated permanently. A self-test that
+// leaves a broken stylesheet behind is worse than no self-test.
+const TREES = ['src', 'playground'];
+const BAK_ROOT = join(tmpdir(), 'funnelos-ui-gate-proof');
+
+/**
+ * Resolve a trial's file argument against src/, so the trials can say
+ * `primitives/Button.tsx` rather than `src/primitives/Button.tsx`. A path may
+ * escape with `..` — trial L needs `../playground/playground.css`, and
+ * playgound/ is one of the backed-up TREES precisely because it is mutated.
+ */
+const resolve = (file) => join(HERE, 'src', file);
 
 // vitest colours its output. Without stripping ANSI the SGR sequences sit
 // between "Tests" and the count, so the summary regex silently matched nothing
@@ -50,12 +63,21 @@ const vitest = (args) => {
 };
 
 const reset = () => {
-  rmSync(SRC, { recursive: true, force: true });
-  cpSync(BAK, SRC, { recursive: true, force: true });
+  for (const tree of TREES) {
+    rmSync(join(HERE, tree), { recursive: true, force: true });
+    cpSync(join(BAK_ROOT, tree), join(HERE, tree), { recursive: true, force: true });
+  }
+};
+
+const backup = () => {
+  rmSync(BAK_ROOT, { recursive: true, force: true });
+  for (const tree of TREES) {
+    cpSync(join(HERE, tree), join(BAK_ROOT, tree), { recursive: true });
+  }
 };
 
 const edit = (file, from, to) => {
-  const p = join(SRC, file);
+  const p = resolve(file);
   const before = readFileSync(p, 'utf8');
   const occurrences = before.split(from).length - 1;
   if (occurrences === 0) {
@@ -177,14 +199,30 @@ const TRIALS = [
       ),
     'marks the last crumb as the current page',
   ],
+  [
+    'L. a stylesheet references a token the build does not emit',
+    // The component scan only covered src/primitives/*.tsx, so a typo in
+    // styles.css or the playground chrome was invisible. This trial is the
+    // evidence that the CSS gate is real: the first version of the playground
+    // did contain --ds-font-size-md, which does not exist.
+    () => edit('../playground/playground.css', 'var(--ds-space-12)', 'var(--ds-space-12x)'),
+    'resolve to nothing at runtime',
+  ],
+  [
+    'M. an explicit light theme can no longer beat an OS dark preference',
+    // The original defect: styles.css keyed its dark hover filter to
+    // prefers-color-scheme while the theme system is [data-theme], so the two
+    // disagreed whenever a user chose a theme that differed from their OS.
+    () => edit('styles.css', "[data-theme='light'] .ui-button:hover", '.ui-button:hover'),
+    'explicit light theme is able to beat an OS dark preference',
+  ],
 ];
 
 /* -- run ------------------------------------------------------------------ */
 
 console.log('== backing up verified-good source ==');
-rmSync(join(tmpdir(), 'funnelos-ui-gate-proof'), { recursive: true, force: true });
-cpSync(SRC, BAK, { recursive: true });
-console.log(`   backup: ${BAK}`);
+backup();
+console.log(`   backup: ${BAK_ROOT}  (${TREES.join(', ')})`);
 
 console.log('\n== verifying the backup itself passes (a bad backup fails all trials) ==');
 const baseline = vitest([]);
@@ -227,19 +265,33 @@ reset();
 
 console.log('\n== post-conditions ==');
 
-// 1. The source must be byte-identical to the backup. A self-test that leaves
-//    a mutated component behind is worse than no self-test.
+// 1. Every mutated tree must be byte-identical to the backup. A self-test that
+//    leaves a mutated component or stylesheet behind is worse than no
+//    self-test, so this is checked across all TREES, not just src.
 {
   const walk = (dir) =>
-    readdirSync(dir, { withFileTypes: true }).flatMap((d) =>
-      d.isDirectory() ? walk(join(dir, d.name)) : [join(dir, d.name)],
+    readdirSync(dir, { withFileTypes: true, recursive: true })
+      .filter((d) => d.isFile())
+      .map((d) => join(d.parentPath, d.name));
+
+  let total = 0;
+  const differing = [];
+  for (const tree of TREES) {
+    const a = walk(join(HERE, tree))
+      .map((f) => [relative(join(HERE, tree), f), readFileSync(f, 'utf8')])
+      .sort();
+    const b = walk(join(BAK_ROOT, tree))
+      .map((f) => [relative(join(BAK_ROOT, tree), f), readFileSync(f, 'utf8')])
+      .sort();
+    total += a.length;
+    if (JSON.stringify(a) !== JSON.stringify(b)) differing.push(tree);
+  }
+  if (differing.length > 0) {
+    failures.push(
+      `source was not fully restored after the trials — differs from the backup in: ${differing.join(', ')}`,
     );
-  const a = walk(SRC).map((f) => [relative(SRC, f), readFileSync(f, 'utf8')]).sort();
-  const b = walk(BAK).map((f) => [relative(BAK, f), readFileSync(f, 'utf8')]).sort();
-  if (JSON.stringify(a) !== JSON.stringify(b)) {
-    failures.push('source was not fully restored after the trials — one or more files differ from the backup');
   } else {
-    console.log(`   ok  all ${a.length} source files restored byte-for-byte`);
+    console.log(`   ok  all ${total} files across ${TREES.length} trees restored byte-for-byte`);
   }
 }
 

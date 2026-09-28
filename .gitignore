@@ -37,3 +37,10 @@ yarn-error.log*
 tmp/
 *.tmp
 *.bak
+
+# build output. Deliberately listed per-package rather than as a blanket
+# dist/ rule, because packages/tokens/dist IS committed: it is the published
+# contract (ADR 0015) and CI checks it matches a fresh generator run, so it has
+# to be in the tree to be checkable. A blanket dist/ would have silently
+# stopped that gate from ever running on a clean clone.
+funnel-os/packages/ui/dist-playground/

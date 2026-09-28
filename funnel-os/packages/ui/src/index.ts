@@ -9,8 +9,14 @@
  *
  * Import order matters for the consumer app:
  *
- *   import '@funnelos/tokens/styles.css';   // the --ds-* variables
+ *   import '@funnelos/tokens/tokens.css';   // the --ds-* variables
  *   import '@funnelos/ui/styles.css';       // interaction states
+ *
+ * The tokens subpath is `tokens.css`, not `styles.css`. Every other package
+ * in this workspace exports its stylesheet as `./styles.css`, so the natural
+ * guess is wrong here, and a wrong subpath is a resolution error at build
+ * time rather than a silent visual one — which is the better of the two
+ * failure modes, but still worth writing down.
  */
 
 export * from './tokens.js';

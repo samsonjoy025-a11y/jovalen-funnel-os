@@ -1,0 +1,170 @@
+/**
+ * Playground chrome. Deliberately not a component in src/ — it is the frame
+ * around the frame.
+ *
+ * Every colour is a token. The gallery is the thing that will be looked at
+ * hardest, so a hard-coded value here would be the most misleading possible
+ * one: it would make an unthemed component look themed.
+ */
+
+body {
+  margin: 0;
+  background: var(--ds-surface-canvas);
+  color: var(--ds-content-primary);
+  font-family: var(--ds-font-family-sans);
+  font-size: var(--ds-font-size-base);
+  line-height: var(--ds-font-line-height-normal);
+}
+
+/* -- page frame ----------------------------------------------------------- */
+
+.pg {
+  max-width: 84rem;
+  margin: 0 auto;
+  padding: var(--ds-space-8) var(--ds-space-6) var(--ds-space-12);
+}
+
+.pg__masthead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ds-space-4);
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-block-end: var(--ds-space-5);
+  border-block-end: 1px solid var(--ds-border-subtle);
+}
+
+.pg__title {
+  margin: 0;
+  font-size: var(--ds-font-size-2xl);
+  font-weight: var(--ds-font-weight-bold);
+  line-height: var(--ds-font-line-height-tight);
+}
+
+.pg__lede {
+  max-width: 60ch;
+  margin: var(--ds-space-3) 0 0;
+  color: var(--ds-content-secondary);
+}
+
+.pg__lede strong {
+  color: var(--ds-content-primary);
+  font-weight: var(--ds-font-weight-semibold);
+}
+
+/* The honest label. This is a gallery, not the product, and someone will
+ * otherwise spend an hour looking for the login page. */
+.pg__disclaimer {
+  display: inline-block;
+  margin-block-start: var(--ds-space-4);
+  padding: var(--ds-space-2) var(--ds-space-3);
+  border: 1px solid var(--ds-color-warning-300);
+  border-radius: var(--ds-field-radius);
+  background: var(--ds-status-warning-bg);
+  color: var(--ds-status-warning-fg);
+  font-size: var(--ds-font-size-sm);
+  font-weight: var(--ds-font-weight-medium);
+}
+
+/* -- the two theme panels -------------------------------------------------- */
+
+.pg__panels {
+  display: grid;
+  gap: var(--ds-space-6);
+  margin-block-start: var(--ds-space-6);
+  /* Two columns on a wide screen so both themes are visible at the same time.
+     Judging a dark theme requires seeing it next to the light one; a toggle
+   * makes you remember what the other one looked like. */
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 68rem) {
+  .pg__panels {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.pg__panel {
+  padding: var(--ds-space-5);
+  border: 1px solid var(--ds-border-default);
+  border-radius: var(--ds-card-radius);
+  background: var(--ds-surface-raised);
+  /* The panel declares the theme, so the tokens inside it resolve against the
+     panel rather than against the page. This is why the page-level
+     prefers-color-scheme fallbacks in styles.css have to be overridable. */
+}
+
+.pg__panel--light {
+  background: var(--ds-surface-raised);
+  color: var(--ds-content-primary);
+}
+
+.pg__panel--dark {
+  background: var(--ds-surface-raised);
+  color: var(--ds-content-primary);
+}
+
+.pg__panel-label {
+  display: flex;
+  gap: var(--ds-space-2);
+  align-items: baseline;
+  margin: 0 0 var(--ds-space-4);
+  padding-block-end: var(--ds-space-2);
+  border-block-end: 1px solid var(--ds-border-subtle);
+  font-size: var(--ds-font-size-xs);
+  font-weight: var(--ds-font-weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ds-content-tertiary);
+}
+
+/* -- sections -------------------------------------------------------------- */
+
+.pg__section {
+  margin-block-end: var(--ds-space-6);
+}
+
+.pg__section > h2 {
+  margin: 0 0 var(--ds-space-3);
+  padding-block-end: var(--ds-space-2);
+  border-block-end: 1px solid var(--ds-border-subtle);
+  font-size: var(--ds-font-size-sm);
+  font-weight: var(--ds-font-weight-semibold);
+}
+
+.pg__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ds-space-3);
+  align-items: center;
+}
+
+.pg__row--start {
+  align-items: flex-start;
+}
+
+.pg__stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-4);
+  max-width: 26rem;
+}
+
+.pg__note {
+  margin: 0;
+  color: var(--ds-content-tertiary);
+  font-size: var(--ds-font-size-xs);
+}
+
+/* A dotted target so a 24px-minimum hit area is visible as a box, not just
+   inferred from padding. */
+.pg__hit {
+  outline: 1px dashed var(--ds-border-default);
+  outline-offset: 3px;
+}
+
+.pg__kbd-row {
+  display: flex;
+  gap: var(--ds-space-2);
+  align-items: center;
+}
