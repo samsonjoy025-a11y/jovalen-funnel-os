@@ -1,0 +1,28 @@
+{
+  "name": "funnel-os",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Funnel Marketing OS — monorepo root. Design system first: see docs/IMPLEMENTATION_PLAN_v2.md Phase 1.",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@10.18.0",
+  "scripts": {
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "tokens:verify": "pnpm --filter @funnelos/tokens verify",
+    "ui:verify": "pnpm --filter @funnelos/ui verify",
+    "ui:prove": "pnpm --filter @funnelos/ui prove",
+    "verify": "pnpm run tokens:verify && pnpm run ui:verify"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}

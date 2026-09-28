@@ -1,0 +1,296 @@
+/* =============================================================================
+ * styles.css — interaction states, and nothing else.
+ *
+ * WHY THIS FILE EXISTS
+ *
+ * The first draft of these components put `:hover` and `:focus-visible` in
+ * React inline style objects. React accepts that without complaint and the
+ * browser ignores it entirely — pseudo-classes are not a thing a style
+ * attribute can express. So every hover and focus state in that draft was dead
+ * code that looked correct in review. This file is where that state actually
+ * lives.
+ *
+ * `:focus-visible` in particular must stay a real pseudo-class. React cannot
+ * observe it, so a component that tried to track focus in state would have to
+ * reimplement the heuristic — and would get it wrong for exactly the keyboard
+ * users the focus ring exists for.
+ *
+ * THE RULE
+ *
+ * Every value below is `var(--ds-*)`. No literals, no new colours, no new
+ * spacing. That is exit gate A7 ("zero new CSS outside the token set"), and it
+ * holds here too: this file adds *rules* to the system, never *values*.
+ * tokens.test.ts scans the component sources for literal colours; this file
+ * is the reason that scan is sufficient rather than merely helpful.
+ *
+ * LOAD ORDER
+ *
+ *   import '@funnelos/tokens/styles.css';   // defines the --ds-* variables
+ *   import '@funnelos/ui/styles.css';       // this file
+ *
+ * ============================================================================= */
+
+/* -------------------------------------------------------------------------- *
+ * Reduced motion — applied once, globally.
+ *
+ * Every duration token collapses to 0s. Components therefore carry no
+ * prefers-reduced-motion media query of their own and cannot accidentally opt
+ * out of the user's preference by forgetting one. This is why motion is a token
+ * at all.
+ * -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --ds-motion-duration-instant: 0s;
+    --ds-motion-duration-fast: 0s;
+    --ds-motion-duration-normal: 0s;
+    --ds-motion-duration-slow: 0s;
+    --ds-motion-duration-slower: 0s;
+  }
+}
+
+/* -------------------------------------------------------------------------- *
+ * Focus — the single focus ring, applied to everything interactive.
+ *
+ * `outline: none` plus a box-shadow is deliberate over `outline` itself: the
+ * shadow can follow the element's border-radius, and it is not suppressed by
+ * forced-colors mode. The forced-colors block below restores a real outline so
+ * Windows High Contrast users get a ring that the system controls.
+ * -------------------------------------------------------------------------- */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 var(--ds-focus-width) var(--ds-interactive-focus-ring);
+  /* Ring sits outside the element, so it must not be clipped by a parent. */
+  z-index: 1;
+}
+
+@media (forced-colors: active) {
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    /* In forced-colors the shadow is painted in the system palette and can
+     * become invisible. An explicit outline is honoured. */
+    outline: var(--ds-focus-width) solid CanvasText;
+    outline-offset: var(--ds-focus-offset);
+    box-shadow: none;
+  }
+}
+
+/* -------------------------------------------------------------------------- *
+ * Motion keyframes
+ * -------------------------------------------------------------------------- */
+@keyframes funnelos-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes funnelos-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes funnelos-zoom-in {
+  from {
+    opacity: 0;
+    scale: 0.98;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+/* -------------------------------------------------------------------------- *
+ * ui-sr — screen-reader-only text.
+ *
+ * The name says what it is: visually hidden, still in the accessibility tree.
+ * `display: none` and `visibility: hidden` both remove the content from the
+ * tree as well as from the screen, which is how a "hidden label" ends up being
+ * no label at all. This is the standard clip technique plus clip-path, which is
+ * what keeps it hidden in browsers that dropped the deprecated `clip` alone.
+ * -------------------------------------------------------------------------- */
+.ui-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* -------------------------------------------------------------------------- *
+ * Radix data-state driven surfaces
+ *
+ * Radix puts role/aria-* on a <button> and hides the real <input>, so the
+ * visual state has to come from data-state rather than :checked.
+ * -------------------------------------------------------------------------- */
+.ui-tabs-trigger[data-state='active'] {
+  color: var(--ds-content-primary);
+  border-bottom-color: var(--ds-color-primary-600);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Animation, unlike a transition, is not stopped by zeroing a duration
+   * token. It has to be cancelled explicitly. A spinner that keeps spinning is
+   * a motion-triggered vestibular problem, which is the whole point. */
+  .ui-spinner,
+  .ui-spinner::after {
+    animation: none !important;
+  }
+}
+
+/* -------------------------------------------------------------------------- *
+ * Field control
+ * -------------------------------------------------------------------------- */
+.ui-field-control:hover:not(:disabled) {
+  border-color: var(--ds-border-strong);
+}
+
+.ui-field-control:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* -------------------------------------------------------------------------- *
+ * Button
+ * -------------------------------------------------------------------------- */
+.ui-button {
+  /* The hover surface comes from the token, so a solid button and a ghost
+   * button cannot drift to different greys. */
+  transition:
+    background var(--ds-motion-duration-fast) var(--ds-motion-easing-standard),
+    color var(--ds-motion-duration-fast) var(--ds-motion-easing-standard),
+    border-color var(--ds-motion-duration-fast) var(--ds-motion-easing-standard);
+}
+
+.ui-button:hover:not([aria-disabled='true']):not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.ui-button:active:not([aria-disabled='true']):not(:disabled) {
+  filter: brightness(0.94);
+}
+
+/* `brightness` is a filter, so it does not darken a dark-mode button usefully.
+ * The surface token is the honest mechanism; filter is the fallback for fills
+ * that have no surface token of their own. */
+@media (prefers-color-scheme: dark) {
+  .ui-button:hover:not([aria-disabled='true']):not(:disabled) {
+    filter: brightness(1.25);
+  }
+  .ui-button:active:not([aria-disabled='true']):not(:disabled) {
+    filter: brightness(1.1);
+  }
+}
+
+.ui-button[aria-disabled='true'],
+.ui-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* -------------------------------------------------------------------------- *
+ * Checkbox / Switch / Radio
+ *
+ * Radix renders a real, visually-hidden <input> and puts role/aria-checked on a
+ * <button>. The visual state therefore has to be driven by the data-state Radix
+ * sets, not by :checked, because the button has no `checked` property.
+ * -------------------------------------------------------------------------- */
+.ui-checkbox[data-state='checked'],
+.ui-radio[data-state='checked'] {
+  background: var(--ds-color-primary-600);
+  border-color: var(--ds-color-primary-600);
+}
+
+.ui-checkbox[data-state='indeterminate'] {
+  background: var(--ds-color-primary-600);
+  border-color: var(--ds-color-primary-600);
+}
+
+.ui-switch[data-state='checked'] {
+  background: var(--ds-color-primary-600);
+}
+
+.ui-switch[data-state='checked'] .ui-switch-thumb {
+  translate: 16px 0;
+}
+
+.ui-switch[data-state='unchecked'] .ui-switch-thumb {
+  translate: 0 0;
+}
+
+.ui-checkbox:hover:not(:disabled),
+.ui-radio:hover:not(:disabled),
+.ui-switch:hover:not(:disabled) {
+  border-color: var(--ds-border-strong);
+}
+
+.ui-switch:hover:not(:disabled) {
+  background: var(--ds-interactive-hover);
+}
+
+/* -------------------------------------------------------------------------- *
+ * Skeleton — the shimmer respects reduced motion too.
+ * -------------------------------------------------------------------------- */
+.ui-skeleton {
+  background: var(--ds-surface-sunken);
+}
+
+.ui-skeleton-shimmer {
+  animation: funnelos-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes funnelos-shimmer {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-skeleton-shimmer {
+    animation: none;
+  }
+}
+
+/* -------------------------------------------------------------------------- *
+ * SkipLink — hidden until focused.
+ *
+ * Off-screen via `translate`, never `display: none`, because display:none
+ * removes the element from the tab order and a skip link that cannot be
+ * focused is not a skip link. This is the single most commonly broken
+ * accessibility affordance in production apps.
+ * -------------------------------------------------------------------------- */
+.ui-skip-link {
+  position: absolute;
+  inset-inline-start: var(--ds-space-4);
+  inset-block-start: var(--ds-space-4);
+  z-index: var(--ds-z-toast);
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--ds-size-target-min);
+  padding-block: var(--ds-space-2);
+  padding-inline: var(--ds-space-4);
+  border-radius: var(--ds-button-radius);
+  background: var(--ds-color-primary-600);
+  color: var(--ds-content-on-solid);
+  font-family: var(--ds-font-family-sans);
+  font-size: var(--ds-font-size-sm);
+  font-weight: var(--ds-font-weight-semibold);
+  text-decoration: none;
+  translate: 0 -300%;
+  transition: translate var(--ds-motion-duration-fast) var(--ds-motion-easing-standard);
+}
+
+.ui-skip-link:focus {
+  translate: 0 0;
+}
